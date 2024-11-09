@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Projektledningsverktyg.Views.Dashboard;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,29 @@ namespace Projektledningsverktyg
         public MainWindow()
         {
             InitializeComponent();
+
+            // Starta med Dashboard som default vy
+            MainFrame.Navigate(new DashboardView());
+        }
+
+        private void BtnDashboard_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new DashboardView());
+        }
+
+        private void BtnTasks_Click(object sender, RoutedEventArgs e)
+        {
+            // Här kommer vi senare lägga till Tasks-vyn
+        }
+
+        private void BtnEvents_Click(object sender, RoutedEventArgs e)
+        {
+            // Här kommer vi senare lägga till Events-vyn
+        }
+
+        private void BtnMembers_Click(object sender, RoutedEventArgs e)
+        {
+            // Här kommer vi senare lägga till Members-vyn
         }
     }
 }
