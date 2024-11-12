@@ -4,8 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projektledningsverktyg"
+        xmlns:views="clr-namespace:Projektledningsverktyg.Views.Auth"
         mc:Ignorable="d"
-        Title="Projektledningsverktyg" Height="720" Width="1280">
+        Title="Projektledningsverktyg" 
+        Height="700" 
+        Width="500" 
+        WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="Transparent">
 
     <Window.Resources>
         <Style x:Key="NavButton" TargetType="RadioButton">
@@ -35,116 +39,165 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <!-- Login View -->
+        <views:LoginView x:Name="LoginScreen" Visibility="Visible"/>
 
-        <!-- Navigation Menu -->
-        <StackPanel Grid.Column="0" Background="#2E333A">
-            <!--<Image Height="100" Width="100" Margin="0,20,0,20" Source="/Images/logo.png"/>-->
-            <!-- Ersätt Image-elementet med denna Logo -->
-            <Border x:Name="LogoBorder" Height="100" Width="100" Margin="0,20,0,20" CornerRadius="10">
-                <Border.Background>
+        <!-- Main Application Content -->
+        <Grid x:Name="MainContent" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Navigation Menu -->
+            <StackPanel Grid.Column="0" 
+                        Background="#2E333A"
+                        MouseLeftButtonDown="StackPanel_MouseLeftButtonDown">
+            
+                <!-- Ersätt Image-elementet med denna Logo -->
+                <Border x:Name="LogoBorder" Height="100" Width="100" Margin="0,20,0,20" CornerRadius="10">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#FF4081" Offset="0.0"/>
+                            <GradientStop Color="#7C4DFF" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+
+                    <Border.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard RepeatBehavior="Forever" Duration="0:0:10">
+                                    <DoubleAnimation 
+                            Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                            From="0" To="1" Duration="0:0:1">
+                                        <DoubleAnimation.EasingFunction>
+                                            <ElasticEase EasingMode="EaseOut" Oscillations="1" Springiness="3"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Border.Triggers>
+
+                    <Border.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Border.RenderTransform>
+
+                    <TextBlock Text="PV" 
+                   FontSize="40" 
+                   FontWeight="Bold" 
+                   Foreground="White" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center"/>
+                </Border>
+
+                <!-- Navigation Menu Items -->
+                <RadioButton x:Name="BtnDashboard" 
+                    Style="{StaticResource NavButton}"
+                    Content="Dashboard"
+                    Checked="BtnDashboard_Click">
+                    <RadioButton.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📊" Margin="0,0,10,0"/>
+                                <TextBlock Text="Dashboard"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </RadioButton.ContentTemplate>
+                </RadioButton>
+
+                <!-- Calendar Button -->
+                <RadioButton x:Name="BtnCalendar" 
+                    Style="{StaticResource NavButton}"
+                    Content="Kalender"
+                    Checked="BtnCalendar_Click">
+                    <RadioButton.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📅" Margin="0,0,10,0"/>
+                                <TextBlock Text="Kalender"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </RadioButton.ContentTemplate>
+                </RadioButton>
+
+                <!-- Tasks Button -->
+                <RadioButton x:Name="BtnTasks" 
+                    Style="{StaticResource NavButton}"
+                    Content="Uppgifter"
+                    Checked="BtnTasks_Click">
+                    <RadioButton.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="✓" Margin="0,0,10,0"/>
+                                <TextBlock Text="Uppgifter"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </RadioButton.ContentTemplate>
+                </RadioButton>
+
+                <!-- Members Button -->
+                <RadioButton x:Name="BtnMembers" 
+                    Style="{StaticResource NavButton}"
+                    Content="Familj"
+                    Checked="BtnMembers_Click">
+                    <RadioButton.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="👨‍👩‍👧‍👦" Margin="0,0,10,0"/>
+                                <TextBlock Text="Familj"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </RadioButton.ContentTemplate>
+                </RadioButton>
+
+                <!-- AI Assistant Button -->
+                <RadioButton x:Name="BtnAIAssistant" 
+                    Style="{StaticResource NavButton}"
+                    Content="AI Assistent"
+                    Checked="BtnAIAssistant_Click">
+                    <RadioButton.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🤖" Margin="0,0,10,0"/>
+                                <TextBlock Text="AI Assistent"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </RadioButton.ContentTemplate>
+                </RadioButton>
+
+                <!-- Settings Button -->
+                <RadioButton x:Name="BtnSettings" 
+                    Style="{StaticResource NavButton}"
+                    Content="Inställningar"
+                    Checked="BtnSettings_Click">
+                    <RadioButton.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="⚙️" Margin="0,0,10,0"/>
+                                <TextBlock Text="Inställningar"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </RadioButton.ContentTemplate>
+                </RadioButton>
+            </StackPanel>
+
+            <!-- Main Content Area -->
+            <Frame Grid.Column="1" 
+                   x:Name="MainFrame" 
+                   NavigationUIVisibility="Hidden">
+                <Frame.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#FF4081" Offset="0.0"/>
-                        <GradientStop Color="#7C4DFF" Offset="1.0"/>
+                        <GradientStop Color="#F5F7FA" Offset="0.0"/>
+                        <GradientStop Color="#E4E7EB" Offset="1.0"/>
                     </LinearGradientBrush>
-                </Border.Background>
-
-                <Border.Triggers>
-                    <EventTrigger RoutedEvent="Loaded">
-                        <BeginStoryboard>
-                            <Storyboard RepeatBehavior="Forever" Duration="0:0:10">
-                                <DoubleAnimation 
-                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
-                        From="0" To="1" Duration="0:0:1">
-                                    <DoubleAnimation.EasingFunction>
-                                        <ElasticEase EasingMode="EaseOut" Oscillations="1" Springiness="3"/>
-                                    </DoubleAnimation.EasingFunction>
-                                </DoubleAnimation>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Border.Triggers>
-
-                <Border.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Border.RenderTransform>
-
-                <TextBlock Text="PV" 
-               FontSize="40" 
-               FontWeight="Bold" 
-               Foreground="White" 
-               HorizontalAlignment="Center" 
-               VerticalAlignment="Center"/>
-            </Border>
-
-            <RadioButton x:Name="BtnDashboard" 
-            Style="{StaticResource NavButton}"
-            Content="Dashboard"
-            Checked="BtnDashboard_Click">
-                <RadioButton.ContentTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="📊" Margin="0,0,10,0"/>
-                            <TextBlock Text="Dashboard"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </RadioButton.ContentTemplate>
-            </RadioButton>
-
-            <RadioButton x:Name="BtnTasks" 
-            Style="{StaticResource NavButton}"
-            Content="Uppgifter"
-            Checked="BtnTasks_Click">
-                <RadioButton.ContentTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="✓" Margin="0,0,10,0"/>
-                            <TextBlock Text="Uppgifter"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </RadioButton.ContentTemplate>
-            </RadioButton>
-
-            <RadioButton x:Name="BtnEvents" 
-            Style="{StaticResource NavButton}"
-            Content="Events"
-            Checked="BtnEvents_Click">
-                <RadioButton.ContentTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="🎉" Margin="0,0,10,0"/>
-                            <TextBlock Text="Events"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </RadioButton.ContentTemplate>
-            </RadioButton>
-
-            <RadioButton x:Name="BtnMembers" 
-            Style="{StaticResource NavButton}"
-            Content="Medlemmar"
-            Checked="BtnMembers_Click">
-                <RadioButton.ContentTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="👥" Margin="0,0,10,0"/>
-                            <TextBlock Text="Medlemmar"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </RadioButton.ContentTemplate>
-            </RadioButton>
-        </StackPanel>
-
-        <!-- Main Content Area -->
-        <Frame Grid.Column="1" 
-               x:Name="MainFrame" 
-               NavigationUIVisibility="Hidden"/>
+                </Frame.Background>
+            </Frame>
+        </Grid>
     </Grid>
 </Window>

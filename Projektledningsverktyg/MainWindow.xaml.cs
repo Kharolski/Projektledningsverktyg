@@ -1,4 +1,9 @@
-﻿using Projektledningsverktyg.Views.Dashboard;
+﻿using Projektledningsverktyg.Views.AIAssistant;
+using Projektledningsverktyg.Views.Calendar;
+using Projektledningsverktyg.Views.Dashboard;
+using Projektledningsverktyg.Views.Members;
+using Projektledningsverktyg.Views.Settings;
+using Projektledningsverktyg.Views.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,24 +34,39 @@ namespace Projektledningsverktyg
             MainFrame.Navigate(new DashboardView());
         }
 
+        private void StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
         private void BtnDashboard_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Navigate(new DashboardView());
         }
 
-        private void BtnTasks_Click(object sender, RoutedEventArgs e)
+        private void BtnCalendar_Click(object sender, RoutedEventArgs e)
         {
-            // Här kommer vi senare lägga till Tasks-vyn
+            MainFrame.Navigate(new CalendarView());
         }
 
-        private void BtnEvents_Click(object sender, RoutedEventArgs e)
+        private void BtnTasks_Click(object sender, RoutedEventArgs e)
         {
-            // Här kommer vi senare lägga till Events-vyn
+            MainFrame.Navigate(new TasksView());
         }
 
         private void BtnMembers_Click(object sender, RoutedEventArgs e)
         {
-            // Här kommer vi senare lägga till Members-vyn
+            MainFrame.Navigate(new MembersView());
+        }
+
+        private void BtnAIAssistant_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new AIAssistantView());
+        }
+
+        private void BtnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new SettingsView());
         }
     }
 }

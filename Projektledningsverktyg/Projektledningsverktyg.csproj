@@ -56,14 +56,53 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="Views\AIAssistant\AIAssistantView.xaml.cs">
+      <DependentUpon>AIAssistantView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Auth\ForgotPasswordView.xaml.cs">
+      <DependentUpon>ForgotPasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Auth\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Auth\RegisterView.xaml.cs">
+      <DependentUpon>RegisterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Calendar\CalendarView.xaml.cs">
+      <DependentUpon>CalendarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Calendar\Components\EventsView.xaml.cs">
+      <DependentUpon>EventsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Calendar\Components\MonthView.xaml.cs">
+      <DependentUpon>MonthView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Calendar\Components\WeekView.xaml.cs">
+      <DependentUpon>WeekView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dashboard\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Events\EventsView.xaml.cs">
-      <DependentUpon>EventsView.xaml</DependentUpon>
+    <Compile Include="Views\Members\MemberDetailView.xaml.cs">
+      <DependentUpon>MemberDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Members\MembersView.xaml.cs">
       <DependentUpon>MembersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tasks\Components\ChoresTab.xaml.cs">
+      <DependentUpon>ChoresTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tasks\Components\GeneralTasksTab.xaml.cs">
+      <DependentUpon>GeneralTasksTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tasks\Components\MealsTab.xaml.cs">
+      <DependentUpon>MealsTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tasks\Components\ShoppingTab.xaml.cs">
+      <DependentUpon>ShoppingTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Tasks\TasksView.xaml.cs">
       <DependentUpon>TasksView.xaml</DependentUpon>
@@ -80,15 +119,67 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\AIAssistant\AIAssistantView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Auth\ForgotPasswordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Auth\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Auth\RegisterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Calendar\CalendarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Calendar\Components\EventsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Calendar\Components\MonthView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Calendar\Components\WeekView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Dashboard\DashboardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Events\EventsView.xaml">
+    <Page Include="Views\Members\MemberDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Members\MembersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Settings\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tasks\Components\ChoresTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tasks\Components\GeneralTasksTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tasks\Components\MealsTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tasks\Components\ShoppingTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

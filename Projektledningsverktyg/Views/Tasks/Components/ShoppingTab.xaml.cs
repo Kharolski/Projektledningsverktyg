@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Projektledningsverktyg.Views.Events
+namespace Projektledningsverktyg.Views.Tasks.Components
 {
     /// <summary>
-    /// Interaction logic for EventsView.xaml
+    /// Interaction logic for ShoppingTab.xaml
     /// </summary>
-    public partial class EventsView : UserControl
+    public partial class ShoppingTab : UserControl
     {
-        public EventsView()
+        public ShoppingTab()
         {
             InitializeComponent();
         }
