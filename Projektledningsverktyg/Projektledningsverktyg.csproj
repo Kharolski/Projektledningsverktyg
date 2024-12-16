@@ -59,6 +59,7 @@
     <Compile Include="Views\AIAssistant\AIAssistantView.xaml.cs">
       <DependentUpon>AIAssistantView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AIAssistant\Converters\BoolToAlignmentConverter.cs" />
     <Compile Include="Views\Auth\ForgotPasswordView.xaml.cs">
       <DependentUpon>ForgotPasswordView.xaml</DependentUpon>
     </Compile>

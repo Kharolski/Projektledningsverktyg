@@ -6,7 +6,94 @@
              xmlns:local="clr-namespace:Projektledningsverktyg.Views.Calendar.Components"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Background="#2196F3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Content="‹" 
+                    Click="PreviousMonth_Click"
+                    Width="50" Height="40"
+                    Background="Transparent"
+                    Foreground="White"
+                    BorderThickness="0"
+                    FontSize="24"/>
+
+            <TextBlock x:Name="MonthYearText"
+                       Grid.Column="1"
+                       Text="January 2024"
+                       Foreground="White"
+                       FontSize="24"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <Button Grid.Column="2"
+                    Content="›"
+                    Click="NextMonth_Click"
+                    Width="50" Height="40"
+                    Background="Transparent"
+                    Foreground="White"
+                    BorderThickness="0"
+                    FontSize="24"/>
+        </Grid>
+
+        <!-- Weekday Headers -->
+        <Grid Grid.Row="1" Background="#1976D2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Måndag" Grid.Column="0" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"
+                       Foreground="White"/>
+            <TextBlock Text="Tisdag" Grid.Column="1" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"
+                       Foreground="White"/>
+            <TextBlock Text="Onsdag" Grid.Column="2" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"
+                       Foreground="White"/>
+            <TextBlock Text="Torsdag" Grid.Column="3" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"
+                       Foreground="White"/>
+            <TextBlock Text="Fredag" Grid.Column="4" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"
+                       Foreground="White"/>
+            <TextBlock Text="Lördag" Grid.Column="5" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"
+                       Foreground="White"/>
+            <TextBlock Text="Söndag" Grid.Column="6" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"
+                       Foreground="White"/>
+        </Grid>
+
+        <!-- Calendar Grid -->
+        <UniformGrid x:Name="CalendarGrid"
+                     Grid.Row="2"
+                     Rows="6"
+                     Columns="7"/>
     </Grid>
 </UserControl>

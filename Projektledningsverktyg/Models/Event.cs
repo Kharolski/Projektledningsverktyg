@@ -6,7 +6,21 @@ using System.Threading.Tasks;
 
 namespace Projektledningsverktyg.Models
 {
-    internal class Event
+    public class Event
     {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public DateTime Date { get; set; }
+        public TimeSpan Time { get; set; }
+        public string Description { get; set; }
+        public EventType Type { get; set; }
+    }
+
+    public enum EventType
+    {
+        Meeting,
+        Birthday,
+        Task,
+        Other
     }
 }

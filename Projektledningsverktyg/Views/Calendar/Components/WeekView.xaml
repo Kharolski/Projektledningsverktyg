@@ -6,7 +6,92 @@
              xmlns:local="clr-namespace:Projektledningsverktyg.Views.Calendar.Components"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <!-- Header -->
+            <RowDefinition Height="40"/>
+            <!-- Days of week -->
+            <RowDefinition Height="*"/>
+            <!-- Time grid -->
+        </Grid.RowDefinitions>
+
+        <!-- Header with Week Navigation -->
+        <Grid Grid.Row="0" Background="#2196F3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Content="‹" 
+                    Click="PreviousWeek_Click"
+                    Width="50" Height="40"
+                    Background="Transparent"
+                    Foreground="White"
+                    BorderThickness="0"
+                    FontSize="24"/>
+
+            <TextBlock x:Name="WeekText"
+                      Grid.Column="1"
+                      Text="Vecka 3, 2024"
+                      Foreground="White"
+                      FontSize="24"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"/>
+
+            <Button Grid.Column="2"
+                    Content="›"
+                    Click="NextWeek_Click"
+                    Width="50" Height="40"
+                    Background="Transparent"
+                    Foreground="White"
+                    BorderThickness="0"
+                    FontSize="24"/>
+        </Grid>
+
+        <!-- Days Header -->
+        <Grid x:Name="DaysHeaderGrid" Grid.Row="1" Background="#1976D2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"/>
+                <!-- Time column -->
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="" Foreground="White"/>
+            <TextBlock Grid.Column="1" Text="Måndag 15" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+            <TextBlock Grid.Column="2" Text="Tisdag 16" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+            <TextBlock Grid.Column="3" Text="Onsdag 17" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+            <TextBlock Grid.Column="4" Text="Torsdag 18" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+            <TextBlock Grid.Column="5" Text="Fredag 19" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+            <TextBlock Grid.Column="6" Text="Lördag 20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+            <TextBlock Grid.Column="7" Text="Söndag 21" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+        </Grid>
+
+        <!-- Time Grid -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <Grid x:Name="TimeGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"/>
+                    <!-- Time column -->
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Time slots will be added here programmatically -->
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

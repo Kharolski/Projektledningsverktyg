@@ -6,7 +6,79 @@
              xmlns:local="clr-namespace:Projektledningsverktyg.Views.Settings"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+
+    <ScrollViewer>
+        <StackPanel Margin="20">
+            <!-- Profile Settings -->
+            <GroupBox Header="Profil" Margin="0,0,0,20">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Användarnamn"/>
+                    <TextBox Margin="0,5,0,10"/>
+
+                    <TextBlock Text="E-post"/>
+                    <TextBox Margin="0,5,0,10"/>
+
+                    <Button Content="Spara ändringar" 
+                            Width="120" 
+                            HorizontalAlignment="Left"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Appearance Settings -->
+            <GroupBox Header="Utseende" Margin="0,0,0,20">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Tema"/>
+                    <ComboBox Margin="0,5,0,10">
+                        <ComboBoxItem Content="Ljust"/>
+                        <ComboBoxItem Content="Mörkt"/>
+                        <ComboBoxItem Content="System"/>
+                    </ComboBox>
+
+                    <TextBlock Text="Färgschema"/>
+                    <ComboBox Margin="0,5,0,0">
+                        <ComboBoxItem Content="Blå"/>
+                        <ComboBoxItem Content="Grön"/>
+                        <ComboBoxItem Content="Lila"/>
+                    </ComboBox>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Notification Settings -->
+            <GroupBox Header="Notifikationer" Margin="0,0,0,20">
+                <StackPanel Margin="10">
+                    <CheckBox Content="Aktivera push-notifikationer" 
+                             Margin="0,0,0,5"/>
+                    <CheckBox Content="Ljud" 
+                             Margin="0,0,0,5"/>
+                    <CheckBox Content="E-postaviseringar" 
+                             Margin="0,0,0,5"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Language Settings -->
+            <GroupBox Header="Språk" Margin="0,0,0,20">
+                <StackPanel Margin="10">
+                    <ComboBox>
+                        <ComboBoxItem Content="Svenska"/>
+                        <ComboBoxItem Content="English"/>
+                        <ComboBoxItem Content="Norsk"/>
+                        <ComboBoxItem Content="Dansk"/>
+                    </ComboBox>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- System Settings -->
+            <GroupBox Header="System" Margin="0,0,0,20">
+                <StackPanel Margin="10">
+                    <CheckBox Content="Starta automatiskt" 
+                             Margin="0,0,0,5"/>
+                    <CheckBox Content="Uppdatera automatiskt" 
+                             Margin="0,0,0,5"/>
+                    <Button Content="Rensa cache" 
+                            Width="120" 
+                            HorizontalAlignment="Left"/>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>
