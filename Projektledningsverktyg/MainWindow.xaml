@@ -7,7 +7,7 @@
         xmlns:views="clr-namespace:Projektledningsverktyg.Views.Auth"
         mc:Ignorable="d"
         Title="Projektledningsverktyg" 
-        Height="700" 
+        Height="Auto"
         Width="500" 
         WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="Transparent">
 
@@ -39,8 +39,13 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <!-- Login View -->
-        <views:LoginView x:Name="LoginScreen" Visibility="Visible"/>
+        <!-- Auth Views Container -->
+        <Grid x:Name="AuthContainer">
+            <views:LoginView x:Name="LoginScreen" Visibility="Visible"/>
+            <views:RegisterView x:Name="RegisterScreen" Visibility="Collapsed"/>
+            <views:ResetPasswordView x:Name="ResetPasswordScreen" Visibility="Collapsed"/>
+            <views:ForgotPasswordView x:Name="ForgotPasswordScreen" Visibility="Collapsed"/>
+        </Grid>
 
         <!-- Main Application Content -->
         <Grid x:Name="MainContent" Visibility="Collapsed">
@@ -181,6 +186,22 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="⚙️" Margin="0,0,10,0"/>
                                 <TextBlock Text="Inställningar"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </RadioButton.ContentTemplate>
+                </RadioButton>
+
+                <Separator Margin="20,10" Background="#4A4F55"/>
+
+                <RadioButton x:Name="BtnLogout" 
+                             Style="{StaticResource NavButton}"
+                             Content="Logga ut"
+                             Click="BtnLogout_Click">
+                    <RadioButton.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🚪" Margin="0,0,10,0"/>
+                                <TextBlock Text="Logga ut"/>
                             </StackPanel>
                         </DataTemplate>
                     </RadioButton.ContentTemplate>

@@ -4,26 +4,12 @@ using Projektledningsverktyg.Views.Dashboard;
 using Projektledningsverktyg.Views.Members;
 using Projektledningsverktyg.Views.Settings;
 using Projektledningsverktyg.Views.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Projektledningsverktyg
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -37,6 +23,33 @@ namespace Projektledningsverktyg
         private void StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        public void SwitchToView(string viewName)
+        {
+            // Hide all views
+            LoginScreen.Visibility = Visibility.Collapsed;
+            RegisterScreen.Visibility = Visibility.Collapsed;
+            ForgotPasswordScreen.Visibility = Visibility.Collapsed;
+            ResetPasswordScreen.Visibility = Visibility.Collapsed;
+            MainContent.Visibility = Visibility.Collapsed;
+
+            // Show requested view
+            switch (viewName)
+            {
+                case "Login":
+                    LoginScreen.Visibility = Visibility.Visible;
+                    break;
+                case "Register":
+                    RegisterScreen.Visibility = Visibility.Visible;
+                    break;
+                case "ForgotPassword":
+                    ForgotPasswordScreen.Visibility = Visibility.Visible;
+                    break;
+                case "ResetPassword":
+                    ResetPasswordScreen.Visibility = Visibility.Visible;
+                    break;
+            }
         }
 
         private void BtnDashboard_Click(object sender, RoutedEventArgs e)
@@ -68,5 +81,29 @@ namespace Projektledningsverktyg
         {
             MainFrame.Navigate(new SettingsView());
         }
+
+        private void BtnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            // Reset window size and style
+            WindowStyle = WindowStyle.None;
+            Height = 700;  // Perfect height for login form
+            Width = 500;
+
+            // Clear navigation buttons
+            BtnDashboard.IsChecked = false;
+            BtnCalendar.IsChecked = false;
+            BtnTasks.IsChecked = false;
+            BtnMembers.IsChecked = false;
+            BtnAIAssistant.IsChecked = false;
+            BtnSettings.IsChecked = false;
+
+            // Create fresh login view
+            LoginScreen = new Views.Auth.LoginView();
+            AuthContainer.Children.Clear();
+            AuthContainer.Children.Add(LoginScreen);
+            AuthContainer.Visibility = Visibility.Visible;
+            MainContent.Visibility = Visibility.Collapsed;
+        }
+
     }
 }

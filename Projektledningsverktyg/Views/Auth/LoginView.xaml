@@ -6,10 +6,36 @@
              xmlns:local="clr-namespace:Projektledningsverktyg.Views.Auth"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Storyboard x:Key="FadeOut">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                        From="1.0" To="0.0"
+                        Duration="0:0:0.3"/>
+        </Storyboard>
+        <Storyboard x:Key="ShakeAnimation">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LoginBorder" 
+                                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" 
+                                  Duration="0:0:0.5">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="-10"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="10"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-10"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="10"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+    
     <Grid>
-        <Border MaxWidth="400" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Border x:Name="LoginBorder"
+            MaxWidth="400" 
             MinWidth="300"
-            MinHeight="600"
             Margin="20"
             Background="#F5F7FA   " 
             CornerRadius="20" 
@@ -17,7 +43,35 @@
             ClipToBounds="True"
             MouseLeftButtonDown="Border_MouseLeftButtonDown">
 
-            <StackPanel>
+            <Border.RenderTransform>
+                <TranslateTransform />
+            </Border.RenderTransform>
+
+            <Grid>
+                <Button Content="✕" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Top"
+                        Width="30"
+                        Height="30"
+                        Margin="0,-35,-30,0"
+                        Click="ExitButton_Click"
+                        Background="Transparent"
+                        Foreground="#2E333A"
+                        BorderThickness="0"
+                        FontSize="16"
+                        Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <StackPanel>
                 <!-- Logo -->
                 <Border Width="100" 
                     Height="100" 
@@ -42,13 +96,95 @@
                      Margin="0,0,0,30"/>
 
                 <!-- Login Form -->
-                <TextBlock Text="Användarnamn" Margin="0,0,0,10"/>
-                <TextBox Height="40" Margin="0,0,0,20"/>
+                <!-- Username input with validation -->
+                <TextBlock Text="E-post" Margin="0,0,0,10"/>
+                <TextBox x:Name="UsernameTextBox"
+                         TextChanged="Input_TextChanged"
+                         KeyDown="Input_KeyDown"
+                         Height="40" 
+                         Margin="0,0,0,20"
+                         BorderThickness="1"
+                         VerticalContentAlignment="Center"
+                         Padding="10,0">    
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="BorderBrush" Value="Red"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
 
+                <!-- Password input with validation -->
                 <TextBlock Text="Lösenord" Margin="0,0,0,10"/>
-                <PasswordBox Height="40" Margin="0,0,0,20"/>
+                <Grid>
+                    <TextBox x:Name="PasswordVisibilityBox"
+                             Height="40" 
+                             Margin="0,0,0,20"
+                             BorderThickness="1"
+                             VerticalContentAlignment="Center"
+                             Padding="10,0"
+                             Visibility="Collapsed"/>
+                    <PasswordBox x:Name="PasswordBox"
+                                 PasswordChanged="Input_TextChanged"
+                                 KeyDown="Input_KeyDown"
+                                 Height="40" 
+                                 Margin="0,0,0,20"
+                                 BorderThickness="1"
+                                 VerticalContentAlignment="Center"
+                                 Padding="10,0">
+                        <PasswordBox.Style>
+                            <Style TargetType="PasswordBox">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Password, RelativeSource={RelativeSource Self}}" Value="">
+                                        <Setter Property="BorderBrush" Value="Red"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </PasswordBox.Style>
+                    </PasswordBox>
+                    <Button x:Name="ShowPasswordButton"
+                            Content="👁"
+                            Width="30"
+                            Height="30"
+                            HorizontalAlignment="Right"
+                            Margin="0,0,10,20"
+                            Click="ShowPasswordButton_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
 
-                <CheckBox Content="Kom ihåg mig" Margin="0,0,0,20"/>
+                <!-- Validation box -->
+                <TextBlock x:Name="ErrorMessage" 
+                       Foreground="Red" 
+                       TextAlignment="Center" 
+                       Margin="0,0,0,10" 
+                       Visibility="Collapsed"/>
+
+                <CheckBox x:Name="RememberMeCheckBox" 
+                          Content="Kom ihåg mig" 
+                          Margin="0,0,0,20"/>
+
+                <!-- Loading Spinner -->
+                <Grid x:Name="LoadingSpinner" Visibility="Collapsed" Margin="0,0,0,20">
+                    <ProgressBar IsIndeterminate="True" 
+                                 Height="2" 
+                                 Background="Transparent"
+                                 Foreground="#7C4DFF"/>
+                </Grid>
 
                 <Button Content="Logga in" 
                     Height="45" 
@@ -83,20 +219,50 @@
                 <StackPanel Orientation="Horizontal" 
                       HorizontalAlignment="Center">
                     <TextBlock>
-                    <Hyperlink Foreground="#7C4DFF" 
-                             TextDecorations="None">
+                        
+                    <!-- Skapa konto -->    
+                    <Hyperlink TextDecorations="None"
+                               Click="RegisterLink_Click">
+                        <Hyperlink.Style>
+                            <Style TargetType="Hyperlink">
+                                <Setter Property="Foreground" Value="#7C4DFF"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="#4CAF50"/>
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Hyperlink.Style>
                         Skapa konto
                     </Hyperlink>
+                        
                     </TextBlock>
                     <TextBlock Text=" | " Margin="10,0"/>
                     <TextBlock>
-                    <Hyperlink Foreground="#7C4DFF" 
-                             TextDecorations="None">
+                    
+                    <!-- Glömt lösenord -->
+                    <Hyperlink TextDecorations="None"
+                               Click="ForgotPasswordLink_Click">
+                        <Hyperlink.Style>
+                            <Style TargetType="Hyperlink">
+                                <Setter Property="Foreground" Value="#7C4DFF"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="#4CAF50"/>
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Hyperlink.Style>
                         Glömt lösenord
                     </Hyperlink>
+                        
                     </TextBlock>
                 </StackPanel>
+                
             </StackPanel>
+            </Grid>
         </Border>
     </Grid>
 </UserControl>

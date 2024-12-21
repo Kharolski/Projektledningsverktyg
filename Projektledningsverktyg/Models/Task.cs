@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Projektledningsverktyg.Models
 {
-    internal class Task
+    public class Task
     {
     }
 }
