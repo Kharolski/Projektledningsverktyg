@@ -4,39 +4,250 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Projektledningsverktyg.Views.Members"
+             xmlns:converters="clr-namespace:Projektledningsverktyg.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <!-- Resources section defines reusable elements for the entire UserControl -->
+    <UserControl.Resources>
+        <!-- 
+           Converter registration:
+         - converters: references the namespace where converter class lives
+         - CurrentUserVisibilityConverter: our custom converter class
+         - x:Key: unique identifier to reference this converter in bindings
+         This converter handles showing/hiding delete button based on current user 
+        -->
+        <converters:CurrentUserVisibilityConverter x:Key="CurrentUserVisibilityConverter"/>
+    </UserControl.Resources>
+
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>         <!-- Header -->
+            <RowDefinition Height="Auto"/>         <!-- Success Message -->
+            <RowDefinition Height="*"/>            <!-- Member Cards -->
         </Grid.RowDefinitions>
 
-        <!-- Header -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
-            <TextBlock Text="Medlemmar" FontSize="24" FontWeight="Bold"/>
-            <Button Content="+ Ny Medlem" 
-                    Margin="20,0,0,0" 
-                    Padding="15,5"/>
-        </StackPanel>
+        <!-- Header with Search -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-        <!-- Member Grid -->
-        <ItemsControl Grid.Row="1">
-            <WrapPanel>
-                <!-- Member Card Template -->
-                <Border Width="200" Height="250" Margin="10" CornerRadius="10" Background="#FF4081">
-                    <StackPanel Margin="15">
-                        <Ellipse Height="100" Width="100" Margin="0,0,0,10">
-                            <Ellipse.Fill>
-                                <SolidColorBrush Color="White"/>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <TextBlock Text="Anna Andersson" Foreground="White" FontSize="18" FontWeight="Bold"/>
-                        <TextBlock Text="Utvecklare" Foreground="White"/>
-                        <TextBlock Text="Aktiva uppgifter: 3" Foreground="White"/>
-                    </StackPanel>
-                </Border>
-            </WrapPanel>
-        </ItemsControl>    
+            <TextBlock Text="Familjemedlemmar" 
+                     FontSize="24" 
+                     FontWeight="Bold"
+                     VerticalAlignment="Center"/>
+
+            <TextBox Grid.Column="1"
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="20,0"
+                     Height="35"
+                     VerticalContentAlignment="Center"
+                     Padding="10,0"
+                     Background="#F5F7FA"
+                     BorderThickness="0"
+                     Name="SearchBox">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Style.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Grid>
+                                                <TextBox Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                         Background="{TemplateBinding Background}"
+                                                         BorderThickness="{TemplateBinding BorderThickness}"
+                                                         Padding="{TemplateBinding Padding}"/>
+                                                            <TextBlock Text="Sök medlemmar..." 
+                                                         Foreground="Gray" 
+                                                         Margin="10,0,0,0"
+                                                         VerticalAlignment="Center"
+                                                         IsHitTestVisible="False">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TextBox}}" Value="">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                            <Setter Property="Visibility" Value="Hidden"/>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+
+            <Button Grid.Column="2"
+                    Content="+ Lägg till medlem" 
+                    Height="35"
+                    Width="140"
+                    Padding="15,0"
+                    Click="AddMember_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#7C4DFF"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#4CAF50"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+
+        <!-- Success Message -->
+        <TextBlock x:Name="SuccessMessage"
+           Grid.Row="1"
+           Foreground="#4CAF50"
+           FontSize="14"
+           Margin="0,0,0,10"
+           HorizontalAlignment="Center"
+           Visibility="Collapsed"
+           Text="Ny medlem har lagts till!"/>
+
+        <!-- Member Cards -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <ItemsControl Name="MembersItemsControl" ItemsSource="{Binding Members}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Width="195" 
+                                Height="250" 
+                                Margin="10" 
+                                CornerRadius="10" 
+                                Background="#323842"
+                                BorderThickness="1"
+                                BorderBrush="#383C42">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                
+                                <!-- Image display section -->
+                                <Ellipse Height="120" Width="120" Margin="0,20,0,10" HorizontalAlignment="Center">
+                                    <Ellipse.Style>
+                                        <Style TargetType="Ellipse">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ProfileImagePath}" Value="">
+                                                    <Setter Property="Fill">
+                                                        <Setter.Value>
+                                                            <ImageBrush ImageSource="/Images/user.png"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="{Binding ProfileImagePath}"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Ellipse.Style>
+                                </Ellipse>
+
+                                <StackPanel Grid.Row="1" Margin="15,0">
+                                    <TextBlock FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center">
+                                            <Run Text="{Binding FirstName}"/>
+                                            <Run Text=" "/>
+                                            <Run Text="{Binding LastName}"/>
+                                    </TextBlock>
+                                    <TextBlock Text="{Binding Role}" Foreground="White" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="2" 
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Center"
+                                            Margin="0,0,0,15">
+                                    <Button Content="Redigera" 
+                                            Margin="0,0,5,0"
+                                            Padding="10,5"
+                                            Height="30"
+                                            Width="70">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Background" Value="#4CAF50"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Border Background="{TemplateBinding Background}">
+                                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                                VerticalAlignment="Center"/>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#2E7D32"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                    <Button Content="Ta bort" 
+                                            Padding="10,5"
+                                            Height="30"
+                                            Width="70"
+                                            Click="DeleteButton_Click"
+                                            Visibility="{Binding Id, Converter={StaticResource CurrentUserVisibilityConverter}}">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Background" Value="#E53935"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Border Background="{TemplateBinding Background}">
+                                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                                VerticalAlignment="Center"/>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#B71C1C"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>

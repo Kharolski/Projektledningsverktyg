@@ -62,6 +62,12 @@ namespace Projektledningsverktyg.Views.Auth
                 return;
             }
 
+            if (!ParentRadioButton.IsChecked == true && !ChildRadioButton.IsChecked == true)
+            {
+                RoleErrorMessage.Text = "Välj din roll i familjen";
+                RoleErrorMessage.Visibility = Visibility.Visible;
+                return;
+            }
 
             // If all validations pass, create new user with hashed password
             using (var db = new ApplicationDbContext())
@@ -73,7 +79,9 @@ namespace Projektledningsverktyg.Views.Auth
                     LastName = LastNameTextBox.Text.Trim(),
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword(PasswordBox.Password),
                     IsActive = true,
-                    Role = AdminRoleCheckBox.IsChecked == true ? "Admin" : "User"
+                    Role = ParentRadioButton.IsChecked == true ? "Förälder" : "Barn",
+                    IsAdmin = ParentRadioButton.IsChecked == true, // Automatic admin rights for parents
+                    ProfileImagePath = ""
                 };
 
                 db.Members.Add(newMember);
@@ -93,8 +101,8 @@ namespace Projektledningsverktyg.Views.Auth
                     registerScreen.Visibility = Visibility.Collapsed;
                 }
             }
-
         }
+
 
 
         private void LoginLink_Click(object sender, RoutedEventArgs e)

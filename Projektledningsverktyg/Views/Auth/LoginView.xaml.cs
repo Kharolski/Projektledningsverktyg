@@ -38,6 +38,7 @@ namespace Projektledningsverktyg.Views.Auth
                 var member = db.Members
                     .Select(m => new
                     {
+                        m.Id,
                         m.Email,
                         m.PasswordHash,
                         m.IsActive
@@ -86,6 +87,12 @@ namespace Projektledningsverktyg.Views.Auth
                         storyboard.Begin(this);
                     }
                 }
+                // If login successful, get full member data for App.CurrentUser
+                if (isValidLogin)
+                {
+                    var currentUser = db.Members.Find(member.Id);
+                    App.CurrentUser = currentUser;
+                }
 
                 if (!isValidLogin)
                 {
@@ -97,6 +104,7 @@ namespace Projektledningsverktyg.Views.Auth
             }
 
             LoadingSpinner.Visibility = Visibility.Collapsed;
+
         }
 
 

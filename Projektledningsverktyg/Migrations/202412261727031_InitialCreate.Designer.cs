@@ -7,13 +7,13 @@ namespace Projektledningsverktyg.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class AddPasswordResetTable : IMigrationMetadata
+    public sealed partial class InitialCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddPasswordResetTable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "202412201852407_AddPasswordResetTable"; }
+            get { return "202412261727031_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

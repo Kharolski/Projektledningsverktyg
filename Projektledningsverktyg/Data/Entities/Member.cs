@@ -1,9 +1,5 @@
-﻿using Projektledningsverktyg.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Projektledningsverktyg.Data.Entities
 {
@@ -17,10 +13,21 @@ namespace Projektledningsverktyg.Data.Entities
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public bool IsActive { get; set; } = true;
         public string Role { get; set; }
+        public DateTime BirthDate { get; set; }
+        public string ProfileImagePath { get; set; }
+        public bool IsAdmin { get; set; }
 
         // Navigation properties
         public virtual ICollection<Event> Events { get; set; }
         public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<Task> Tasks { get; set; }
+        public virtual ICollection<Event> CreatedEvents { get; set; }
+        public virtual ICollection<Event> ParticipatingEvents { get; set; }
+
+        public Member()
+        {
+            CreatedEvents = new HashSet<Event>();
+            ParticipatingEvents = new HashSet<Event>();
+        }
     }
 }

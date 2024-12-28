@@ -14,6 +14,8 @@ namespace Projektledningsverktyg
     /// </summary>
     public partial class App : Application
     {
+        public static Member CurrentUser { get; set; }
+
         private MainWindow _mainWindow;
 
         public App()
@@ -59,35 +61,6 @@ namespace Projektledningsverktyg
             }
         }
 
-        private void AddSampleData()
-        {
-            using (var db = new ApplicationDbContext())
-            {
-                // Create a test member
-                var member = new Member
-                {
-                    Email = "test@test.com",
-                    FirstName = "Test",
-                    LastName = "User",
-                    Role = "Admin"
-                };
-                db.Members.Add(member);
-
-                // Create a test project
-                var project = new Project
-                {
-                    Name = "Test Project",
-                    Description = "This is a test project",
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now.AddMonths(1),
-                    Status = ProjectStatus.Active,
-                    ProjectManager = member
-                };
-                db.Projects.Add(project);
-
-                db.SaveChanges();
-            }
-        }
 
     }
 }

@@ -1,0 +1,503 @@
+﻿<Window x:Class="Projektledningsverktyg.Views.Members.AddMemberDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:Projektledningsverktyg.Views.Members"
+        mc:Ignorable="d" 
+        Width="500" 
+        SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
+
+    <Border Background="White" CornerRadius="10" BorderThickness="1" BorderBrush="#E0E0E0">
+        <Grid Margin="20" MouseDown="Grid_MouseDown">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>          <!-- Header -->
+                <RowDefinition Height="*"/>             <!-- Content -->
+                <RowDefinition Height="Auto"/>          <!-- Separator -->
+                <RowDefinition Height="Auto"/>          <!-- Buttons -->
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <TextBlock Text="Lägg till familjemedlem" 
+                      FontSize="24" 
+                      FontWeight="Bold"
+                      Foreground="#333333"
+                      Margin="0,0,0,20"/>
+            
+            <!-- Content -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>        <!-- For separator -->
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Column -->
+                <StackPanel Grid.Column="0">
+                    <!-- Image Preview Section -->
+                    <Border Width="150" 
+                            Height="150" 
+                            Background="#F5F5F5" 
+                            Margin="0,0,20,0"
+                            BorderThickness="1"
+                            BorderBrush="#E0E0E0"
+                            VerticalAlignment="Top">
+                        <Grid>
+                            <Image x:Name="ProfileImage" 
+                                   Source="/Images/no_image.png"
+                                   Stretch="UniformToFill"/>
+                            <TextBlock Text="No Image"
+                                     Foreground="#999999"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     x:Name="NoImageText"/>
+                            <Button x:Name="ImageButton"
+                                    Content="Välj bild"
+                                    VerticalAlignment="Bottom"
+                                    Margin="10"
+                                    Height="30"
+                                    Foreground="White"
+                                    Click="ImageButton_Click">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="#7C4DFF"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Background="{TemplateBinding Background}">
+                                                        <ContentPresenter HorizontalAlignment="Center" 
+                                                                        VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=NoImageText, Path=Visibility}" Value="Collapsed">
+                                                <Setter Property="Content" Value="Radera bild"/>
+                                                <Setter Property="Background" Value="#FF4444"/>
+                                                <Setter Property="Tag" Value="Delete"/>
+                                            </DataTrigger>
+                                            <MultiTrigger>
+                                                <MultiTrigger.Conditions>
+                                                    <Condition Property="IsMouseOver" Value="True"/>
+                                                    <Condition Property="Tag" Value="Delete"/>
+                                                </MultiTrigger.Conditions>
+                                                <Setter Property="Background" Value="#B71C1C"/>
+                                            </MultiTrigger>
+                                            <MultiTrigger>
+                                                <MultiTrigger.Conditions>
+                                                    <Condition Property="IsMouseOver" Value="True"/>
+                                                    <Condition Property="Tag" Value="{x:Null}"/>
+                                                </MultiTrigger.Conditions>
+                                                <Setter Property="Background" Value="#4CAF50"/>
+                                            </MultiTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                        </Grid>
+                    </Border>
+
+                    <!-- Birthday DatePicker Section -->
+                    <StackPanel>
+                        <DatePicker x:Name="BirthDatePicker"
+                                    Margin="0,15,20,0"
+                                    Height="40"
+                                    Background="#F5F5F5"
+                                    BorderThickness="1"
+                                    BorderBrush="#E0E0E0"
+                                    VerticalContentAlignment="Center"
+                                    SelectedDateChanged="BirthDatePicker_SelectedDateChanged">
+                            <DatePicker.Resources>
+                                <Style TargetType="DatePickerTextBox">
+                                    <Setter Property="Text" Value="Välj födelsedatum"/>
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
+
+                        <TextBlock x:Name="BirthDateError"
+                                   Foreground="Red"
+                                   FontSize="12"
+                                   Margin="0,5,0,-5"
+                                   Visibility="Collapsed"/>
+                    </StackPanel>
+
+
+                    <!-- Role Dropdown -->
+                    <ComboBox x:Name="RoleComboBox"
+                              Margin="0,15,20,0"
+                              Padding="5,10,0,0"
+                              Height="40"
+                              Background="#F5F5F5"
+                              BorderThickness="1"
+                              BorderBrush="#E0E0E0"
+                              Loaded="RoleComboBox_Loaded"
+                              SelectionChanged="RoleComboBox_SelectionChanged">
+                        <ComboBoxItem Content="Välj roll"/>
+                        <ComboBoxItem Content="Förälder"/>
+                        <ComboBoxItem Content="Son"/>
+                        <ComboBoxItem Content="Dotter"/>
+                    </ComboBox>
+
+                    <TextBlock x:Name="RoleError"
+                               Foreground="Red"
+                               FontSize="12"
+                               Margin="0,5,0,0"
+                               Visibility="Collapsed"/>
+
+                    <!-- Admin Rights Checkbox -->
+                    <CheckBox x:Name="AdminRightsCheckBox"
+                              Content="Administratörsrättigheter"
+                              Margin="0,20,0,0"/>
+                </StackPanel>
+
+                <Rectangle Grid.Column="1" Width="1" 
+                           Fill="#E0E0E0" 
+                           Margin="0,0,20,0" 
+                           VerticalAlignment="Stretch"
+                           HorizontalAlignment="Left"/>
+
+
+                <!-- Right Column -->
+                <StackPanel Grid.Column="2">
+
+                    <!-- First Name with Validation -->
+                    <StackPanel>
+                        <TextBox x:Name="FirstNameTextBox"
+                                Margin="0,0,0,10"
+                                Height="40"
+                                Background="#F5F5F5"
+                                Foreground="#333333"
+                                BorderThickness="1"
+                                BorderBrush="#E0E0E0"
+                                Padding="10"
+                                VerticalContentAlignment="Center"
+                                TextChanged="FirstNameTextBox_TextChanged">
+                            <TextBox.Template>
+                                <ControlTemplate TargetType="TextBox">
+                                    <Grid>
+                                        <TextBox Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 Background="{TemplateBinding Background}"
+                                                 BorderThickness="{TemplateBinding BorderThickness}"
+                                                 BorderBrush="{TemplateBinding BorderBrush}"
+                                                 Padding="{TemplateBinding Padding}"/>
+                                        <TextBlock Text="Förnamn" 
+                                                  Foreground="Gray" 
+                                                  Margin="10,0,0,0"
+                                                  VerticalAlignment="Center"
+                                                  IsHitTestVisible="False">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TextBox}}" Value="">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="Visibility" Value="Hidden"/>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Grid>
+                                </ControlTemplate>
+                            </TextBox.Template>
+                        </TextBox>
+
+                        <!-- Error Message -->
+                        <TextBlock x:Name="FirstNameError"
+                                   Foreground="Red"
+                                   FontSize="12"
+                                   Margin="0,-2,0,10"
+                                   Visibility="Collapsed"/>
+                    </StackPanel>
+
+                    <!-- Last Name with Validation -->
+                    <StackPanel>
+                        <TextBox x:Name="LastNameTextBox"
+                                Margin="0,0,0,10"
+                                Height="40"
+                                Background="#F5F5F5"
+                                Foreground="#333333"
+                                BorderThickness="1"
+                                BorderBrush="#E0E0E0"
+                                Padding="10"
+                                VerticalContentAlignment="Center"
+                                TextChanged="LastNameTextBox_TextChanged">
+                            <TextBox.Template>
+                                <ControlTemplate TargetType="TextBox">
+                                    <Grid>
+                                        <TextBox Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 Background="{TemplateBinding Background}"
+                                                 BorderThickness="{TemplateBinding BorderThickness}"
+                                                 BorderBrush="{TemplateBinding BorderBrush}"
+                                                 Padding="{TemplateBinding Padding}"/>
+                                        <TextBlock Text="Efternamn" 
+                                                  Foreground="Gray" 
+                                                  Margin="10,0,0,0"
+                                                  VerticalAlignment="Center"
+                                                  IsHitTestVisible="False">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TextBox}}" Value="">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="Visibility" Value="Hidden"/>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Grid>
+                                </ControlTemplate>
+                            </TextBox.Template>
+                        </TextBox>
+
+                        <!-- Error Message -->
+                        <TextBlock x:Name="LastNameError"
+                                   Foreground="Red"
+                                   FontSize="12"
+                                   Margin="0,-2,0,10"
+                                   Visibility="Collapsed"/>
+                    </StackPanel>
+
+
+                    <!-- Email with Validation -->
+                    <StackPanel>
+                        <TextBox x:Name="EmailTextBox"
+                                 Margin="0,0,0,10"
+                                 Height="40"
+                                 Background="#F5F5F5"
+                                 Foreground="#333333"
+                                 BorderThickness="1"
+                                 BorderBrush="#E0E0E0"
+                                 Padding="10"
+                                 VerticalContentAlignment="Center"
+                                 TextChanged="EmailTextBox_TextChanged">
+                            <TextBox.Template>
+                                <ControlTemplate TargetType="TextBox">
+                                    <Grid>
+                                        <TextBox Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 Background="{TemplateBinding Background}"
+                                                 BorderThickness="{TemplateBinding BorderThickness}"
+                                                 BorderBrush="{TemplateBinding BorderBrush}"
+                                                 Padding="{TemplateBinding Padding}"/>
+                                        <TextBlock Text="E-post" 
+                                                  Foreground="Gray" 
+                                                  Margin="10,0,0,0"
+                                                  VerticalAlignment="Center"
+                                                  IsHitTestVisible="False">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TextBox}}" Value="">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="Visibility" Value="Hidden"/>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Grid>
+                                </ControlTemplate>
+                            </TextBox.Template>
+                        </TextBox>
+
+                        <!-- Error Message -->
+                        <TextBlock x:Name="EmailError"
+                                   Foreground="Red"
+                                   FontSize="12"
+                                   Margin="0,-2,0,10"
+                                   Visibility="Collapsed"/>
+                    </StackPanel>
+
+                    <!-- Password -->
+                    <Grid x:Name="PasswordGrid" Margin="0,20,0,0">
+                        <PasswordBox x:Name="PasswordBox"
+                                     Height="40"
+                                     Background="#F5F5F5"
+                                     Foreground="#333333"
+                                     BorderThickness="1"
+                                     BorderBrush="#E0E0E0"
+                                     Padding="10,0"
+                                     VerticalContentAlignment="Center"
+                                     PasswordChanged="PasswordBox_PasswordChanged"/>
+
+                        <TextBlock Text="Lösenord" 
+                                  Foreground="Gray" 
+                                  Margin="10,0,0,0"
+                                  VerticalAlignment="Center"
+                                  IsHitTestVisible="False">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Password, ElementName=PasswordBox, Mode=OneWay}" Value="">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <Button x:Name="ShowPasswordButton"
+                                Content="👁"
+                                Width="30"
+                                Height="30"
+                                HorizontalAlignment="Right"
+                                Click="ShowPasswordButton_Click"
+                                Panel.ZIndex="1">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="0.7"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+
+                    <!-- Password Strength Indicator -->
+                    <ProgressBar x:Name="PasswordStrength"
+                                 Height="3"
+                                 Margin="0,10,0,0"/>
+
+                    <!-- Confirm Password -->
+                    <Grid x:Name="ConfirmPasswordGrid" Margin="0,15,0,0">
+                        <PasswordBox x:Name="ConfirmPasswordBox"
+                                     Height="40"
+                                     Background="#F5F5F5"
+                                     Foreground="#333333"
+                                     BorderThickness="1"
+                                     BorderBrush="#E0E0E0"
+                                     Padding="10,0"
+                                     VerticalContentAlignment="Center"
+                                     PasswordChanged="ConfirmPassword_PasswordChanged"/>
+
+                        <TextBlock Text="Bekräfta lösenord" 
+                                  Foreground="Gray" 
+                                  Margin="10,0,0,0"
+                                  VerticalAlignment="Center"
+                                  IsHitTestVisible="False">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Password, ElementName=ConfirmPasswordBox, Mode=OneWay}" Value="">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <Button x:Name="ShowConfirmPasswordButton"
+                                Content="👁"
+                                Width="30"
+                                Height="30"
+                                HorizontalAlignment="Right"
+                                Click="ShowConfirmPasswordButton_Click"
+                                Panel.ZIndex="1">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="0.7"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+
+                    <!-- Password Match Indicator -->
+                    <TextBlock x:Name="PasswordMatchIndicator"
+                               Margin="0,5,0,5"
+                               FontSize="12"/>
+                    
+                    <TextBlock x:Name="FormError"
+                               Foreground="Red"
+                               FontSize="12"
+                               Margin="0,0,0,10"
+                               Visibility="Collapsed"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Horizontal Separator -->
+            <Rectangle Grid.Row="2" Height="1" 
+                       Fill="#E0E0E0" 
+                       Margin="0,10,0,0" 
+                       HorizontalAlignment="Stretch"/>
+
+            <!-- Buttons -->
+            <StackPanel Grid.Row="3" 
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,20,0,0">
+                <Button Content="Avbryt"
+                        Width="100"
+                        Height="35"
+                        Margin="0,0,10,0"
+                        Click="CancelButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#E53935"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#C62828"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Spara"
+                        Width="100"
+                        Height="35" Click="SaveButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#4CAF50"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#388E3C"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
