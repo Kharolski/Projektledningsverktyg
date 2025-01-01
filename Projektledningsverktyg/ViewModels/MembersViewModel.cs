@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Projektledningsverktyg.Data.Context;
 using System.IO;
+using Projektledningsverktyg.Helpers;
 
 namespace Projektledningsverktyg.ViewModels
 {
@@ -62,13 +63,24 @@ namespace Projektledningsverktyg.ViewModels
                 {
                     if (!string.IsNullOrEmpty(member.ProfileImagePath))
                     {
-                        member.ProfileImagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, member.ProfileImagePath.TrimStart('/'));
+                        if (member.ProfileImagePath.StartsWith("/Images/"))
+                        {
+                            // Avatar from resources
+                            member.ProfileImagePath = $"pack://application:,,,{member.ProfileImagePath}";
+                        }
+                        else
+                        {
+                            // Custom uploaded image
+                            member.ProfileImagePath = Path.Combine(
+                                AppFolders.GetUserImagesPath(),
+                                Path.GetFileName(member.ProfileImagePath));
+                        }
                     }
                 }
-
                 Members = new ObservableCollection<MemberModel>(members);
             }
         }
+
 
         private void FilterMembers()
         {

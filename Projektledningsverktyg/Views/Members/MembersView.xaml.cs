@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Projektledningsverktyg.Data.Entities;
 
 namespace Projektledningsverktyg.Views.Members
 {
@@ -23,14 +24,39 @@ namespace Projektledningsverktyg.Views.Members
         private async void AddMember_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new AddMemberDialog();
+            
             if (dialog.ShowDialog() == true)
             {
-                SuccessMessage.Visibility = Visibility.Visible;
                 LoadMembers();
-                await Task.Delay(3000);
+                SuccessMessage.Text = $"{dialog.NewMember.FirstName} {dialog.NewMember.LastName} har lagts till!";
+                SuccessMessage.Visibility = Visibility.Visible;
+                await System.Threading.Tasks.Task.Delay(3000);
                 SuccessMessage.Visibility = Visibility.Collapsed;
             }
         }
+
+        private async void EditMember_Click(object sender, RoutedEventArgs e)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var memberModel = (MemberModel)((Button)sender).DataContext;
+                var member = db.Members.Find(memberModel.Id);
+                var detailWindow = new MemberDetailWindow(member);
+
+                if (detailWindow.ShowDialog() == true)
+                {
+                    LoadMembers(); // Refresh the list to show updated data
+                    SuccessMessage.Text = $"{member.FirstName} {member.LastName} har uppdaterats!";
+                    SuccessMessage.Visibility = Visibility.Visible;
+                    await System.Threading.Tasks.Task.Delay(3000);
+                    SuccessMessage.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+
+
+
 
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {

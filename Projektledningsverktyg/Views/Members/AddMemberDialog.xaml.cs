@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Projektledningsverktyg.Data.Context;
 using Projektledningsverktyg.Data.Entities;
+using Projektledningsverktyg.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,6 +30,8 @@ namespace Projektledningsverktyg.Views.Members
 
         private TextBox _passwordTextBox;
         private TextBox _confirmPasswordTextBox;
+
+        public Member NewMember { get; private set; }
 
         public AddMemberDialog()
         {
@@ -496,6 +499,7 @@ namespace Projektledningsverktyg.Views.Members
                     await db.SaveChangesAsync();
                 }
 
+                NewMember = newMember;  // Return the new member to the calling method for success message
                 DialogResult = true;
                 Close();
             }
@@ -519,21 +523,15 @@ namespace Projektledningsverktyg.Views.Members
 
         private string SaveImageFile(string sourcePath)
         {
-            // Check if source path is empty
             if (string.IsNullOrEmpty(sourcePath))
                 return null;
 
-            // Create unique filename with GUID and keep original extension
+            // Create unique filename with GUID
             string fileName = $"{Guid.NewGuid()}{Path.GetExtension(sourcePath)}";
 
-            // Create path to profile images folder in application directory
-            string targetDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "Profiles");
-
-            // Combine target directory with new filename
+            // Get the AppData path using our helper
+            string targetDirectory = AppFolders.GetUserImagesPath();
             string targetPath = Path.Combine(targetDirectory, fileName);
-
-            // Create target directory if it doesn't exist
-            Directory.CreateDirectory(targetDirectory);
 
             // Load original image
             var image = new BitmapImage(new Uri(sourcePath));
@@ -549,11 +547,9 @@ namespace Projektledningsverktyg.Views.Members
                 encoder.Save(fileStream);
             }
 
-            // Return the relative path to the saved image
+            // Return the relative path for database storage
             return $"/Images/Profiles/{fileName}";
         }
-
-
 
         private bool ValidateAllFields()
         {
