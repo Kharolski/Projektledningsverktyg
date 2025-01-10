@@ -1,4 +1,5 @@
-﻿using Projektledningsverktyg.Views.AIAssistant;
+﻿using Projektledningsverktyg.Data.Entities;
+using Projektledningsverktyg.Views.AIAssistant;
 using Projektledningsverktyg.Views.Calendar;
 using Projektledningsverktyg.Views.Dashboard;
 using Projektledningsverktyg.Views.Members;
@@ -12,12 +13,19 @@ namespace Projektledningsverktyg
 {
     public partial class MainWindow : Window
     {
+        private Member _currentMember;
         public MainWindow()
         {
             InitializeComponent();
 
             // Starta med Dashboard som default vy
             MainFrame.Navigate(new DashboardView());
+        }
+
+        // Set current member after successful login
+        public void SetCurrentMember(Member member)
+        {
+            _currentMember = member;
         }
 
         private void StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -64,7 +72,11 @@ namespace Projektledningsverktyg
 
         private void BtnTasks_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new TasksView());
+            Debug.WriteLine($"Current User: {App.CurrentUser?.Email}");
+            if (_currentMember != null)
+            {
+                MainFrame.Navigate(new TasksView(App.CurrentUser));
+            }
         }
 
         private void BtnMembers_Click(object sender, RoutedEventArgs e)

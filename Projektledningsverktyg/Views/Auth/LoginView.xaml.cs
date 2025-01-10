@@ -92,6 +92,10 @@ namespace Projektledningsverktyg.Views.Auth
                 {
                     var currentUser = db.Members.Find(member.Id);
                     App.CurrentUser = currentUser;
+
+                    // Ensure the current member is properly set and available throughout our application
+                    var mainWindow = Window.GetWindow(this) as MainWindow;
+                    mainWindow?.SetCurrentMember(currentUser);
                 }
 
                 if (!isValidLogin)

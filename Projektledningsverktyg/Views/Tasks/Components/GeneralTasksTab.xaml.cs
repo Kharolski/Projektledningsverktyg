@@ -1,28 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Projektledningsverktyg.Data.Context;
+using Projektledningsverktyg.Data.Entities;
+using Projektledningsverktyg.Models;
+using Projektledningsverktyg.ViewModels;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Projektledningsverktyg.Views.Tasks.Components
 {
     /// <summary>
     /// Interaction logic for GeneralTasksTab.xaml
     /// </summary>
-    public partial class GeneralTasksTab : UserControl
+    public partial class GeneralTasksTab : Page
     {
+        private TaskViewModel viewModel;
         public GeneralTasksTab()
         {
             InitializeComponent();
         }
+
+        public GeneralTasksTab(Member currentMember)
+        {
+            InitializeComponent();
+
+            var dbContext = new ApplicationDbContext();
+            viewModel = new TaskViewModel(dbContext, currentMember);
+            DataContext = viewModel;
+        }
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is FrameworkElement element && element.DataContext is TaskModel task)
+            {
+                var detailWindow = new TaskDetail(task);
+                detailWindow.ShowDialog();
+            }
+        }
+
+        
     }
 }

@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using Projektledningsverktyg.Data.Context;
+using Projektledningsverktyg.Data.Entities;
+using Projektledningsverktyg.ViewModels;
+using Projektledningsverktyg.Views.Tasks.Components;
+using System.Diagnostics;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Projektledningsverktyg.Views.Tasks
 {
-    /// <summary>
-    /// Interaction logic for TasksView.xaml
-    /// </summary>
-    public partial class TasksView : UserControl
+    public partial class TasksView : Page
     {
-        public TasksView()
+        private readonly Member _currentMember;
+        public TasksView(Member currentMember)
         {
+
+            _currentMember = currentMember;
             InitializeComponent();
+
+            var dbContext = new ApplicationDbContext();
+            DataContext = new TaskViewModel(dbContext, currentMember);
+            GeneralTasksFrame.Navigate(new GeneralTasksTab(currentMember));
+
         }
     }
 }

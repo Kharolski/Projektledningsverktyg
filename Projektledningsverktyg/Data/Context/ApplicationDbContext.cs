@@ -29,6 +29,7 @@ namespace Projektledningsverktyg.Data.Context
         public DbSet<Task> Tasks { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<PasswordReset> PasswordResets { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -43,13 +44,13 @@ namespace Projektledningsverktyg.Data.Context
 
             // Task relationships
             modelBuilder.Entity<Task>()
-                .HasRequired(t => t.AssignedTo)
+                .HasOptional(t => t.AssignedTo)
                 .WithMany(m => m.Tasks)
                 .HasForeignKey(t => t.MemberId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Task>()
-                .HasRequired(t => t.Project)
+                .HasOptional(t => t.Project)
                 .WithMany(p => p.Tasks)
                 .HasForeignKey(t => t.ProjectId)
                 .WillCascadeOnDelete(false);
@@ -71,6 +72,29 @@ namespace Projektledningsverktyg.Data.Context
                     m.MapRightKey("MemberId");
                 });
 
+            // Comment configuration
+            modelBuilder.Entity<Comment>()
+                .ToTable("Comments")
+                .HasKey(c => c.Id)
+                .Ignore(c => c.Discussion)
+                .Ignore(c => c.DiscussionId)
+                .Ignore(c => c.Event)
+                .Ignore(c => c.EventId)
+                .Ignore(c => c.Chat)
+                .Ignore(c => c.ChatId);
+
+            modelBuilder.Entity<Comment>()
+                .HasRequired(c => c.Member)
+                .WithMany()
+                .HasForeignKey(c => c.MemberId);
+
+            modelBuilder.Entity<Comment>()
+                .HasOptional(c => c.Task)
+                .WithMany()
+                .HasForeignKey(c => c.TaskId);
+
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
