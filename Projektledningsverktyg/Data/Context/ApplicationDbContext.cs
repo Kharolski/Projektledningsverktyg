@@ -31,6 +31,13 @@ namespace Projektledningsverktyg.Data.Context
         public DbSet<PasswordReset> PasswordResets { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
+
+        // Our meal setup
+        public DbSet<Meal> Meals { get; set; }
+        public DbSet<MealIngredient> MealIngredients { get; set; }
+        public DbSet<MealDietaryTag> MealDietaryTags { get; set; }
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -92,6 +99,16 @@ namespace Projektledningsverktyg.Data.Context
                 .HasOptional(c => c.Task)
                 .WithMany()
                 .HasForeignKey(c => c.TaskId);
+
+            modelBuilder.Entity<Meal>()
+                .HasMany(m => m.Ingredients)
+                .WithRequired(i => i.Meal)
+                .HasForeignKey(i => i.MealId);
+
+            modelBuilder.Entity<Meal>()
+                .HasMany(m => m.DietaryTags)
+                .WithRequired(t => t.Meal)
+                .HasForeignKey(t => t.MealId);
 
 
             base.OnModelCreating(modelBuilder);

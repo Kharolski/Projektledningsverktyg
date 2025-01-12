@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Projektledningsverktyg.Views.Tasks.Components
+namespace Projektledningsverktyg.Views.RecipeBook.Windows.Components
 {
     /// <summary>
-    /// Interaction logic for MealsTab.xaml
+    /// Interaction logic for RecipeBasicInfoSection.xaml
     /// </summary>
-    public partial class MealsTab : UserControl
+    public partial class RecipeBasicInfoSection : UserControl
     {
-        public MealsTab()
+        public RecipeBasicInfoSection()
         {
             InitializeComponent();
         }

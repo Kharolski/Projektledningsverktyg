@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace Projektledningsverktyg.ViewModels
 {
-    public class TaskViewModel : INotifyPropertyChanged
+    public class TaskViewModel : ViewModelBase
     {
         private readonly Member _currentMember;
 
@@ -257,11 +257,6 @@ namespace Projektledningsverktyg.ViewModels
             }
         }
 
-        // Property changed implementation
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        
     }
 }

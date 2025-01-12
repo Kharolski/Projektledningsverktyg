@@ -44,7 +44,7 @@
                         <TextBlock Text="Måltider"/>
                     </StackPanel>
                 </TabItem.Header>
-                <Frame Source="Components/MealsTab.xaml"/>
+                <Frame Source="Components/Meals/MealsTab.xaml"/>
             </TabItem>
 
             <!-- Inköp -->

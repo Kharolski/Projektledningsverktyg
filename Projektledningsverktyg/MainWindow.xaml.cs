@@ -3,6 +3,7 @@ using Projektledningsverktyg.Views.AIAssistant;
 using Projektledningsverktyg.Views.Calendar;
 using Projektledningsverktyg.Views.Dashboard;
 using Projektledningsverktyg.Views.Members;
+using Projektledningsverktyg.Views.RecipeBook;
 using Projektledningsverktyg.Views.Settings;
 using Projektledningsverktyg.Views.Tasks;
 using System.Diagnostics;
@@ -87,6 +88,11 @@ namespace Projektledningsverktyg
         private void BtnAIAssistant_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Navigate(new AIAssistantView());
+        }
+
+        private void BtnRecipeBook_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new RecipeBookView());
         }
 
         private void BtnSettings_Click(object sender, RoutedEventArgs e)

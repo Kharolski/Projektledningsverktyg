@@ -255,6 +255,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\AsyncRelayCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Converters\BoolToIntConverter.cs" />
     <Compile Include="Converters\BoolToIntConverterReverse.cs" />
@@ -268,21 +269,34 @@
     <Compile Include="Data\Entities\Comment.cs" />
     <Compile Include="Data\Entities\Discussion.cs" />
     <Compile Include="Data\Entities\Event.cs" />
+    <Compile Include="Data\Entities\Meal.cs" />
+    <Compile Include="Data\Entities\MealDietaryTag.cs" />
+    <Compile Include="Data\Entities\MealIngredient.cs" />
     <Compile Include="Data\Entities\Member.cs" />
     <Compile Include="Data\Entities\PasswordReset.cs" />
     <Compile Include="Data\Entities\Project.cs" />
     <Compile Include="Data\Entities\Task.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\AppFolders.cs" />
+    <Compile Include="Migrations\202501101416480_AddMealTables.cs" />
+    <Compile Include="Migrations\202501101416480_AddMealTables.Designer.cs">
+      <DependentUpon>202501101416480_AddMealTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SQLiteConfiguration.cs" />
     <Compile Include="Models\FilterOption.cs" />
+    <Compile Include="Models\Meal.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\ProtocolHandler.cs" />
+    <Compile Include="ViewModels\AddIngredientsWindowViewModel.cs" />
+    <Compile Include="ViewModels\AddMealSectionViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\ListMealsSectionViewModel.cs" />
     <Compile Include="ViewModels\MembersViewModel.cs" />
+    <Compile Include="ViewModels\RecipeBookViewModel.cs" />
     <Compile Include="ViewModels\TaskViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\AIAssistant\AIAssistantView.xaml.cs">
       <DependentUpon>AIAssistantView.xaml</DependentUpon>
     </Compile>
@@ -323,8 +337,35 @@
     <Compile Include="Views\Members\MembersView.xaml.cs">
       <DependentUpon>MembersView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RecipeBook\Components\RecipeBookSidePanel.xaml.cs">
+      <DependentUpon>RecipeBookSidePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecipeBook\Components\RecipeCard.xaml.cs">
+      <DependentUpon>RecipeCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecipeBook\RecipeBookView.xaml.cs">
+      <DependentUpon>RecipeBookView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecipeBook\Windows\AddRecipeWindow.xaml.cs">
+      <DependentUpon>AddRecipeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecipeBook\Windows\Components\RecipeBasicInfoSection.xaml.cs">
+      <DependentUpon>RecipeBasicInfoSection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecipeBook\Windows\Components\RecipeIngredientsSection.xaml.cs">
+      <DependentUpon>RecipeIngredientsSection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecipeBook\Windows\Components\RecipeInstructionsSection.xaml.cs">
+      <DependentUpon>RecipeInstructionsSection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Settings\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tasks\Components\Meals\AddIngredientsWindow.xaml.cs">
+      <DependentUpon>AddIngredientsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tasks\Components\Meals\AddMealSection.xaml.cs">
+      <DependentUpon>AddMealSection.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Tasks\Components\ChoresTab.xaml.cs">
       <DependentUpon>ChoresTab.xaml</DependentUpon>
@@ -332,7 +373,10 @@
     <Compile Include="Views\Tasks\Components\GeneralTasksTab.xaml.cs">
       <DependentUpon>GeneralTasksTab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Tasks\Components\MealsTab.xaml.cs">
+    <Compile Include="Views\Tasks\Components\Meals\ListMealsSection.xaml.cs">
+      <DependentUpon>ListMealsSection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tasks\Components\Meals\MealsTab.xaml.cs">
       <DependentUpon>MealsTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Tasks\Components\ShoppingTab.xaml.cs">
@@ -408,7 +452,43 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\RecipeBook\Components\RecipeBookSidePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecipeBook\Components\RecipeCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecipeBook\RecipeBookView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecipeBook\Windows\AddRecipeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecipeBook\Windows\Components\RecipeBasicInfoSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecipeBook\Windows\Components\RecipeIngredientsSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecipeBook\Windows\Components\RecipeInstructionsSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Settings\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tasks\Components\Meals\AddIngredientsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tasks\Components\Meals\AddMealSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -420,7 +500,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Tasks\Components\MealsTab.xaml">
+    <Page Include="Views\Tasks\Components\Meals\ListMealsSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tasks\Components\Meals\MealsTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -455,6 +539,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\202501101416480_AddMealTables.resx">
+      <DependentUpon>202501101416480_AddMealTables.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -474,7 +561,10 @@
   <ItemGroup>
     <Resource Include="Images\no_image.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Tasks\Components\Chores\" />
+    <Folder Include="Views\Tasks\Components\Task\" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Avatars\avatar_m1.jpg" />
     <Resource Include="Images\Avatars\avatar_m2.jpg" />

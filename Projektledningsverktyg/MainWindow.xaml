@@ -176,6 +176,21 @@
                     </RadioButton.ContentTemplate>
                 </RadioButton>
 
+                <!-- Recipe Book Button -->
+                <RadioButton x:Name="BtnRecipeBook" 
+                            Style="{StaticResource NavButton}"
+                            Content="Receptbok"
+                            Checked="BtnRecipeBook_Click">
+                    <RadioButton.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📖" Margin="0,0,10,0"/>
+                                <TextBlock Text="Receptbok"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </RadioButton.ContentTemplate>
+                </RadioButton>
+
                 <!-- Settings Button -->
                 <RadioButton x:Name="BtnSettings" 
                     Style="{StaticResource NavButton}"
