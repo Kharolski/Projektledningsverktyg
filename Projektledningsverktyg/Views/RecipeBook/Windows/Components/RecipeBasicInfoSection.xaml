@@ -4,8 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Projektledningsverktyg.Views.RecipeBook.Windows.Components"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:entities="clr-namespace:Projektledningsverktyg.Data.Entities"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="MealTypesEnum" 
+                        MethodName="GetValues"
+                        ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="entities:MealTypes"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <ObjectDataProvider x:Key="MainIngredientsEnum" 
+                        MethodName="GetValues"
+                        ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="entities:MainIngredients"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
 
 
     <StackPanel Margin="0,20,0,0">
@@ -22,23 +42,33 @@
 
             <!-- Left: Image Upload -->
             <Border Height="250" 
-                Background="#F8F8F8" 
-                BorderBrush="#E0E0E0"
-                BorderThickness="2"
-                CornerRadius="4"
-                Margin="0,0,20,0">
+                    Background="#F8F8F8" 
+                    BorderBrush="#E0E0E0"
+                    BorderThickness="2"
+                    CornerRadius="4"
+                    Margin="0,0,20,0">
                 <Button Background="Transparent"
-                    BorderThickness="0"
-                    Padding="20">
-                    <StackPanel>
-                        <TextBlock Text="📤" 
-                             FontSize="24"
-                             HorizontalAlignment="Center"/>
-                        <TextBlock Text="Klicka för att lägga till bild" 
-                             Margin="0,10,0,0"/>
-                    </StackPanel>
+                        BorderThickness="0"
+                        Padding="20"
+                        Command="{Binding SelectImageCommand}">
+                    <Grid>
+                        
+                        <!-- Upload Icon -->
+                        <StackPanel>
+                            <TextBlock Text="📤" 
+                          FontSize="24"
+                          HorizontalAlignment="Center"/>
+                            <TextBlock Text="Klicka för att lägga till bild" 
+                          Margin="0,10,0,0"/>
+                        </StackPanel>
+                        <!-- Selected Image -->
+                        <Image Source="{Binding ImagePath}"
+                   Stretch="Uniform"/>
+                    </Grid>
                 </Button>
             </Border>
+
+
 
             <!-- Right: Form Fields -->
             <StackPanel Grid.Column="1">
@@ -46,11 +76,16 @@
                 <!-- Recipe Name -->
                 <StackPanel Margin="0,0,10,15">
                     <TextBlock Text="📝 Receptnamn" 
-                          FontWeight="Medium"
-                          Margin="0,0,0,5"/>
-                    <TextBox Height="35" 
-                         FontSize="14"
-                         Padding="8,5"/>
+                              FontWeight="Medium"
+                              Margin="0,0,0,5"/>
+                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" 
+                            Height="35" 
+                            FontSize="14"
+                            Padding="8,5"/>
+                    <TextBlock Text="{Binding NameValidationMessage}"
+                              Foreground="#FF4444"
+                              FontSize="12"
+                              Margin="5,2,0,0"/>
                 </StackPanel>
 
                 <!-- Categories Grid -->
@@ -65,13 +100,11 @@
                         <TextBlock Text="🏷️ Måltidstyp" 
                       FontWeight="Medium"
                       Margin="0,0,0,5"/>
-                        <ComboBox Height="35" 
-                      FontSize="14"
-                      Padding="8,5">
-                            <ComboBoxItem Content="Frukost"/>
-                            <ComboBoxItem Content="Lunch"/>
-                            <ComboBoxItem Content="Middag"/>
-                            <ComboBoxItem Content="Efterrätt"/>
+                        <ComboBox ItemsSource="{Binding Source={StaticResource MealTypesEnum}}"
+                                  SelectedItem="{Binding MealType, ValidatesOnDataErrors=True}"
+                                  Height="35" 
+                                  FontSize="14"
+                                  Padding="8,5">
                         </ComboBox>
                     </StackPanel>
 
@@ -80,13 +113,11 @@
                         <TextBlock Text="🥘 Huvudingrediens" 
                       FontWeight="Medium"
                       Margin="0,0,0,5"/>
-                        <ComboBox Height="35" 
-                      FontSize="14"
-                      Padding="8,5">
-                            <ComboBoxItem Content="Kyckling"/>
-                            <ComboBoxItem Content="Fisk"/>
-                            <ComboBoxItem Content="Vegetariskt"/>
-                            <ComboBoxItem Content="Pasta"/>
+                        <ComboBox ItemsSource="{Binding Source={StaticResource MainIngredientsEnum}}"
+                                  SelectedItem="{Binding MainIngredient, ValidatesOnDataErrors=True}"
+                                  Height="35" 
+                                  FontSize="14"
+                                  Padding="8,5">
                         </ComboBox>
                     </StackPanel>
                 </Grid>
@@ -101,14 +132,15 @@
                     <!-- Cooking Time -->
                     <StackPanel Grid.Column="0" Margin="0,0,10,0">
                         <TextBlock Text="⏱️ Tillagningstid" 
-                      FontWeight="Medium"
-                      Margin="0,0,0,5"/>
+                                  FontWeight="Medium"
+                                  Margin="0,0,0,5"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox Height="35" 
+                            <TextBox Text="{Binding CookingTime, UpdateSourceTrigger=PropertyChanged}"
+                                    Height="35" 
                                     FontSize="14"
                                     Padding="8,5"/>
                             <TextBlock Grid.Column="1" 
@@ -116,7 +148,12 @@
                                       Margin="8,0,0,0"
                                       VerticalAlignment="Center"/>
                         </Grid>
+                        <TextBlock Text="{Binding CookingTimeValidationMessage}"
+                                  Foreground="#FF4444"
+                                  FontSize="12"
+                                  Margin="5,2,0,0"/>
                     </StackPanel>
+
 
                     <!-- Servings -->
                     <StackPanel Grid.Column="1" Margin="10,0,0,0">
@@ -128,7 +165,8 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox Height="35" 
+                            <TextBox Text="{Binding Servings, UpdateSourceTrigger=PropertyChanged}" 
+                                    Height="35" 
                                     FontSize="14"
                                     Padding="8,5"/>
                             <TextBlock Grid.Column="1" 
@@ -136,8 +174,13 @@
                                       Margin="8,0,0,0"
                                       VerticalAlignment="Center"/>
                         </Grid>
+                        <TextBlock Text="{Binding ServingsValidationMessage}"
+                                  Foreground="#FF4444"
+                                  FontSize="12"
+                                  Margin="5,2,0,0"/>
                     </StackPanel>
-                    
+
+
                 </Grid>
             </StackPanel>
         </Grid>

@@ -37,6 +37,11 @@ namespace Projektledningsverktyg.Data.Context
         public DbSet<MealIngredient> MealIngredients { get; set; }
         public DbSet<MealDietaryTag> MealDietaryTags { get; set; }
 
+        // Our Recipe setup
+        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<Instruction> Instructions { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -79,7 +84,7 @@ namespace Projektledningsverktyg.Data.Context
                     m.MapRightKey("MemberId");
                 });
 
-            // Comment configuration
+            // Comment relationships
             modelBuilder.Entity<Comment>()
                 .ToTable("Comments")
                 .HasKey(c => c.Id)
@@ -100,6 +105,7 @@ namespace Projektledningsverktyg.Data.Context
                 .WithMany()
                 .HasForeignKey(c => c.TaskId);
 
+            // Meal relationships
             modelBuilder.Entity<Meal>()
                 .HasMany(m => m.Ingredients)
                 .WithRequired(i => i.Meal)
@@ -109,6 +115,17 @@ namespace Projektledningsverktyg.Data.Context
                 .HasMany(m => m.DietaryTags)
                 .WithRequired(t => t.Meal)
                 .HasForeignKey(t => t.MealId);
+
+            // Recipe relationships
+            modelBuilder.Entity<Recipe>()
+                .HasMany(r => r.Ingredients)
+                .WithRequired()
+                .HasForeignKey(i => i.RecipeId);
+
+            modelBuilder.Entity<Recipe>()
+                .HasMany(r => r.Instructions)
+                .WithRequired()
+                .HasForeignKey(i => i.RecipeId);
 
 
             base.OnModelCreating(modelBuilder);

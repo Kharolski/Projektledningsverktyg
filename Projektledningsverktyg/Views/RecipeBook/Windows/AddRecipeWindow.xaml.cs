@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Projektledningsverktyg.Data.Context;
+using Projektledningsverktyg.ViewModels;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Projektledningsverktyg.Views.RecipeBook.Windows
 {
-    /// <summary>
-    /// Interaction logic for AddRecipeWindow.xaml
-    /// </summary>
     public partial class AddRecipeWindow : Window
     {
+        private readonly RecipeViewModel _viewModel;
         public AddRecipeWindow()
         {
             InitializeComponent();
+            _viewModel = new RecipeViewModel(new ApplicationDbContext());
+            DataContext = _viewModel;
         }
+
+        private void CloseWindow(object sender, RoutedEventArgs e)
+        {
+            Window.GetWindow(this).Close();
+        }
+
     }
 }

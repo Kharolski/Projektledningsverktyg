@@ -263,25 +263,25 @@
     <Compile Include="Converters\CurrentUserVisibilityConverter.cs" />
     <Compile Include="Converters\EmptyToTextConverter.cs" />
     <Compile Include="Converters\ImagePathConverter.cs" />
+    <Compile Include="Converters\IsLastStepConverter.cs" />
     <Compile Include="Converters\PriorityToColorConverter.cs" />
     <Compile Include="Data\Context\ApplicationDbContext.cs" />
     <Compile Include="Data\Entities\Chat.cs" />
     <Compile Include="Data\Entities\Comment.cs" />
     <Compile Include="Data\Entities\Discussion.cs" />
     <Compile Include="Data\Entities\Event.cs" />
+    <Compile Include="Data\Entities\Ingredient.cs" />
+    <Compile Include="Data\Entities\Instruction.cs" />
     <Compile Include="Data\Entities\Meal.cs" />
     <Compile Include="Data\Entities\MealDietaryTag.cs" />
     <Compile Include="Data\Entities\MealIngredient.cs" />
     <Compile Include="Data\Entities\Member.cs" />
     <Compile Include="Data\Entities\PasswordReset.cs" />
     <Compile Include="Data\Entities\Project.cs" />
+    <Compile Include="Data\Entities\Recipe.cs" />
     <Compile Include="Data\Entities\Task.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\AppFolders.cs" />
-    <Compile Include="Migrations\202501101416480_AddMealTables.cs" />
-    <Compile Include="Migrations\202501101416480_AddMealTables.Designer.cs">
-      <DependentUpon>202501101416480_AddMealTables.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SQLiteConfiguration.cs" />
     <Compile Include="Models\FilterOption.cs" />
@@ -295,6 +295,7 @@
     <Compile Include="ViewModels\ListMealsSectionViewModel.cs" />
     <Compile Include="ViewModels\MembersViewModel.cs" />
     <Compile Include="ViewModels\RecipeBookViewModel.cs" />
+    <Compile Include="ViewModels\RecipeViewModel.cs" />
     <Compile Include="ViewModels\TaskViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\AIAssistant\AIAssistantView.xaml.cs">
@@ -539,9 +540,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202501101416480_AddMealTables.resx">
-      <DependentUpon>202501101416480_AddMealTables.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

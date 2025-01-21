@@ -4,23 +4,111 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Projektledningsverktyg.Views.RecipeBook.Windows.Components"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:entities="clr-namespace:Projektledningsverktyg.Data.Entities"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="UnitsEnum" 
+                        MethodName="GetValues"
+                        ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="entities:Units"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
 
 
     <StackPanel Margin="0,30,0,0">
         <TextBlock Text="Ingredienser" 
-              FontSize="20" 
-              FontWeight="SemiBold" 
-              Margin="0,0,0,20"/>
+                    FontSize="20" 
+                    FontWeight="SemiBold" 
+                    Margin="0,0,0,20"/>
 
+        <!-- Main Ingredients Container -->
+        <Border Background="#F8F8F8" 
+                BorderBrush="#E0E0E0" 
+                BorderThickness="1" 
+                CornerRadius="4"
+                Margin="0,0,10,10">
+
+            <Grid>
+                <!-- Ingredients List -->
+                <ItemsControl ItemsSource="{Binding Ingredients}" Margin="0,0,0,10">
+                    <ItemsControl.Template>
+                        <ControlTemplate>
+                            <Grid>
+                                <TextBlock Text="Inga ingredienser tillagda" 
+                                          Foreground="#666666"
+                                          HorizontalAlignment="Center"
+                                          Margin="0,20">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Items.Count, 
+                                                           RelativeSource={RelativeSource 
+                                                           AncestorType=ItemsControl}}" 
+                                                           Value="0">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+
+                                <ItemsPresenter/>
+                            </Grid>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="White" 
+                                    BorderBrush="#E0E0E0" 
+                                    BorderThickness="1" 
+                                    CornerRadius="4"
+                                    Margin="10,10,10,0"
+                                    Padding="10">
+                                <Grid Margin="10,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="{Binding Amount}" Padding="0,5"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding Unit}" Padding="0,5"  Margin="-30,0,0,0"/>
+                                    <TextBlock Grid.Column="2" Text="{Binding Name}" Padding="0,5"  Margin="-40,0,0,0"/>
+
+                                    <Button Grid.Column="3" 
+                                        Content="✕"
+                                        Command="{Binding DataContext.RemoveIngredientCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                        CommandParameter="{Binding}"
+                                        Width="30"
+                                        Height="30"
+                                        Margin="10,0,0,0"
+                                        Background="#FF4444"
+                                        Foreground="White"/>
+
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+            
+        </Border>
+        
         <!-- Ingredients Grid Header -->
         <Grid Margin="0,0,0,10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>        <!-- Amount -->
-                <ColumnDefinition Width="1*"/>        <!-- Unit -->
-                <ColumnDefinition Width="3*"/>        <!-- Ingredient -->
-                <ColumnDefinition Width="Auto"/>      <!-- Remove button -->
+                <ColumnDefinition Width="1*"/>          <!-- Amount -->
+                <ColumnDefinition Width="1*"/>          <!-- Unit -->
+                <ColumnDefinition Width="3*"/>          <!-- Ingredient -->
+                <ColumnDefinition Width="Auto"/>        <!-- Remove button -->
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="Mängd" FontWeight="Medium"/>
@@ -37,98 +125,40 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Height="35" Margin="0,0,10,0" Padding="5,8,0,0"/>
-            <ComboBox Grid.Column="1" Height="35" Padding="5,8,0,0" Margin="0,0,10,0">
-                <ComboBoxItem Content="st"/>
-                <ComboBoxItem Content="g"/>
-                <ComboBoxItem Content="ml"/>
-                <ComboBoxItem Content="msk"/>
-                <ComboBoxItem Content="tsk"/>
-                <ComboBoxItem Content="dl"/>
-            </ComboBox>
-            <TextBox Grid.Column="2" Height="35" Padding="5,8,0,0" Margin="0,0,10,0"/>
-            
+            <StackPanel Grid.Column="0">
+                <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}" 
+                 Height="35" 
+                 Margin="0,0,10,0" 
+                 Padding="5,8,0,0"/>
+            </StackPanel>
+
+            <ComboBox Grid.Column="1" 
+              Height="35" 
+              Padding="5,8,0,0" 
+              Margin="0,0,10,0"
+              ItemsSource="{Binding Source={StaticResource UnitsEnum}}"
+              SelectedItem="{Binding Unit}"/>
+
+            <StackPanel Grid.Column="2">
+                <TextBox Text="{Binding IngredientName, UpdateSourceTrigger=PropertyChanged}" 
+                 Height="35" 
+                 Padding="5,8,0,0" 
+                 Margin="0,0,10,0"/>
+            </StackPanel>
+
             <!-- Add Ingredient Button -->
             <Button Grid.Column="3" Content="+ Lägg till ingrediens"
-                    Height="35"
-                    Padding="15,0"
-                    Background="#4CAF50"
-                    Foreground="White"/>
+            Command="{Binding AddIngredientCommand}"
+            Height="35"
+            Padding="15,0"
+            Background="#4CAF50"
+            Foreground="White"/>
         </Grid>
 
-        <!-- Main Ingredients Container -->
-        <Border Background="White" 
-                BorderBrush="#E0E0E0" 
-                BorderThickness="1" 
-                CornerRadius="4"
-                Margin="0,0,10,10">
-            <Grid>
-                <!-- Headers Row -->
-                <Grid Background="#F8F8F8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="Mängd" FontWeight="Medium" Padding="10,8"/>
-                    <TextBlock Grid.Column="1" Text="Enhet" FontWeight="Medium" Padding="0,8" Margin="-30,0,0,0"/>
-                    <TextBlock Grid.Column="2" Text="Ingrediens" FontWeight="Medium" Padding="10,8" Margin="-67,0,0,0"/>
-                </Grid>
-
-                <!-- Ingredients List -->
-                <ItemsControl Margin="0,40,0,0">
-                    <ItemsControl.Template>
-                        <ControlTemplate>
-                            <Grid>
-                                <TextBlock Text="Inga ingredienser tillagda" 
-                                            Foreground="#666666"
-                                            HorizontalAlignment="Center"
-                                            Margin="0,20">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Items.Count, 
-                                                   RelativeSource={RelativeSource 
-                                                   AncestorType=ItemsControl}}" 
-                                                   Value="0">
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                                <ItemsPresenter/>
-                            </Grid>
-                        </ControlTemplate>
-                    </ItemsControl.Template>
-
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="10,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="3*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock Text="{Binding Amount}" Padding="0,5"/>
-                                <TextBlock Grid.Column="1" Text="{Binding Unit}" Padding="0,5"/>
-                                <TextBlock Grid.Column="2" Text="{Binding Name}" Padding="0,5"/>
-                                <Button Grid.Column="3" 
-                                        Content="✕"
-                                        Width="30"
-                                        Height="30"
-                                        Margin="10,0,0,0"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
-        </Border>
-
+        <TextBlock Text="{Binding IngredientsValidationMessage}"
+                    Foreground="#FF4444"
+                    FontSize="12"
+                    Margin="5,2,0,0"/>
 
     </StackPanel>
 </UserControl>

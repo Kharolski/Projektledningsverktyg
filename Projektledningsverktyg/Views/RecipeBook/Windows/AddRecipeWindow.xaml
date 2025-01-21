@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Projektledningsverktyg.Views.RecipeBook.Windows"
         xmlns:components="clr-namespace:Projektledningsverktyg.Views.RecipeBook.Windows.Components"
         mc:Ignorable="d"
-        Title="AddRecipeWindow" Height="450" Width="800">
+        Title="AddRecipeWindow" Height="950" Width="800">
     
     
     <Grid Margin="20">
@@ -29,25 +29,27 @@
                           Height="1"/>
 
                 <components:RecipeInstructionsSection/>
-                <Separator Margin="0,30,0,10" 
-                          Background="#E0E0E0"
-                          Height="1"/>
 
             </StackPanel>
         </ScrollViewer>
 
         <StackPanel Grid.Row="2" Margin="0,0,0,10" 
                     Orientation="Horizontal" 
-                    HorizontalAlignment="Right">
+                    HorizontalAlignment="Center">
+
             <Button Content="Avbryt"
                     Height="30"
                     Width="100" 
-                    Margin="0,0,10,0"/>
+                    Margin="0,0,10,0"
+                    Click="CloseWindow"/>
+
             <Button Content="Spara" 
                     Height="30"
                     Width="100" 
                     Background="#4CAF50" 
-                    Foreground="White"/>
+                    Foreground="White"
+                    Command="{Binding SaveRecipeCommand}"/>
         </StackPanel>
+
     </Grid>
 </Window>

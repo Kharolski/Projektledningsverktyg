@@ -4,15 +4,139 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Projektledningsverktyg.Views.RecipeBook.Windows.Components"
+             xmlns:converters="clr-namespace:Projektledningsverktyg.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.Resources>
+        <converters:IsLastStepConverter x:Key="IsLastStepConverter"/>
+    </UserControl.Resources>
 
     <StackPanel Margin="0,20,0,0">
-        <TextBlock Text="Instruktioner" 
-              FontSize="18" 
-              FontWeight="SemiBold" 
-              Margin="0,0,0,15"/>
+
+        <StackPanel>
+            <Border Background="#F8F8F8" 
+                    BorderBrush="#E0E0E0" 
+                    BorderThickness="1" 
+                    CornerRadius="4"
+                    Margin="0,0,10,0">
+
+                <!-- Steps List -->
+                <ItemsControl Margin="10,10,10,10" ItemsSource="{Binding Instructions}">
+
+                    <ItemsControl.Template>
+                        <ControlTemplate>
+                            <Grid>
+                                <TextBlock Text="Inga steg för kokning tillagda" 
+                                         Foreground="#666666"
+                                         HorizontalAlignment="Center"
+                                         Margin="0,20">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Items.Count, 
+                                                       RelativeSource={RelativeSource 
+                                                       AncestorType=ItemsControl}}" 
+                                                       Value="0">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <ItemsPresenter/>
+                            </Grid>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="White" 
+                                BorderBrush="#E0E0E0" 
+                                BorderThickness="1" 
+                                CornerRadius="4"
+                                Margin="0,0,0,10"
+                                Padding="10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="{Binding StepNumber, StringFormat='{}{0}.'}" 
+                                                FontWeight="Bold" 
+                                                Margin="0,0,10,0"/>
+
+                                    <TextBlock Grid.Column="1" 
+                                                Text="{Binding Description}"
+                                                TextWrapping="Wrap"/>
+
+                                    <!-- Edit/Delete Button -->
+                                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                        <Button Width="30"
+                                            Height="30"
+                                            Margin="0,0,5,0">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Content" Value="✎"/>
+                                                    <Setter Property="Background" Value="#FFD700"/>
+                                                    <Setter Property="Command" Value="{Binding DataContext.EditInstructionCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
+                                                    <Setter Property="CommandParameter" Value="{Binding}"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Value="True">
+                                                            <DataTrigger.Binding>
+                                                                <MultiBinding Converter="{StaticResource IsLastStepConverter}">
+                                                                    <Binding Path="StepNumber"/>
+                                                                    <Binding Path="DataContext.Instructions.Count" RelativeSource="{RelativeSource AncestorType=ItemsControl}"/>
+                                                                </MultiBinding>
+                                                            </DataTrigger.Binding>
+                                                            <Setter Property="Content" Value="✕"/>
+                                                            <Setter Property="Background" Value="#FF4444"/>
+                                                            <Setter Property="Foreground" Value="White"/>
+                                                            <Setter Property="Command" Value="{Binding DataContext.RemoveInstructionCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+
+                                        <Button Width="30"
+                                            Height="30"
+                                            Content="↺"
+                                            Background="#808080"
+                                            Foreground="White"
+                                            Command="{Binding DataContext.CancelEditCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            CommandParameter="{Binding}">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding DataContext.IsEditing, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </StackPanel>
+
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+
+            
+        </StackPanel>
+
+
+        <TextBlock Text="Instruktioner på tillagning" 
+          FontSize="18" 
+          FontWeight="SemiBold" 
+          Margin="0,10,0,15"/>
 
         <!-- Current Step Input -->
         <Grid Margin="0,0,0,10">
@@ -21,79 +145,46 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="1." 
-                  FontWeight="Bold" 
-                  Margin="0,0,10,0"/>
-            <TextBox Grid.Column="1" 
-                    MinHeight="60"
+            <TextBlock Text="{Binding NextStepNumber, StringFormat={}{0}.}" 
+                      FontWeight="Bold" 
+                      Margin="0,0,10,0"/>
+
+
+            <TextBox Grid.Column="1"
+                     x:Name="InstructionTextBox"
+                     Text="{Binding CurrentInstruction, UpdateSourceTrigger=PropertyChanged}"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     MinHeight="60"
                      Margin="0,0,10,0"
-                    TextWrapping="Wrap"
-                    AcceptsReturn="True"/>
+                     Padding="5"
+                     BorderBrush="#E0E0E0"
+                     BorderThickness="1"/>
         </Grid>
 
-        <!-- Add Step Button -->
-        <Button Content="+ Lägg till steg" 
-            HorizontalAlignment="Right"
-            Margin="0,0,10,20"
-            Padding="10,5"
-            Background="#4CAF50"
-            Foreground="White"/>
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Validation message -->
+            <TextBlock Grid.Column="0" Text="{Binding InstructionsValidationMessage}"
+                      Foreground="#FF4444"
+                      FontSize="12" HorizontalAlignment="Left"
+                      Margin="5,2,0,0"/>
+
+            <!-- Add Step Button -->
+            <Button Grid.Column="1" Content="{Binding AddButtonText}"  
+                    Command="{Binding AddInstructionCommand}"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,10,20"
+                    Padding="10,5"
+                    Background="#4CAF50"
+                    Foreground="White"/>
+
+        </Grid>
 
         
-        
-        
-        <!-- Steps List -->
-        <ItemsControl>
-            <ItemsControl.Template>
-                <ControlTemplate>
-                    <Grid>
-                        <TextBlock Text="Inga steg för kokning tillagda" 
-                          Foreground="#666666"
-                          HorizontalAlignment="Center"
-                          Margin="0,20">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Items.Count, 
-                                           RelativeSource={RelativeSource 
-                                           AncestorType=ItemsControl}}" 
-                                           Value="0">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                        <ItemsPresenter/>
-                    </Grid>
-                </ControlTemplate>
-            </ItemsControl.Template>
-
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="{Binding StepNumber, StringFormat='{}{0}.'}" 
-                          FontWeight="Bold" 
-                          Margin="0,0,10,0"/>
-                        <TextBlock Grid.Column="1" 
-                          Text="{Binding Instructions}"
-                          TextWrapping="Wrap"/>
-                        <Button Grid.Column="2" 
-                        Content="✕" 
-                        Width="30"
-                        Height="30"
-                        Margin="10,0,0,0"/>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-
     </StackPanel>
-
 </UserControl>
