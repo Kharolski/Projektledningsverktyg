@@ -257,6 +257,7 @@
     </ApplicationDefinition>
     <Compile Include="Commands\AsyncRelayCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Converters\BoolToHeartConverter.cs" />
     <Compile Include="Converters\BoolToIntConverter.cs" />
     <Compile Include="Converters\BoolToIntConverterReverse.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />

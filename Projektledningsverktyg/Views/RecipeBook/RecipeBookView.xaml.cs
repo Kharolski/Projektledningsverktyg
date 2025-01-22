@@ -1,4 +1,5 @@
-﻿using Projektledningsverktyg.Views.RecipeBook.Windows;
+﻿using Projektledningsverktyg.ViewModels;
+using Projektledningsverktyg.Views.RecipeBook.Windows;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,6 +10,7 @@ namespace Projektledningsverktyg.Views.RecipeBook
         public RecipeBookView()
         {
             InitializeComponent();
+            DataContext = new RecipeBookViewModel();
         }
 
         private void OpenAddRecipeWindow(object sender, RoutedEventArgs e)

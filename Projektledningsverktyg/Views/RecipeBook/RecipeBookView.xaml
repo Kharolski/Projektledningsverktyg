@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Projektledningsverktyg.Views.RecipeBook"
       xmlns:components="clr-namespace:Projektledningsverktyg.Views.RecipeBook.Components"
+      xmlns:entities="clr-namespace:Projektledningsverktyg.Data.Entities"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="RecipeBookView">
@@ -12,7 +13,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>    <!-- Side Panel -->
-            <ColumnDefinition Width="*"/>      <!-- Main Content -->
+            <ColumnDefinition Width="800"/>      <!-- Main Content -->
         </Grid.ColumnDefinitions>
 
         <!-- Left Side Panel -->
@@ -82,19 +83,23 @@
                         Click="OpenAddRecipeWindow"/>
             </StackPanel>
 
-            <!-- Recipe Cards Grid -->
-            <ItemsControl Grid.Row="1">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
 
-                <components:RecipeCard/>
-                <components:RecipeCard/>
-                <components:RecipeCard/>
-                <components:RecipeCard/>
-            </ItemsControl>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <!-- Recipe Cards Grid -->
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding FilteredRecipes}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <components:RecipeCard Recipe="{Binding}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
 
         </Grid>
     </Grid>

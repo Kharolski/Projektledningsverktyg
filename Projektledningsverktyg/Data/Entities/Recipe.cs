@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Projektledningsverktyg.Data.Entities
 {
@@ -25,6 +26,7 @@ namespace Projektledningsverktyg.Data.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }  // Information om receptet
         public MealTypes MealType { get; set; }
         public MainIngredients MainIngredient { get; set; }
         public int CookingTime { get; set; }
@@ -32,11 +34,14 @@ namespace Projektledningsverktyg.Data.Entities
         public List<Ingredient> Ingredients { get; set; }
         public List<Instruction> Instructions { get; set; }
         public string ImagePath { get; set; }
+        public bool IsFavorite { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         public Recipe()
         {
             Ingredients = new List<Ingredient>();
             Instructions = new List<Instruction>();
+            CreatedDate = DateTime.Now;
         }
     }
 }
