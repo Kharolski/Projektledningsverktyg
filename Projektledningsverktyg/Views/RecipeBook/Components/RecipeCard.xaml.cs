@@ -1,10 +1,7 @@
-﻿using Projektledningsverktyg.Commands;
-using Projektledningsverktyg.Converters;
-using Projektledningsverktyg.Data.Context;
+﻿using Projektledningsverktyg.Data.Context;
 using Projektledningsverktyg.Data.Entities;
 using Projektledningsverktyg.ViewModels;
 using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,6 +12,8 @@ namespace Projektledningsverktyg.Views.RecipeBook.Components
     public partial class RecipeCard : UserControl
     {
         private readonly ApplicationDbContext _context;
+        public event Action RecipeFavoriteChanged;
+        public event Action RecipeDeleted;
 
         public RecipeCard()
         {
@@ -33,22 +32,45 @@ namespace Projektledningsverktyg.Views.RecipeBook.Components
 
         private void FavoriteButton_Click(object sender, RoutedEventArgs e)
         {
-            Recipe.IsFavorite = !Recipe.IsFavorite;
-
-            var dbRecipe = _context.Recipes.Find(Recipe.Id);
-            dbRecipe.IsFavorite = Recipe.IsFavorite;
-            _context.SaveChanges();
-
-            // Find RecipeBookView in visual tree
+            var recipe = (Recipe)DataContext;
             var parent = VisualTreeHelper.GetParent(this);
             while (parent != null && !(parent is RecipeBookView))
             {
                 parent = VisualTreeHelper.GetParent(parent);
             }
 
-            var recipeBookViewModel = (parent as RecipeBookView).DataContext as RecipeBookViewModel;
-            recipeBookViewModel.LoadRecipes();
+            var recipeBookVM = ((RecipeBookView)parent).DataContext as RecipeBookViewModel;
+            recipeBookVM?.ToggleFavorite(recipe.Id);
         }
+
+        private void Card_Click(object sender, MouseButtonEventArgs e)
+        {
+            var parent = VisualTreeHelper.GetParent(this);
+            while (parent != null && !(parent is RecipeBookView))
+            {
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+            var recipeBookVM = ((RecipeBookView)parent).DataContext as RecipeBookViewModel;
+
+            var detailsView = new RecipeDetailsView(recipeBookVM);
+
+            detailsView.RecipeDeleted += () => recipeBookVM?.LoadRecipes();
+            detailsView.RecipeFavoriteChanged += () => recipeBookVM?.LoadRecipes();
+
+            detailsView.LoadRecipe(Recipe);
+
+            var window = new Window
+            {
+                Content = detailsView,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                Width = 550,
+                SizeToContent = SizeToContent.Height,
+                Title = Recipe.Name
+            };
+
+            window.ShowDialog();
+        }
+
 
     }
 }

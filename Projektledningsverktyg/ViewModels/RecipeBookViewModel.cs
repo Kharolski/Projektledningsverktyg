@@ -105,7 +105,16 @@ namespace Projektledningsverktyg.ViewModels
 
             _recipes = new ObservableCollection<Recipe>(recipes);
             FilteredRecipes = new ObservableCollection<Recipe>(_recipes);
+            OnPropertyChanged(nameof(FilteredRecipes));
         }
+
+        public void RefreshRecipes()
+        {
+            _context.Recipes.Load();
+            LoadRecipes();
+            OnPropertyChanged(nameof(FilteredRecipes));
+        }
+
 
 
         #endregion
@@ -153,6 +162,32 @@ namespace Projektledningsverktyg.ViewModels
             LoadRecipes();
             Debug.WriteLine("Lists refreshed");
         }
+        #endregion
+
+        #region Favorit Toogle
+
+        public Recipe ToggleFavorite(int recipeId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var recipe = context.Recipes.Find(recipeId);
+                recipe.IsFavorite = !recipe.IsFavorite;
+                context.SaveChanges();
+
+                // Get complete recipe data
+                var updatedRecipe = context.Recipes.Find(recipeId);
+                updatedRecipe.Ingredients = context.Ingredients
+                    .Where(i => i.RecipeId == recipeId)
+                    .ToList();
+                updatedRecipe.Instructions = context.Instructions
+                    .Where(i => i.RecipeId == recipeId)
+                    .ToList();
+
+                LoadRecipes();
+                return updatedRecipe;
+            }
+        }
+
         #endregion
     }
 }

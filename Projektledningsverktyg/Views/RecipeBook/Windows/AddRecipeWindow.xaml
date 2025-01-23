@@ -24,12 +24,7 @@
             <StackPanel>
                 <components:RecipeBasicInfoSection/>
                 <components:RecipeIngredientsSection/>
-                <Separator Margin="0,30,0,10" 
-                          Background="#E0E0E0"
-                          Height="1"/>
-
                 <components:RecipeInstructionsSection/>
-
             </StackPanel>
         </ScrollViewer>
 

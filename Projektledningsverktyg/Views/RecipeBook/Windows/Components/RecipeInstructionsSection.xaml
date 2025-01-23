@@ -12,7 +12,12 @@
         <converters:IsLastStepConverter x:Key="IsLastStepConverter"/>
     </UserControl.Resources>
 
-    <StackPanel Margin="0,20,0,0">
+    <StackPanel>
+
+        <TextBlock Text="Instruktioner på tillagning" 
+                  FontSize="18" 
+                  FontWeight="SemiBold" 
+                  Margin="0,20,0,10"/>
 
         <StackPanel>
             <Border Background="#F8F8F8" 
@@ -129,17 +134,11 @@
                 </ItemsControl>
             </Border>
 
-            
+
         </StackPanel>
 
-
-        <TextBlock Text="Instruktioner på tillagning" 
-          FontSize="18" 
-          FontWeight="SemiBold" 
-          Margin="0,10,0,15"/>
-
         <!-- Current Step Input -->
-        <Grid Margin="0,0,0,10">
+        <Grid Margin="0,20,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>

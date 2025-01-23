@@ -29,10 +29,6 @@
 
 
     <StackPanel Margin="0,20,0,0">
-        <TextBlock Text="Grundinformation" 
-              FontSize="20" 
-              FontWeight="SemiBold" 
-              Margin="0,0,0,20"/>
 
         <Grid>
             <Grid.ColumnDefinitions>
@@ -183,6 +179,21 @@
 
                 </Grid>
             </StackPanel>
+        </Grid>
+        <Grid>
+            <StackPanel>
+                <TextBlock Text="Beskrivning" 
+                            FontSize="18" 
+                            FontWeight="SemiBold" 
+                            Margin="5,5,0,10"/>
+                <TextBox x:Name="DescriptionTextBox"
+                         Text="{Binding Description}"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         Height="100"
+                         Margin="0,0,10,0"/>
+            </StackPanel>
+            
         </Grid>
     </StackPanel>
 

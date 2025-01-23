@@ -15,8 +15,9 @@ namespace Projektledningsverktyg.Views.RecipeBook
 
         private void OpenAddRecipeWindow(object sender, RoutedEventArgs e)
         {
-            var addRecipeWindow = new AddRecipeWindow();
+            var addRecipeWindow = new AddRecipeWindow(DataContext as RecipeBookViewModel);
             addRecipeWindow.ShowDialog();
         }
+
     }
 }

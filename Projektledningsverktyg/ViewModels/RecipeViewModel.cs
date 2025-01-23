@@ -14,6 +14,9 @@ using System.Windows.Forms;
 using Application = System.Windows.Application;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
+using Projektledningsverktyg.Views.RecipeBook;
+using System.Windows.Media;
+using Projektledningsverktyg.Views.RecipeBook.Components;
 
 
 namespace Projektledningsverktyg.ViewModels
@@ -26,6 +29,8 @@ namespace Projektledningsverktyg.ViewModels
         private string _currentInstruction;
         private Instruction _selectedInstruction;
         private bool _isEditing;
+        public event Action RecipeAdded;
+        public object DataContext { get; set; }
 
         public string AddButtonText => IsEditing ? "Spara ändring" : "Lägg till";
 
@@ -106,6 +111,16 @@ namespace Projektledningsverktyg.ViewModels
             set
             {
                 _recipe.ImagePath = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Description
+        {
+            get => _recipe.Description;
+            set
+            {
+                _recipe.Description = value;
                 OnPropertyChanged();
             }
         }
@@ -316,6 +331,29 @@ namespace Projektledningsverktyg.ViewModels
             OnPropertyChanged(nameof(InstructionsValidationMessage));
         }
 
+        private void AddRecipe_Click(object sender, RoutedEventArgs e)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var recipeVM = new RecipeViewModel(context);
+                recipeVM.RecipeAdded += () =>
+                {
+                    var recipeBookVM = DataContext as RecipeBookViewModel;
+                    recipeBookVM?.LoadRecipes();
+                };
+
+                var window = new Window
+                {
+                    Content = new RecipeDetailsView { DataContext = recipeVM },
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    Width = 550,
+                    SizeToContent = SizeToContent.Height
+                };
+
+                window.ShowDialog();
+            }
+        }
+
         #endregion
 
         #region Remove
@@ -410,8 +448,15 @@ namespace Projektledningsverktyg.ViewModels
                         // Update recipe with image path
                         _context.SaveChanges();
                     }
+                    else
+                    {
+                        _recipe.ImagePath = Path.Combine("Images", "Recept", "recept.png");
+                        _context.SaveChanges();
+                    }
 
                     transaction.Commit();
+
+                    RecipeAdded?.Invoke();
 
                     // Close window after successful save
                     Application.Current.Windows.OfType<Window>()

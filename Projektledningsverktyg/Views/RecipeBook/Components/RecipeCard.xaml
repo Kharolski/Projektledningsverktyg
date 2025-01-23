@@ -14,7 +14,7 @@
         <converters:BoolToIntConverter x:Key="BoolToIntConverter"/>
     </UserControl.Resources>
 
-    <Border Width="200" 
+    <Border Width="200" MouseLeftButtonUp="Card_Click" Cursor="Hand"
             Height="250"
             Margin="10"
             BorderThickness="1"

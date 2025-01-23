@@ -345,6 +345,9 @@
     <Compile Include="Views\RecipeBook\Components\RecipeCard.xaml.cs">
       <DependentUpon>RecipeCard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RecipeBook\Components\RecipeDetailsView.xaml.cs">
+      <DependentUpon>RecipeDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RecipeBook\RecipeBookView.xaml.cs">
       <DependentUpon>RecipeBookView.xaml</DependentUpon>
     </Compile>
@@ -462,6 +465,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\RecipeBook\Components\RecipeDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\RecipeBook\RecipeBookView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -571,6 +578,15 @@
     <Resource Include="Images\Avatars\avatar_w1.jpg" />
     <Resource Include="Images\Avatars\avatar_w2.jpg" />
     <Resource Include="Images\Avatars\avatar_w3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Favorit\empty_heart.png" />
+    <Resource Include="Images\Favorit\heart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Recept\recept.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

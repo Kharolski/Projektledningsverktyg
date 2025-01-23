@@ -7,10 +7,12 @@ namespace Projektledningsverktyg.Views.RecipeBook.Windows
     public partial class AddRecipeWindow : Window
     {
         private readonly RecipeViewModel _viewModel;
-        public AddRecipeWindow()
+        
+        public AddRecipeWindow(RecipeBookViewModel recipeBookVM)
         {
             InitializeComponent();
             _viewModel = new RecipeViewModel(new ApplicationDbContext());
+            _viewModel.RecipeAdded += () => recipeBookVM.RefreshRecipes();
             DataContext = _viewModel;
         }
 
@@ -18,6 +20,7 @@ namespace Projektledningsverktyg.Views.RecipeBook.Windows
         {
             Window.GetWindow(this).Close();
         }
+
 
     }
 }

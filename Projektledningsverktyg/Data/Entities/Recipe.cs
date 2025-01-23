@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Projektledningsverktyg.Data.Entities
 {
@@ -22,7 +23,7 @@ namespace Projektledningsverktyg.Data.Entities
         Vegansk
     }
 
-    public class Recipe
+    public class Recipe : INotifyPropertyChanged
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -34,7 +35,16 @@ namespace Projektledningsverktyg.Data.Entities
         public List<Ingredient> Ingredients { get; set; }
         public List<Instruction> Instructions { get; set; }
         public string ImagePath { get; set; }
-        public bool IsFavorite { get; set; }
+        private bool _isFavorite;
+        public bool IsFavorite
+        {
+            get => _isFavorite;
+            set
+            {
+                _isFavorite = value;
+                OnPropertyChanged(nameof(IsFavorite));
+            }
+        }
         public DateTime CreatedDate { get; set; }
 
         public Recipe()
@@ -42,6 +52,12 @@ namespace Projektledningsverktyg.Data.Entities
             Ingredients = new List<Ingredient>();
             Instructions = new List<Instruction>();
             CreatedDate = DateTime.Now;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
