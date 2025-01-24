@@ -1,22 +1,18 @@
 ﻿using Projektledningsverktyg.Commands;
 using Projektledningsverktyg.Data.Context;
 using Projektledningsverktyg.Data.Entities;
-using System.Collections.Generic;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
-using System.Collections;
 using System.Windows;
 using System.Windows.Forms;
 
 using Application = System.Windows.Application;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
-using Projektledningsverktyg.Views.RecipeBook;
-using System.Windows.Media;
 using Projektledningsverktyg.Views.RecipeBook.Components;
+using Projektledningsverktyg.Views.RecipeBook.Windows;
 
 
 namespace Projektledningsverktyg.ViewModels
@@ -28,11 +24,16 @@ namespace Projektledningsverktyg.ViewModels
         private readonly Ingredient _ingredient;
         private string _currentInstruction;
         private Instruction _selectedInstruction;
-        private bool _isEditing;
+        private bool _isEditing;        // For editing instructions
+        private bool _isEditMode;       // For editing recipe
         public event Action RecipeAdded;
         public object DataContext { get; set; }
 
-        public string AddButtonText => IsEditing ? "Spara ändring" : "Lägg till";
+        public string AddButtonText => IsEditing ? "Spara ändring" : "Lägg till";               // For editing instructions
+        public string WindowTitle => IsEditMode ? "Redigera Recept" : "Lägg till Recept";       // For editing recipe
+        public string SaveButtonText => IsEditMode ? "Spara ändringar" : "Spara recept";        // For editing recipe
+        public Recipe CurrentRecipe => _recipe;
+
 
         private void InitializeCommands()
         {
@@ -48,11 +49,26 @@ namespace Projektledningsverktyg.ViewModels
             CancelEditCommand = new RelayCommand<Instruction>(ExecuteCancelEdit);
 
             SaveRecipeCommand = new RelayCommand(ExecuteSaveRecipe);
+            EditRecipeCommand = new RelayCommand<Recipe>(ExecuteEditRecipe);
 
         }
 
         #region Properties
 
+        // For editing recipe
+        public bool IsEditMode
+        {
+            get => _isEditMode;
+            set
+            {
+                _isEditMode = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(WindowTitle));
+                OnPropertyChanged(nameof(SaveButtonText));
+            }
+        }
+
+        // Recipe properties
         public string Name
         {
             get => _recipe.Name;
@@ -211,7 +227,8 @@ namespace Projektledningsverktyg.ViewModels
 
         // Save recipe
         public ICommand SaveRecipeCommand { get; private set; }
-
+        // Update recipe
+        public ICommand EditRecipeCommand { get; private set; }
 
         #endregion
 
@@ -230,6 +247,27 @@ namespace Projektledningsverktyg.ViewModels
 
 
             InitializeCommands();
+        }
+
+
+        #endregion
+
+        #region Load
+        public void LoadRecipeForEdit(Recipe recipe)
+        {
+            _recipe = recipe;
+            Ingredients = new ObservableCollection<Ingredient>(recipe.Ingredients);
+            Instructions = new ObservableCollection<Instruction>(recipe.Instructions);
+            IsEditMode = true;  // Set edit mode for recipe
+
+            // Notify all properties
+            OnPropertyChanged(nameof(Name));
+            OnPropertyChanged(nameof(Description));
+            OnPropertyChanged(nameof(CookingTime));
+            OnPropertyChanged(nameof(Servings));
+            OnPropertyChanged(nameof(MealType));
+            OnPropertyChanged(nameof(MainIngredient));
+            OnPropertyChanged(nameof(ImagePath));
         }
 
 
@@ -255,30 +293,36 @@ namespace Projektledningsverktyg.ViewModels
 
         private string SaveImage(string sourcePath)
         {
-            // Check and create Images folder if needed
+            // Base folders setup
             string imagesFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images");
-            if (!Directory.Exists(imagesFolder))
-            {
-                Directory.CreateDirectory(imagesFolder);
-            }
-
-            // Check and create Recept folder if needed
             string recipeImagesFolder = Path.Combine(imagesFolder, "Recept");
-            if (!Directory.Exists(recipeImagesFolder))
-            {
-                Directory.CreateDirectory(recipeImagesFolder);
-            }
-
-            // Create specific recipe folder using ID
             string recipeFolder = Path.Combine(recipeImagesFolder, _recipe.Id.ToString());
+
+            // Create necessary directories
+            Directory.CreateDirectory(imagesFolder);
+            Directory.CreateDirectory(recipeImagesFolder);
             Directory.CreateDirectory(recipeFolder);
 
+            // Delete all existing images in recipe folder
+            foreach (string file in Directory.GetFiles(recipeFolder, "image.*"))
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                File.Delete(file);
+            }
+
+            // Handle only the image file
             string fileName = $"image{Path.GetExtension(sourcePath)}";
             string destinationPath = Path.Combine(recipeFolder, fileName);
 
-            File.Copy(sourcePath, destinationPath);
+            // Save new image using FileStream
+            using (FileStream sourceStream = new FileStream(sourcePath, FileMode.Open, FileAccess.Read))
+            using (FileStream destStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write))
+            {
+                sourceStream.CopyTo(destStream);
+            }
 
-            // Return relative path 
+            // Return relative path for database
             return Path.Combine("Images", "Recept", _recipe.Id.ToString(), fileName);
         }
 
@@ -427,54 +471,126 @@ namespace Projektledningsverktyg.ViewModels
                 return;
             }
 
-            _recipe.Ingredients = Ingredients.ToList();
-            _recipe.Instructions = Instructions.ToList();
+            if (IsEditMode)
+            {
+                UpdateRecipe();
+            }
+            else
+            {
+                _recipe.Ingredients = Ingredients.ToList();
+                _recipe.Instructions = Instructions.ToList();
 
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    string imageFolder = null;
+                    try
+                    {
+                        // First save racipe to get id
+                        _context.Recipes.Add(_recipe);
+                        _context.SaveChanges();
+
+                        // Now save image with correct ID if one is selected
+                        if (!string.IsNullOrEmpty(ImagePath))
+                        {
+                            _recipe.ImagePath = SaveImage(ImagePath);
+                            imageFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "Recept", _recipe.Id.ToString());
+
+                            // Update recipe with image path
+                            _context.SaveChanges();
+                        }
+                        else
+                        {
+                            _recipe.ImagePath = Path.Combine("Images", "Recept", "recept.png");
+                            _context.SaveChanges();
+                        }
+
+                        transaction.Commit();
+
+                        RecipeAdded?.Invoke();
+
+                        // Close window after successful save
+                        Application.Current.Windows.OfType<Window>()
+                            .FirstOrDefault(w => w.IsActive)?.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+
+                        // Clean up created image folder if save failed
+                        if (imageFolder != null && Directory.Exists(imageFolder))
+                        {
+                            Directory.Delete(imageFolder, true);
+                        }
+
+                        System.Windows.MessageBox.Show($"Kunde inte spara receptet: {ex.InnerException?.Message ?? ex.Message}");
+                    }
+                }
+            }
+ 
+        }
+
+        #endregion
+
+        #region Update
+
+        private void UpdateRecipe()
+        {
             using (var transaction = _context.Database.BeginTransaction())
             {
-                string imageFolder = null;
                 try
                 {
-                    // First save racipe to get id
-                    _context.Recipes.Add(_recipe);
-                    _context.SaveChanges();
+                    var existingRecipe = _context.Recipes.Find(_recipe.Id);
+                    string currentImagePath = existingRecipe.ImagePath;  // Save current image path
 
-                    // Now save image with correct ID if one is selected
+                    // Update recipe data
+                    _recipe.Ingredients = Ingredients.ToList();
+                    _recipe.Instructions = Instructions.ToList();
+
+                    if (existingRecipe != null)
+                    {
+                        _context.Entry(existingRecipe).CurrentValues.SetValues(_recipe);
+
+                        // Restore current image path if no new image selected
+                        if (string.IsNullOrEmpty(ImagePath))
+                        {
+                            existingRecipe.ImagePath = currentImagePath;
+                        }
+                        _context.SaveChanges();
+                    }
+
+                    // Handle new image only if selected
                     if (!string.IsNullOrEmpty(ImagePath))
                     {
                         _recipe.ImagePath = SaveImage(ImagePath);
-                        imageFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "Recept", _recipe.Id.ToString());
-
-                        // Update recipe with image path
-                        _context.SaveChanges();
-                    }
-                    else
-                    {
-                        _recipe.ImagePath = Path.Combine("Images", "Recept", "recept.png");
                         _context.SaveChanges();
                     }
 
                     transaction.Commit();
-
                     RecipeAdded?.Invoke();
 
-                    // Close window after successful save
                     Application.Current.Windows.OfType<Window>()
                         .FirstOrDefault(w => w.IsActive)?.Close();
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-
-                    // Clean up created image folder if save failed
-                    if (imageFolder != null && Directory.Exists(imageFolder))
-                    {
-                        Directory.Delete(imageFolder, true);
-                    }
-
-                    System.Windows.MessageBox.Show($"Kunde inte spara receptet: {ex.InnerException?.Message ?? ex.Message}");
+                    System.Windows.MessageBox.Show($"Kunde inte uppdatera receptet: {ex.InnerException?.Message ?? ex.Message}");
                 }
             }
+        }
+
+
+        private void ExecuteEditRecipe(Recipe recipe)
+        {
+            // Close details window
+            Application.Current.Windows.OfType<Window>()
+                .FirstOrDefault(w => w.IsActive)?.Close();
+
+            // Open edit window
+            var mainWindow = Application.Current.MainWindow;
+            var recipeBookVM = mainWindow.DataContext as RecipeBookViewModel;
+            var addRecipeWindow = new AddRecipeWindow(recipeBookVM, recipe);
+            addRecipeWindow.ShowDialog();
         }
 
         #endregion

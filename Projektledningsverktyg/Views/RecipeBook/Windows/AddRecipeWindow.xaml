@@ -16,7 +16,7 @@
             <RowDefinition Height="Auto"/>      <!-- Buttons -->
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Lägg till nytt recept" 
+        <TextBlock Text="{Binding WindowTitle}"
                   FontSize="24" 
                   FontWeight="Bold"/>
 
@@ -38,7 +38,7 @@
                     Margin="0,0,10,0"
                     Click="CloseWindow"/>
 
-            <Button Content="Spara" 
+            <Button Content="{Binding SaveButtonText}" 
                     Height="30"
                     Width="100" 
                     Background="#4CAF50" 

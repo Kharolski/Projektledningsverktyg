@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace Projektledningsverktyg.Data.Entities
 {
@@ -34,7 +37,36 @@ namespace Projektledningsverktyg.Data.Entities
         public int Servings { get; set; }
         public List<Ingredient> Ingredients { get; set; }
         public List<Instruction> Instructions { get; set; }
-        public string ImagePath { get; set; }
+
+        // Load ImagePath and caches the image in memory
+        private string _imagePath;
+        [NotMapped]
+        public BitmapImage Image { get; private set; }
+        public string ImagePath
+        {
+            get => _imagePath;
+            set
+            {
+                _imagePath = value;
+                Image = LoadImage(_imagePath);
+            }
+        }
+        private BitmapImage LoadImage(string path)
+        {
+            if (string.IsNullOrEmpty(path) || !File.Exists(path))
+                return null;
+
+            var bitmap = new BitmapImage();
+            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad; // Gör att filen frikopplas direkt
+                bitmap.StreamSource = new MemoryStream(File.ReadAllBytes(path)); // Läser in bilden i minnet
+                bitmap.EndInit();
+            }
+            return bitmap;
+        }
+
         private bool _isFavorite;
         public bool IsFavorite
         {

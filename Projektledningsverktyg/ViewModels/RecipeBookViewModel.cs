@@ -9,6 +9,9 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System;
 using System.IO;
+using Projektledningsverktyg.Views.RecipeBook.Windows;
+using System.Windows;
+using Projektledningsverktyg.Views.RecipeBook.Components;
 
 namespace Projektledningsverktyg.ViewModels
 {
@@ -49,6 +52,9 @@ namespace Projektledningsverktyg.ViewModels
         // Recipe List
         public ICommand ToggleFavoriteCommand { get; private set; }
 
+        // Edit Recipe
+        public ICommand EditRecipeCommand { get; private set; }
+
 
         #endregion
 
@@ -65,7 +71,10 @@ namespace Projektledningsverktyg.ViewModels
             ShowRecentCommand = new RelayCommand(ShowRecent);
 
             // Recipe List
-            ToggleFavoriteCommand = new RelayCommand<Recipe>(ToggleFavorite);
+            ToggleFavoriteCommand = new RelayCommand<Recipe>(r => ToggleFavorite(r.Id));
+
+            // Edit Recipe
+            EditRecipeCommand = new RelayCommand<Recipe>(ExecuteEditRecipe);
 
         }
 
@@ -115,6 +124,17 @@ namespace Projektledningsverktyg.ViewModels
             OnPropertyChanged(nameof(FilteredRecipes));
         }
 
+        // Show recipe details after canceling edit
+        public void ShowRecipeDetails(Recipe recipe)
+        {
+            var detailsWindow = new Window
+            {
+                Content = new RecipeDetailsView { DataContext = recipe },
+                SizeToContent = SizeToContent.WidthAndHeight,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen
+            };
+            detailsWindow.ShowDialog();
+        }
 
 
         #endregion
@@ -143,29 +163,7 @@ namespace Projektledningsverktyg.ViewModels
 
         #endregion
 
-        #region Recipe List
-        private void ToggleFavorite(Recipe recipe)
-        {
-            Debug.WriteLine($"Toggling favorite for recipe: {recipe.Name}");
-            Debug.WriteLine($"Current favorite status: {recipe.IsFavorite}");
-
-            // Toggle the favorite status
-            recipe.IsFavorite = !recipe.IsFavorite;
-            Debug.WriteLine($"New favorite status: {recipe.IsFavorite}");
-
-            // Update in database
-            var dbRecipe = _context.Recipes.Find(recipe.Id);
-            dbRecipe.IsFavorite = recipe.IsFavorite;
-            _context.SaveChanges();
-
-            // Refresh lists
-            LoadRecipes();
-            Debug.WriteLine("Lists refreshed");
-        }
-        #endregion
-
         #region Favorit Toogle
-
         public Recipe ToggleFavorite(int recipeId)
         {
             using (var context = new ApplicationDbContext())
@@ -188,6 +186,22 @@ namespace Projektledningsverktyg.ViewModels
             }
         }
 
+        #endregion
+
+        #region Edit
+        private void ExecuteEditRecipe(Recipe recipe)
+        {
+            var mainWindow = Application.Current.MainWindow;
+            var recipeBookVM = mainWindow.DataContext as RecipeBookViewModel;
+
+            // Close details window
+            Application.Current.Windows.OfType<Window>()
+                .FirstOrDefault(w => w.IsActive)?.Close();
+
+            // Open edit window with correct ViewModel
+            var addRecipeWindow = new AddRecipeWindow(recipeBookVM, recipe);
+            addRecipeWindow.ShowDialog();
+        }
         #endregion
     }
 }

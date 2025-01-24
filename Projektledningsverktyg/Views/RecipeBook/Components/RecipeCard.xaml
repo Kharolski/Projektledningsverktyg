@@ -30,7 +30,7 @@
 
             <!-- Recipe Image Area -->
             <Grid Grid.Row="0">
-                <Image Source="{Binding ImagePath}" Stretch="UniformToFill"/>
+                <Image Source="{Binding Image}" Stretch="UniformToFill"/>
                 <Rectangle>
                     <Rectangle.Fill>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
