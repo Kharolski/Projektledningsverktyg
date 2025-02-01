@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Projektledningsverktyg.Data.Context;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Windows.Media.Imaging;
+using System.Linq;
 
 namespace Projektledningsverktyg.Data.Entities
 {
@@ -84,6 +86,23 @@ namespace Projektledningsverktyg.Data.Entities
             Ingredients = new List<Ingredient>();
             Instructions = new List<Instruction>();
             CreatedDate = DateTime.Now;
+        }
+
+        public bool IsInMealPlan
+        {
+            get
+            {
+                var today = DateTime.Today;
+                var weekFromNow = today.AddDays(7);
+
+                using (var context = new ApplicationDbContext())
+                {
+                    return context.Meals.Any(m =>
+                        m.Name == this.Name &&
+                        m.Date >= today &&
+                        m.Date <= weekFromNow);
+                }
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

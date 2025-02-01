@@ -10,12 +10,10 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
-        <converters:BoolToHeartConverter x:Key="BoolToHeartConverter"/>
         <converters:BoolToIntConverter x:Key="BoolToIntConverter"/>
     </UserControl.Resources>
 
     <Border Width="200" MouseLeftButtonUp="Card_Click" Cursor="Hand"
-            Height="250"
             Margin="10"
             BorderThickness="1"
             BorderBrush="#DDDDDD"
@@ -57,8 +55,8 @@
                 <StackPanel Grid.Row="1" 
                             Orientation="Horizontal"
                             Margin="0,5">
-                                    <TextBlock Text="{Binding CookingTime, StringFormat='⏱️ {0} min'}"/>
-                                    <TextBlock Text="{Binding Servings, StringFormat='👥 {0} port'}" 
+                    <TextBlock Text="{Binding CookingTime, StringFormat='⏱️ {0} min'}"/>
+                    <TextBlock Text="{Binding Servings, StringFormat='👥 {0} port'}" 
                                 Margin="15,0"/>
                 </StackPanel>
 
@@ -66,21 +64,59 @@
                         Background="#E6E6FA"
                         CornerRadius="4"
                         HorizontalAlignment="Left"
-                        Padding="8,4">
+                        Padding="8,4" Height="27">
                     <TextBlock Text="{Binding MealType}" 
                                 FontSize="12"/>
                 </Border>
+
+                <Button Grid.Row="2" Width="30" Height="30"
+                        Click="MealPlanButton_Click" HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom">
+                        
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Image>
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Source" Value="/Images/Recept/red_apple.png"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsInMealPlan}" Value="True">
+                                                <Setter Property="Source" Value="/Images/Recept/green_apple.png"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
             </Grid>
-
-            <!-- Favorite Button -->
-            <Button Width="32" 
-                    Height="32"
-                    Content="{Binding IsFavorite, Converter={StaticResource BoolToHeartConverter}}"
+            <!-- Right side: Heart -->
+            <Button Grid.Row="0" Width="30" 
+                    Height="30"
+                    Margin="0,10,10,0"
                     Click="FavoriteButton_Click"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Margin="0,10,10,0"/>
-
+                    HorizontalAlignment="Right" VerticalAlignment="Top">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Image>
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsFavorite}" Value="True">
+                                            <Setter Property="Source" Value="/Images/Favorit/heart.png"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsFavorite}" Value="False">
+                                            <Setter Property="Source" Value="/Images/Favorit/empty_heart.png"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </Grid>
     </Border>
 </UserControl>

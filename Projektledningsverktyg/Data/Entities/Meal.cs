@@ -32,15 +32,18 @@ namespace Projektledningsverktyg.Data.Entities
     public enum MealType
     {
         [Display(Name = "Frukost")]
-        Breakfast,
+        Frukost,
 
         [Display(Name = "Lunch")]
         Lunch,
 
         [Display(Name = "Middag")]
-        Dinner,
+        Middag,
+
+        [Display(Name = "Efterrätt")]
+        Efterrätt,
 
         [Display(Name = "Mellanmål")]
-        Snack
+        Mellanmål
     }
 }

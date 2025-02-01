@@ -4,9 +4,89 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Projektledningsverktyg.Views.RecipeBook.Components"
+             xmlns:viewModels="clr-namespace:Projektledningsverktyg.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.Resources>
+        <!-- Base Navigation Button Style -->
+        <Style x:Key="NavigationButton" TargetType="Button">
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="10,5"/>
+            <Setter Property="Background" Value="White"/>        <!-- Standard bakgrund -->
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#BBBBBB"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Left" 
+                                      VerticalAlignment="Center"
+                                      Margin="10,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!-- HOVER-EFFEKT -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#5db27c"/>
+                            </Trigger>
+                            <!-- KLICK-EFFEKT -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#5db27c"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- All Recipes Button -->
+        <Style x:Key="AllRecipesButton" TargetType="Button" BasedOn="{StaticResource NavigationButton}">
+            <Setter Property="Background" Value="#bde0ff"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsAllRecipesSelected}" Value="True">
+                    <Setter Property="Background" Value="#5db27c"/>
+                    <Setter Property="BorderBrush" Value="#3f8458"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </DataTrigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#5db27c"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Favorites Button -->
+        <Style x:Key="FavoritesButton" TargetType="Button" BasedOn="{StaticResource NavigationButton}">
+            <Setter Property="Background" Value="#FFE4E1"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsFavoritesSelected}" Value="True">
+                    <Setter Property="Background" Value="#5db27c"/>
+                    <Setter Property="BorderBrush" Value="#3f8458"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Recently Added Button -->
+        <Style x:Key="RecentlyAddedButton" TargetType="Button" BasedOn="{StaticResource NavigationButton}">
+            <Setter Property="Background" Value="#E0FFFF"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsRecentlyAddedSelected}" Value="True">
+                    <Setter Property="Background" Value="#5db27c"/>
+                    <Setter Property="BorderBrush" Value="#3f8458"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
     <StackPanel Background="#F5F5F5">
         <!-- Quick Access Section -->
         <TextBlock Text="Snabbval" 
@@ -15,21 +95,28 @@
               Margin="20,20,20,10"/>
 
         <StackPanel Margin="10">
-            <Button Command="{Binding ShowAllRecipesCommand}" Height="35" Margin="10,5" Background="#F0F8FF">
+            <!-- All Recipes Button -->
+            <Button Command="{Binding AllRecipesCommand}" 
+                Style="{StaticResource AllRecipesButton}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="📚" Margin="0,0,10,0"/>
                     <TextBlock Text="Alla Recept"/>
                 </StackPanel>
             </Button>
 
-            <Button Height="35" Margin="10,5" Background="#FFE4E1">
+
+            <!-- Favorites Button -->
+            <Button Command="{Binding FavoritesCommand}"
+                Style="{StaticResource FavoritesButton}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="❤️" Margin="0,0,10,0"/>
                     <TextBlock Text="Favoriter"/>
                 </StackPanel>
             </Button>
 
-            <Button Height="35" Margin="10,5" Background="#E0FFFF">
+            <!-- Recently Added Button -->
+            <Button Command="{Binding RecentlyAddedCommand}"
+                Style="{StaticResource RecentlyAddedButton}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="🕒" Margin="0,0,10,0"/>
                     <TextBlock Text="Senast Tillagda"/>
@@ -38,7 +125,7 @@
         </StackPanel>
 
         <!-- Categories Section -->
-        <Expander IsExpanded="True" Margin="0,15">
+        <Expander IsExpanded="False" Margin="0,15">
             <Expander.Style>
                 <Style TargetType="Expander">
                     <Setter Property="Template">
@@ -83,39 +170,155 @@
             
             <!-- Meal Types Dropdown -->
             <StackPanel Margin="10">
-                <Button Height="35" Margin="10,5" Background="#E6E6FA">
+
+                <!-- Frukost Button -->
+                <Button Command="{Binding FrukostCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource NavigationButton}">
+                            <Setter Property="Background" Value="#E6E6FA"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsFrukostSelected}" Value="True">
+                                    <Setter Property="BorderBrush" Value="#3f8458"/>
+                                    <Setter Property="BorderThickness" Value="2"/>
+                                    <Setter Property="Background" Value="#5db27c"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>        <!-- Expands to fill the remaining space -->
+                            <ColumnDefinition Width="Auto"/>     <!-- Adjusts width to fit the counter -->
+                        </Grid.ColumnDefinitions>
+
+                        <!-- "Frukost" text -->
+                        <TextBlock Text="Frukost" 
+                                  VerticalAlignment="Center" 
+                                  Grid.Column="0"  Width="160"/>
+
+                        <!-- Counter (FrukostCount) -->
+                        <Border  Grid.Column="1"
+                                Background="#FFFFFF" 
+                                CornerRadius="10" 
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding FrukostCount}" Padding="8,2"/>
+                        </Border>
+
+                    </Grid>
+                </Button>
+
+                <!-- Lunch Button -->
+                <Button Command="{Binding LunchCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource NavigationButton}">
+                            <Setter Property="Background" Value="#E6E6FA"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLunchSelected}" Value="True">
+                                    <Setter Property="BorderBrush" Value="#3f8458"/>
+                                    <Setter Property="BorderThickness" Value="2"/>
+                                    <Setter Property="Background" Value="#5db27c"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="Frukost" VerticalAlignment="Center"/>
+
+                        <!-- "Lunch" text -->
+                        <TextBlock Text="Lunch" 
+                                  VerticalAlignment="Center" 
+                                  Grid.Column="0"  Width="160"/>
+
+                        <!-- Counter (LunchCount) -->
+                        <Border  Grid.Column="1"
+                                Background="#FFFFFF" 
+                                CornerRadius="10" 
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding LunchCount}" Padding="8,2"/>
+                        </Border>
+
+                    </Grid>
+                </Button>
+
+                <!-- Middag Button -->
+                <Button Command="{Binding MiddagCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource NavigationButton}">
+                            <Setter Property="Background" Value="#E6E6FA"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMiddagSelected}" Value="True">
+                                    <Setter Property="BorderBrush" Value="#3f8458"/>
+                                    <Setter Property="BorderThickness" Value="2"/>
+                                    <Setter Property="Background" Value="#5db27c"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Middag" VerticalAlignment="Center"  Width="160"/>
                         <Border Grid.Column="1" Background="#FFFFFF" CornerRadius="10" Margin="10,0,0,0">
-                            <TextBlock Text="8" Padding="8,2"/>
+                            <TextBlock Text="{Binding MiddagCount}" Padding="8,2"/>
                         </Border>
                     </Grid>
                 </Button>
-                <Button Height="35" Margin="10,5" Background="#E6E6FA">
+
+                <!-- Efterrätt Button -->
+                <Button Command="{Binding EfterrättCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource NavigationButton}">
+                            <Setter Property="Background" Value="#E6E6FA"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsEfterrättSelected}" Value="True">
+                                    <Setter Property="BorderBrush" Value="#3f8458"/>
+                                    <Setter Property="BorderThickness" Value="2"/>
+                                    <Setter Property="Background" Value="#5db27c"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="Lunch" VerticalAlignment="Center"/>
+                        <TextBlock Text="Efterrätt" VerticalAlignment="Center" Width="160"/>
                         <Border Grid.Column="1" Background="#FFFFFF" CornerRadius="10" Margin="10,0,0,0">
-                            <TextBlock Text="12" Padding="8,2"/>
+                            <TextBlock Text="{Binding EfterrättCount}" Padding="8,2"/>
                         </Border>
                     </Grid>
                 </Button>
-                <Button Height="35" Margin="10,5" Background="#E6E6FA">
+
+                <!-- Mellanmål Button -->
+                <Button Command="{Binding MellanmålCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource NavigationButton}">
+                            <Setter Property="Background" Value="#E6E6FA"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMellanmålSelected}" Value="True">
+                                    <Setter Property="BorderBrush" Value="#3f8458"/>
+                                    <Setter Property="BorderThickness" Value="2"/>
+                                    <Setter Property="Background" Value="#5db27c"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="Middag" VerticalAlignment="Center"/>
+                        <TextBlock Text="Mellanmål" VerticalAlignment="Center" Width="160"/>
                         <Border Grid.Column="1" Background="#FFFFFF" CornerRadius="10" Margin="10,0,0,0">
-                            <TextBlock Text="15" Padding="8,2"/>
+                            <TextBlock Text="{Binding MellanmålCount}" Padding="8,2"/>
                         </Border>
                     </Grid>
                 </Button>
@@ -167,44 +370,166 @@
 
             <!-- Main Ingredients -->
             <StackPanel Margin="10">
-                <Button Height="35" Margin="10,5" Background="#FFE4E1">
+
+                <!-- Kyckling Button -->
+                <Button Command="{Binding KycklingCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource NavigationButton}">
+                            <Setter Property="Background" Value="#FFE4E1"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsKycklingSelected}" Value="True">
+                                    <Setter Property="BorderBrush" Value="#75d9c8"/>
+                                    <Setter Property="BorderThickness" Value="2"/>
+                                    <Setter Property="Background" Value="#3f8458"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="Kyckling" VerticalAlignment="Center"/>
-                        <Border Grid.Column="1" Background="#FFFFFF" CornerRadius="10" Margin="10,0,0,0">
-                            <TextBlock Text="11" Padding="8,2"/>
+                        <TextBlock Text="Kyckling" VerticalAlignment="Center" Width="160" HorizontalAlignment="Left"/>
+                        <Border Grid.Column="1" Background="#FFFFFF" CornerRadius="10" Margin="10,0,10,0">
+                            <TextBlock Text="{Binding KycklingCount}" Padding="8,2"/>
                         </Border>
                     </Grid>
                 </Button>
-                <Button Height="35" Margin="10,5" Background="#FFE4E1">
+
+                <!-- Kött Button -->
+                <Button Command="{Binding KöttCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource NavigationButton}">
+                            <Setter Property="Background" Value="#FFE4E1"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsKöttSelected}" Value="True">
+                                    <Setter Property="BorderBrush" Value="#75d9c8"/>
+                                    <Setter Property="BorderThickness" Value="2"/>
+                                    <Setter Property="Background" Value="#3f8458"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="Fisk" VerticalAlignment="Center"/>
-                        <Border Grid.Column="1" Background="#FFFFFF" CornerRadius="10" Margin="10,0,0,0">
-                            <TextBlock Text="16" Padding="8,2"/>
+                        <TextBlock Text="Kött" VerticalAlignment="Center" Width="160" HorizontalAlignment="Left"/>
+                        <Border Grid.Column="1" Background="#FFFFFF" CornerRadius="10" Margin="10,0,10,0">
+                            <TextBlock Text="{Binding KöttCount}" Padding="8,2"/>
                         </Border>
                     </Grid>
                 </Button>
-                <Button Height="35" Margin="10,5" Background="#FFE4E1">
+
+                <!-- Fisk Button -->
+                <Button Command="{Binding FiskCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource NavigationButton}">
+                            <Setter Property="Background" Value="#FFE4E1"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsFiskSelected}" Value="True">
+                                    <Setter Property="BorderBrush" Value="#75d9c8"/>
+                                    <Setter Property="BorderThickness" Value="2"/>
+                                    <Setter Property="Background" Value="#3f8458"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="Vegetariskt" VerticalAlignment="Center"/>
-                        <Border Grid.Column="1" Background="#FFFFFF" CornerRadius="10" Margin="10,0,0,0">
-                            <TextBlock Text="9" Padding="8,2"/>
+                        <TextBlock Text="Fisk" VerticalAlignment="Center" Width="160" HorizontalAlignment="Left"/>
+                        <Border Grid.Column="1" Background="#FFFFFF" CornerRadius="10" Margin="10,0,10,0">
+                            <TextBlock Text="{Binding FiskCount}" Padding="8,2"/>
                         </Border>
                     </Grid>
                 </Button>
+
+                <!-- Pasta Button -->
+                <Button Command="{Binding PastaCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource NavigationButton}">
+                            <Setter Property="Background" Value="#FFE4E1"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsPastaSelected}" Value="True">
+                                    <Setter Property="BorderBrush" Value="#75d9c8"/>
+                                    <Setter Property="BorderThickness" Value="2"/>
+                                    <Setter Property="Background" Value="#3f8458"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Pasta" VerticalAlignment="Center" Width="160" HorizontalAlignment="Left"/>
+                        <Border Grid.Column="1" Background="#FFFFFF" CornerRadius="10" Margin="10,0,10,0">
+                            <TextBlock Text="{Binding PastaCount}" Padding="8,2"/>
+                        </Border>
+                    </Grid>
+                </Button>
+
+                <!-- Vegetariskt Button -->
+                <Button Command="{Binding VegetarisktCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource NavigationButton}">
+                            <Setter Property="Background" Value="#FFE4E1"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsVegetarisktSelected}" Value="True">
+                                    <Setter Property="BorderBrush" Value="#75d9c8"/>
+                                    <Setter Property="BorderThickness" Value="2"/>
+                                    <Setter Property="Background" Value="#3f8458"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Vegetariskt" VerticalAlignment="Center" Width="160" HorizontalAlignment="Left"/>
+                        <Border Grid.Column="1" Background="#FFFFFF" CornerRadius="10" Margin="10,0,10,0">
+                            <TextBlock Text="{Binding VegetarisktCount}" Padding="8,2"/>
+                        </Border>
+                    </Grid>
+                </Button>
+
+                <!-- Vegansk Button -->
+                <Button Command="{Binding VeganskCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource NavigationButton}">
+                            <Setter Property="Background" Value="#FFE4E1"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsVeganskSelected}" Value="True">
+                                    <Setter Property="BorderBrush" Value="#75d9c8"/>
+                                    <Setter Property="BorderThickness" Value="2"/>
+                                    <Setter Property="Background" Value="#3f8458"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Vegansk" VerticalAlignment="Center" Width="160" HorizontalAlignment="Left"/>
+                        <Border Grid.Column="1" Background="#FFFFFF" CornerRadius="10" Margin="10,0,10,0">
+                            <TextBlock Text="{Binding VeganskCount}" Padding="8,2"/>
+                        </Border>
+                    </Grid>
+                </Button>
+
             </StackPanel>
         </Expander>
 
     </StackPanel>
+    </ScrollViewer>
 </UserControl>

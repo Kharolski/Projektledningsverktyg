@@ -257,7 +257,6 @@
     </ApplicationDefinition>
     <Compile Include="Commands\AsyncRelayCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Converters\BoolToHeartConverter.cs" />
     <Compile Include="Converters\BoolToIntConverter.cs" />
     <Compile Include="Converters\BoolToIntConverterReverse.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
@@ -295,6 +294,8 @@
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\ListMealsSectionViewModel.cs" />
     <Compile Include="ViewModels\MembersViewModel.cs" />
+    <Compile Include="ViewModels\NavigationType.cs" />
+    <Compile Include="ViewModels\RecipeBookSidePanelViewModel.cs" />
     <Compile Include="ViewModels\RecipeBookViewModel.cs" />
     <Compile Include="ViewModels\RecipeViewModel.cs" />
     <Compile Include="ViewModels\TaskViewModel.cs" />
@@ -584,6 +585,12 @@
     <Resource Include="Images\Favorit\heart.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\Recept\red_apple.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Recept\green_apple.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Images\Recept\recept.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

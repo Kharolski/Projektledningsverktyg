@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:Projektledningsverktyg.Views.RecipeBook.Components"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="500">
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>         <!-- Image -->
@@ -67,7 +68,7 @@
                 </Button.Template>
             </Button>
         </Grid>
-
+        
         <!-- Description -->
         <Border Grid.Row="3" 
                 BorderBrush="Gray" 

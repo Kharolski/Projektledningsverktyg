@@ -9,8 +9,10 @@ namespace Projektledningsverktyg.Views.RecipeBook
     {
         public RecipeBookView()
         {
+            var mainViewModel = new RecipeBookViewModel();
+            DataContext = mainViewModel;
             InitializeComponent();
-            DataContext = new RecipeBookViewModel();
+            SidePanel.Initialize(mainViewModel);
         }
 
         private void OpenAddRecipeWindow(object sender, RoutedEventArgs e)
