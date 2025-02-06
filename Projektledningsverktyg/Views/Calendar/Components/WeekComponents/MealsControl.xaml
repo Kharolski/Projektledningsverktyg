@@ -1,0 +1,75 @@
+﻿<helpers:DraggableControlBase 
+    x:Class="Projektledningsverktyg.Views.Calendar.Components.WeekComponents.MealsControl"
+    xmlns:helpers="clr-namespace:Projektledningsverktyg.Helpers"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Projektledningsverktyg.Views.Calendar.Components.WeekComponents"
+             xmlns:converters="clr-namespace:Projektledningsverktyg.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converters:HalfWidthConverter x:Key="HalfWidthConverter"/>
+        <converters:HalfWidthPlusMarginConverter x:Key="HalfWidthPlusMarginConverter"/>
+    </UserControl.Resources>
+
+    <Border  MinWidth="410"
+                Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}"
+                Name="MainBorder"
+                Background="Transparent"
+                BorderThickness="1" 
+                BorderBrush="#DDDDDD"
+                Margin="5,2.5,5,2.5">
+
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- Header -->
+                <RowDefinition Height="Auto"/>
+                <!-- Main Meal -->
+                <RowDefinition Height="Auto"/>
+                <!-- Expander -->
+            </Grid.RowDefinitions>
+
+            <!-- Header with Add Button -->
+            <DockPanel>
+                <TextBlock Text="Måltider" FontSize="16" FontWeight="DemiBold" Foreground="#2196F3" DockPanel.Dock="Left"/>
+                <Button Content="+" Width="30" Height="30" Background="#4CAF50" Foreground="White" HorizontalAlignment="Right"/>
+            </DockPanel>
+
+            <!-- Main Meal Information -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Image on the Left -->
+                <Image Source="/Images/Recept/recept.png" Width="100" Height="100" Grid.Column="0" Margin="0,0,10,0"/>
+
+                <!-- Meal Details on the Right -->
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Köttbullar med potatismos" FontSize="16" Margin="0,5"/>
+                    <TextBlock MaxWidth="290" Text="Klassiska svenska köttbullar serverade med potatismos, lingon och pressgurka" TextWrapping="Wrap" Foreground="#666666"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Button Content="✏️" Margin="0,0,5,0"/>
+                        <Button Content="❌"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <!-- Expandable Meal List -->
+            <Expander Header="Visa fler måltider" Grid.Row="2" Margin="0,10,0,0"
+                       Expanded="Expander_Expanded" Collapsed="Expander_Collapsed">
+                <StackPanel>
+                    <TextBlock Text="🍝 Spaghetti Bolognese" Margin="0,5"/>
+                    <TextBlock Text="🥗 Caesar Salad" Margin="0,5"/>
+                    <TextBlock Text="🍲 Vegetable Soup" Margin="0,5"/>
+                    <!-- Add more meal options as needed -->
+                </StackPanel>
+            </Expander>
+        </Grid>
+    </Border>
+</helpers:DraggableControlBase>

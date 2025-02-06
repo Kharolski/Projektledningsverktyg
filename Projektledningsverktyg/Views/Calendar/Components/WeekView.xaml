@@ -2,19 +2,32 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Projektledningsverktyg.Views.Calendar.Components"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:Projektledningsverktyg.Converters"
+             xmlns:viewmodels="clr-namespace:Projektledningsverktyg.ViewModels"
+             xmlns:weekComponents="clr-namespace:Projektledningsverktyg.Views.Calendar.Components.WeekComponents"
              mc:Ignorable="d" 
+             Loaded="WeekView_Loaded"
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.DataContext>
+        <viewmodels:WeekMonthViewModel/>
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <converters:CurrentDayConverter x:Key="DateFormatConverter"/>
+        <converters:IndexConverter x:Key="IndexConverter"/>
+        <converters:HalfWidthConverter x:Key="HalfWidthConverter"/>
+        <converters:HalfWidthPlusMarginConverter x:Key="HalfWidthPlusMarginConverter"/>
+    </UserControl.Resources>
+
 
     <Grid Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
-            <!-- Header -->
-            <RowDefinition Height="40"/>
-            <!-- Days of week -->
-            <RowDefinition Height="*"/>
-            <!-- Time grid -->
+            <RowDefinition Height="60"/>      <!-- Header with week navigation -->
+            <RowDefinition Height="40"/>      <!-- Days of week -->
+            <RowDefinition Height="Auto"/>    <!-- Success/Error Message Panel -->
+            <RowDefinition Height="*"/>       <!-- Content -->
         </Grid.RowDefinitions>
 
         <!-- Header with Week Navigation -->
@@ -26,16 +39,15 @@
             </Grid.ColumnDefinitions>
 
             <Button Content="‹" 
-                    Click="PreviousWeek_Click"
+                    Command="{Binding PreviousWeekCommand}"
                     Width="50" Height="40"
                     Background="Transparent"
                     Foreground="White"
                     BorderThickness="0"
                     FontSize="24"/>
 
-            <TextBlock x:Name="WeekText"
+            <TextBlock Text="{Binding WeekText}"
                       Grid.Column="1"
-                      Text="Vecka 3, 2024"
                       Foreground="White"
                       FontSize="24"
                       HorizontalAlignment="Center"
@@ -43,7 +55,7 @@
 
             <Button Grid.Column="2"
                     Content="›"
-                    Click="NextWeek_Click"
+                    Command="{Binding NextWeekCommand}"
                     Width="50" Height="40"
                     Background="Transparent"
                     Foreground="White"
@@ -51,47 +63,80 @@
                     FontSize="24"/>
         </Grid>
 
-        <!-- Days Header -->
-        <Grid x:Name="DaysHeaderGrid" Grid.Row="1" Background="#1976D2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60"/>
-                <!-- Time column -->
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <!-- Days Header with Selection -->
+        <Grid Grid.Row="1" Background="#1976D2">
+            <ItemsControl ItemsSource="{Binding WeekDays}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="7"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-            <TextBlock Grid.Column="0" Text="" Foreground="White"/>
-            <TextBlock Grid.Column="1" Text="Måndag 15" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
-            <TextBlock Grid.Column="2" Text="Tisdag 16" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
-            <TextBlock Grid.Column="3" Text="Onsdag 17" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
-            <TextBlock Grid.Column="4" Text="Torsdag 18" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
-            <TextBlock Grid.Column="5" Text="Fredag 19" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
-            <TextBlock Grid.Column="6" Text="Lördag 20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
-            <TextBlock Grid.Column="7" Text="Söndag 21" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{Binding IsCurrentDay, Converter={StaticResource CurrentDayConverter}}"
+                        Padding="10,5">
+                            <TextBlock Text="{Binding DayName, StringFormat='{}{0:dddd d}'}"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Foreground="White"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
 
-        <!-- Time Grid -->
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
-            <Grid x:Name="TimeGrid">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="60"/>
-                    <!-- Time column -->
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+        <!-- Message Panel -->
+        <Grid Grid.Row="2" Background="#F5F5F5" Visibility="Collapsed">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <!-- Success message -->
+                <Border Background="#4CAF50" Margin="5" Padding="10" Opacity="0" x:Name="SuccessMessage">
+                    <TextBlock Text="✓ Ändringen har sparats" Foreground="White"/>
+                </Border>
+                <!-- Error message -->
+                <Border Background="#F44336" Margin="5" Padding="10" Opacity="0" x:Name="ErrorMessage">
+                    <TextBlock Text="⚠ Något gick fel" Foreground="White"/>
+                </Border>
+            </StackPanel>
+        </Grid>
 
-                <!-- Time slots will be added here programmatically -->
-            </Grid>
+        <!--Canvas-based Content Area-->
+        <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled"
+                      x:Name="MainScrollViewer">
+  
+            <!-- Main Content Grid -->
+            <Canvas x:Name="MainCanvas" Background="White" 
+                    Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ScrollViewer}}"
+                    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
+
+                                            <!-- Left Column Components --> 
+                <!-- Schedule Section -->
+                <weekComponents:ScheduleControl x:Name="ScheduleControl" MinHeight="150" MinWidth="300"
+                                                Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}"
+                                                />
+
+                <!-- Meals Section -->
+                <weekComponents:MealsControl x:Name="MealsControl" MinHeight="150" MinWidth="300"
+                                             Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}"
+                                             />
+
+                                            <!-- Right Column Components -->
+                <!-- Hushåll Section -->
+                <weekComponents:HouseholdControl x:Name="HouseholdControl" MinHeight="150" MinWidth="300"
+                                                 Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}"
+                                                 />
+
+                <!-- Allmänna uppgifter Section -->
+                <weekComponents:GeneralTaskControl x:Name="GeneralTaskControl" MinHeight="150" MinWidth="300"
+                                                   Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}"
+                                                   />
+
+                <!-- Events Section -->
+                <weekComponents:EventsControl x:Name="EventsControl" MinHeight="150" MinWidth="300"
+                                              Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}"
+                                              />
+                
+            </Canvas>
         </ScrollViewer>
     </Grid>
 </UserControl>

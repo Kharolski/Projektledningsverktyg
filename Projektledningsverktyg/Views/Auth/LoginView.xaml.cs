@@ -80,7 +80,7 @@ namespace Projektledningsverktyg.Views.Auth
                                 }
 
                                 mainWindow.WindowStyle = WindowStyle.None;
-                                mainWindow.Height = 720;
+                                mainWindow.Height = 750;
                                 mainWindow.Width = 1150;
                             }
                         };
@@ -96,6 +96,7 @@ namespace Projektledningsverktyg.Views.Auth
                     // Ensure the current member is properly set and available throughout our application
                     var mainWindow = Window.GetWindow(this) as MainWindow;
                     mainWindow?.SetCurrentMember(currentUser);
+                    mainWindow.SwitchToView("MainWindow");
                 }
 
                 if (!isValidLogin)

@@ -2,8 +2,10 @@
 using Projektledningsverktyg.Data.Entities;
 using Projektledningsverktyg.Views.Auth;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 
 
@@ -34,6 +36,9 @@ namespace Projektledningsverktyg
         {
             base.OnStartup(e);
 
+            // Set Swedish culture for the application
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("sv-SE");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("sv-SE");
             Services.ProtocolHandler.RegisterProtocol();
 
             if (_mainWindow == null)

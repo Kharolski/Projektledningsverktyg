@@ -58,7 +58,13 @@ namespace Projektledningsverktyg
                 case "ResetPassword":
                     ResetPasswordScreen.Visibility = Visibility.Visible;
                     break;
+                case "MainWindow":
+                    MainContent.Visibility = Visibility.Visible;
+                    break;
             }
+
+            // Hantera titelraden
+            TitleBar.Visibility = (viewName == "MainWindow") ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void BtnDashboard_Click(object sender, RoutedEventArgs e)
@@ -121,6 +127,68 @@ namespace Projektledningsverktyg
             AuthContainer.Children.Add(LoginScreen);
             AuthContainer.Visibility = Visibility.Visible;
             MainContent.Visibility = Visibility.Collapsed;
+            TitleBar.Visibility = Visibility.Collapsed;
+        }
+
+        // titelraden
+        private void MinimizeWindow(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void MaximizeWindow(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+                this.WindowState = WindowState.Normal;
+            else
+                this.WindowState = WindowState.Maximized;
+        }
+        private async void ShowMaximizeOptions(object sender, MouseEventArgs e)
+        {
+            await System.Threading.Tasks.Task.Delay(300); // Vänta 300 ms innan menyn visas (kan justeras)
+            MaximizeMenu.IsOpen = true; // Öppna menyn automatiskt
+        }
+
+        private void SetFullScreen(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Maximized;
+        }
+
+        private void SetLeftHalf(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Normal;
+            this.Left = 0;
+            this.Top = 0;
+            this.Width = SystemParameters.WorkArea.Width / 2;
+            this.Height = SystemParameters.WorkArea.Height;
+        }
+
+        private void SetRightHalf(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Normal;
+            this.Left = SystemParameters.WorkArea.Width / 2;
+            this.Top = 0;
+            this.Width = SystemParameters.WorkArea.Width / 2;
+            this.Height = SystemParameters.WorkArea.Height;
+        }
+
+        private void RestoreWindow(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Normal;
+            this.Width = 800;  // Standardbredd
+            this.Height = 600; // Standardhöjd
+        }
+
+        private void CloseWindow(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        // Gör så att man kan dra fönstret när man klickar på titelraden
+        private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ButtonState == MouseButtonState.Pressed)
+                this.DragMove();
         }
 
     }

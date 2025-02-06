@@ -1,8 +1,11 @@
 ﻿<Application x:Class="Projektledningsverktyg.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:Projektledningsverktyg.Converters"
              xmlns:local="clr-namespace:Projektledningsverktyg">
+    
     <Application.Resources>
-         
+        <converters:DateFormatConverter x:Key="DateFormatConverter"/>
+        <converters:CurrentDayConverter x:Key="CurrentDayConverter"/>
     </Application.Resources>
 </Application>

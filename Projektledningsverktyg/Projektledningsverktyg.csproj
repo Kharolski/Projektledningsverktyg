@@ -261,8 +261,11 @@
     <Compile Include="Converters\BoolToIntConverterReverse.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
     <Compile Include="Converters\CurrentUserVisibilityConverter.cs" />
+    <Compile Include="Converters\DateFormatConverter.cs" />
     <Compile Include="Converters\EmptyToTextConverter.cs" />
+    <Compile Include="Converters\HalfWidthConverter.cs" />
     <Compile Include="Converters\ImagePathConverter.cs" />
+    <Compile Include="Converters\IndexConverter.cs" />
     <Compile Include="Converters\IsLastStepConverter.cs" />
     <Compile Include="Converters\PriorityToColorConverter.cs" />
     <Compile Include="Data\Context\ApplicationDbContext.cs" />
@@ -282,6 +285,10 @@
     <Compile Include="Data\Entities\Task.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\AppFolders.cs" />
+    <Compile Include="Helpers\DragDropTypes.cs" />
+    <Compile Include="Helpers\DraggableControlBase.cs" />
+    <Compile Include="Helpers\PositionChangedEventArgs.cs" />
+    <Compile Include="Helpers\WeekViewLayoutManager.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SQLiteConfiguration.cs" />
     <Compile Include="Models\FilterOption.cs" />
@@ -300,6 +307,7 @@
     <Compile Include="ViewModels\RecipeViewModel.cs" />
     <Compile Include="ViewModels\TaskViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\WeekMonthViewModel.cs" />
     <Compile Include="Views\AIAssistant\AIAssistantView.xaml.cs">
       <DependentUpon>AIAssistantView.xaml</DependentUpon>
     </Compile>
@@ -324,6 +332,21 @@
     </Compile>
     <Compile Include="Views\Calendar\Components\MonthView.xaml.cs">
       <DependentUpon>MonthView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Calendar\Components\WeekComponents\EventsControl.xaml.cs">
+      <DependentUpon>EventsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Calendar\Components\WeekComponents\GeneralTaskControl.xaml.cs">
+      <DependentUpon>GeneralTaskControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Calendar\Components\WeekComponents\HouseholdControl.xaml.cs">
+      <DependentUpon>HouseholdControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Calendar\Components\WeekComponents\MealsControl.xaml.cs">
+      <DependentUpon>MealsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Calendar\Components\WeekComponents\ScheduleControl.xaml.cs">
+      <DependentUpon>ScheduleControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Calendar\Components\WeekView.xaml.cs">
       <DependentUpon>WeekView.xaml</DependentUpon>
@@ -438,6 +461,26 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Calendar\Components\WeekComponents\EventsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Calendar\Components\WeekComponents\GeneralTaskControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Calendar\Components\WeekComponents\HouseholdControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Calendar\Components\WeekComponents\MealsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Calendar\Components\WeekComponents\ScheduleControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Calendar\Components\WeekView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -534,7 +577,6 @@
   <ItemGroup>
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Member.cs" />
-    <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
