@@ -36,6 +36,17 @@
                 <Frame x:Name="GeneralTasksFrame" NavigationUIVisibility="Hidden"/>
             </TabItem>
 
+            <!-- Hushållssysslor -->
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="🧹" Margin="0,0,5,0"/>
+                        <TextBlock Text="Hushållssysslor"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Frame Source="Components/ChoresTab.xaml"/>
+            </TabItem>
+
             <!-- Måltider -->
             <TabItem>
                 <TabItem.Header>
@@ -47,27 +58,17 @@
                 <Frame Source="Components/Meals/MealsTab.xaml"/>
             </TabItem>
 
-            <!-- Inköp -->
+            <!-- Events -->
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🛒" Margin="0,0,5,0"/>
-                        <TextBlock Text="Inköp"/>
+                        <TextBlock Text="🎉" Margin="0,0,5,0"/>
+                        <TextBlock Text="Events"/>
                     </StackPanel>
                 </TabItem.Header>
-                <Frame Source="Components/ShoppingTab.xaml"/>
+                <Frame Source="Components/Events/EventsTab.xaml"/>
             </TabItem>
-
-            <!-- Hushållssysslor -->
-            <TabItem>
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🧹" Margin="0,0,5,0"/>
-                        <TextBlock Text="Hushållssysslor"/>
-                    </StackPanel>
-                </TabItem.Header>
-                <Frame Source="Components/ChoresTab.xaml"/>
-            </TabItem>
+            
         </TabControl>
     </Grid>
 </Page>

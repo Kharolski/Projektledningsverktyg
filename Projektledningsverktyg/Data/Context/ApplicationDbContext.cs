@@ -25,14 +25,16 @@ namespace Projektledningsverktyg.Data.Context
         }
 
         public DbSet<Member> Members { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Task> Tasks { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<Household> Households { get; set; }    
         public DbSet<PasswordReset> PasswordResets { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
 
-        // Our meal setup
+        // Our Meal setup
         public DbSet<Meal> Meals { get; set; }
         public DbSet<MealIngredient> MealIngredients { get; set; }
         public DbSet<MealDietaryTag> MealDietaryTags { get; set; }
@@ -41,6 +43,10 @@ namespace Projektledningsverktyg.Data.Context
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<Instruction> Instructions { get; set; }
+
+        // Our Month/Week View setup
+        public DbSet<MonthView> MonthViews { get; set; }
+        public DbSet<DayView> DayViews { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

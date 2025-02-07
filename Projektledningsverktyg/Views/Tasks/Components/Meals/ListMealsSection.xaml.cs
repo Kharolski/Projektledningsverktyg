@@ -8,10 +8,9 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Meals
         public ListMealsSectionViewModel ViewModel { get; }
         public ListMealsSection()
         {
-            InitializeComponent();
-
             ViewModel = new ListMealsSectionViewModel();
             DataContext = ViewModel;
+            InitializeComponent();
             ListMealsSectionViewModel.MealsUpdated += () => ViewModel.RefreshMeals();
         }
     }

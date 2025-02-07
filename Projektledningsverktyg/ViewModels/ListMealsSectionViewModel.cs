@@ -15,6 +15,16 @@ namespace Projektledningsverktyg.ViewModels
         public static event Action MealsUpdated;
 
         #region Properties
+        private Meal _selectedMeal;
+        public Meal SelectedMeal
+        {
+            get => _selectedMeal;
+            set
+            {
+                _selectedMeal = value;
+                OnPropertyChanged(nameof(SelectedMeal));
+            }
+        }
 
         public ObservableCollection<Meal> Meals
         {
@@ -28,6 +38,7 @@ namespace Projektledningsverktyg.ViewModels
 
         public ICommand DeleteMealCommand { get; private set; }
         public ICommand SaveNotesCommand { get; private set; }
+        public ICommand GetRecipeCommand { get; private set; }
 
         #endregion
 
@@ -38,7 +49,7 @@ namespace Projektledningsverktyg.ViewModels
             LoadMeals();
             DeleteMealCommand = new RelayCommand<Meal>(ExecuteDeleteMeal);
             SaveNotesCommand = new RelayCommand<Meal>(ExecuteSaveNotes);
-
+            GetRecipeCommand = new RelayCommand<Meal>(ExecuteGetRecipe);
         }
 
         #endregion
@@ -63,9 +74,7 @@ namespace Projektledningsverktyg.ViewModels
 
         public static void NotifyMealsUpdated()
         {
-            System.Diagnostics.Debug.WriteLine("NotifyMealsUpdated called");
             MealsUpdated?.Invoke();
-            System.Diagnostics.Debug.WriteLine("NotifyMealsUpdated completed");
         }
 
         #endregion
@@ -106,6 +115,10 @@ namespace Projektledningsverktyg.ViewModels
 
         #endregion
 
+        private void ExecuteGetRecipe(Meal meal)
+        {
+            // Implement recipe retrieval logic here to show the recipe in a new window
+        }
     }
 
 }

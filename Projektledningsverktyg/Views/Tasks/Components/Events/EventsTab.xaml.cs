@@ -1,30 +1,18 @@
 ﻿using Projektledningsverktyg.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace Projektledningsverktyg.Views.Calendar.Components
+namespace Projektledningsverktyg.Views.Tasks.Components.Events
 {
     /// <summary>
-    /// Interaction logic for EventsView.xaml
+    /// Interaction logic for EventsTab.xaml
     /// </summary>
-    public partial class EventsView : UserControl
+    public partial class EventsTab : Page
     {
         private ObservableCollection<Event> events;
-
-        public EventsView()
+        public EventsTab()
         {
             InitializeComponent();
             LoadEvents();

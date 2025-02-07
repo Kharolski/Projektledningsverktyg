@@ -9,8 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-        <ListView Grid.Row="1" 
-          ItemsSource="{Binding Meals}" 
+        <ListView ItemsSource="{Binding Meals}" 
           SelectedItem="{Binding SelectedMeal, Mode=TwoWay}"
           SelectionMode="Single"
           ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -25,40 +24,29 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Expander >
-                        <Expander.Style>
-                            <Style TargetType="Expander">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                        <Setter Property="IsExpanded" Value="True"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Expander.Style>
                         <Expander.Header>
                             <Grid Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Expander}}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <CheckBox Grid.Column="0" Margin="10,5,10,0"/>
-                                <TextBlock Grid.Column="1" 
+                                <TextBlock Grid.Column="0" 
                                          Text="{Binding Name}" 
                                          VerticalAlignment="Center"
                                          TextWrapping="Wrap"/>  
-                                <TextBlock Grid.Column="2" 
+                                <TextBlock Grid.Column="1" 
                                          Text="{Binding Type}" 
                                          Foreground="#FF9800" 
                                          Margin="10,0" 
                                          VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="3" Padding="15,0,0,0" 
+                                <TextBlock Grid.Column="2" Padding="15,0,0,0" 
                                          Text="{Binding Date, StringFormat=yyyy-MM-dd}" 
                                          VerticalAlignment="Center"/>
 
-                                <Button Grid.Column="4" 
+                                <Button Grid.Column="3" 
                                         Width="25"
                                         Margin="0,0,30,0"
                                         Height="25"
@@ -88,7 +76,7 @@
                                             </Style.Triggers>
                                         </Style>
                                     </Button.Style>
-                                    <TextBlock Text="✕" 
+                                    <TextBlock Text="✕" Grid.Column="4"
                                                FontWeight="Bold"
                                                FontSize="14"/>
                                 </Button>

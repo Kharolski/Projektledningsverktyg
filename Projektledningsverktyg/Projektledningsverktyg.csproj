@@ -271,17 +271,21 @@
     <Compile Include="Data\Context\ApplicationDbContext.cs" />
     <Compile Include="Data\Entities\Chat.cs" />
     <Compile Include="Data\Entities\Comment.cs" />
+    <Compile Include="Data\Entities\DayView.cs" />
     <Compile Include="Data\Entities\Discussion.cs" />
     <Compile Include="Data\Entities\Event.cs" />
+    <Compile Include="Data\Entities\Household.cs" />
     <Compile Include="Data\Entities\Ingredient.cs" />
     <Compile Include="Data\Entities\Instruction.cs" />
     <Compile Include="Data\Entities\Meal.cs" />
     <Compile Include="Data\Entities\MealDietaryTag.cs" />
     <Compile Include="Data\Entities\MealIngredient.cs" />
     <Compile Include="Data\Entities\Member.cs" />
+    <Compile Include="Data\Entities\MonthView.cs" />
     <Compile Include="Data\Entities\PasswordReset.cs" />
     <Compile Include="Data\Entities\Project.cs" />
     <Compile Include="Data\Entities\Recipe.cs" />
+    <Compile Include="Data\Entities\Schedule.cs" />
     <Compile Include="Data\Entities\Task.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\AppFolders.cs" />
@@ -326,9 +330,6 @@
     </Compile>
     <Compile Include="Views\Calendar\CalendarView.xaml.cs">
       <DependentUpon>CalendarView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Calendar\Components\EventsView.xaml.cs">
-      <DependentUpon>EventsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Calendar\Components\MonthView.xaml.cs">
       <DependentUpon>MonthView.xaml</DependentUpon>
@@ -390,6 +391,9 @@
     <Compile Include="Views\Settings\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Tasks\Components\Events\EventsTab.xaml.cs">
+      <DependentUpon>EventsTab.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Tasks\Components\Meals\AddIngredientsWindow.xaml.cs">
       <DependentUpon>AddIngredientsWindow.xaml</DependentUpon>
     </Compile>
@@ -407,9 +411,6 @@
     </Compile>
     <Compile Include="Views\Tasks\Components\Meals\MealsTab.xaml.cs">
       <DependentUpon>MealsTab.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Tasks\Components\ShoppingTab.xaml.cs">
-      <DependentUpon>ShoppingTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Tasks\TaskDetail.xaml.cs">
       <DependentUpon>TaskDetail.xaml</DependentUpon>
@@ -450,10 +451,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Calendar\CalendarView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Calendar\Components\EventsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -537,6 +534,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Tasks\Components\Events\EventsTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Tasks\Components\Meals\AddIngredientsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -558,10 +559,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Tasks\Components\Meals\MealsTab.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Tasks\Components\ShoppingTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

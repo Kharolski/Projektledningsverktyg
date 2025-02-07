@@ -20,17 +20,7 @@
 
         <!-- TabControl -->
         <TabControl Grid.Row="1" Margin="20,0,20,20">
-            <!-- Month View Tab -->
-            <TabItem>
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="📅" Margin="0,0,5,0"/>
-                        <TextBlock Text="Månadsvy"/>
-                    </StackPanel>
-                </TabItem.Header>
-                <Frame Source="Components/MonthView.xaml"/>
-            </TabItem>
-
+            
             <!-- Week View Tab -->
             <TabItem>
                 <TabItem.Header>
@@ -42,16 +32,17 @@
                 <Frame Source="Components/WeekView.xaml"/>
             </TabItem>
 
-            <!-- Events Tab -->
+            <!-- Month View Tab -->
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🎉" Margin="0,0,5,0"/>
-                        <TextBlock Text="Events"/>
+                        <TextBlock Text="📅" Margin="0,0,5,0"/>
+                        <TextBlock Text="Månadsvy"/>
                     </StackPanel>
                 </TabItem.Header>
-                <Frame Source="Components/EventsView.xaml"/>
+                <Frame Source="Components/MonthView.xaml"/>
             </TabItem>
+
         </TabControl>    
     </Grid>
 </UserControl>
