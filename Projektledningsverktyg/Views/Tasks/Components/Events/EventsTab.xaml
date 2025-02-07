@@ -4,50 +4,166 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Projektledningsverktyg.Views.Tasks.Components.Events"
+      xmlns:converters="clr-namespace:Projektledningsverktyg.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="EventsTab">
 
+    <Page.Resources>
+        <DropShadowEffect x:Key="SoftShadow" 
+                      BlurRadius="10" 
+                      ShadowDepth="2" 
+                      Direction="270" 
+                      Color="#20000000" 
+                      Opacity="0.3"/>
+        <converters:EventTypeToColorConverter x:Key="EventTypeToColorConverter"/>
+        <converters:EventTypeToIconConverter x:Key="EventTypeToIconConverter"/>
+    </Page.Resources>
+
     <Grid Margin="20">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Add Event Section -->
-        <StackPanel Grid.Row="0" Margin="0,0,0,20">
-            <Button Content="Lägg till händelse"
+        <!-- Add Event Button -->
+        <Button Grid.Row="0" 
+                Content="Lägg till händelse"
                 Height="40"
                 Background="#2196F3"
                 Foreground="White"
-                Click="AddEvent_Click"/>
-        </StackPanel>
+                Click="AddEvent_Click"
+                Margin="0,0,0,20"/>
 
         <!-- Events List -->
-        <ListView Grid.Row="1" 
-              x:Name="EventsList"
-              BorderThickness="0">
-            <ListView.ItemTemplate>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding EventsByCategory}">
+            <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
+                    <StackPanel Margin="0,20,0,0">
+                        <!-- Header with lines -->
+                        <Grid Height="40">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{Binding Title}"
-                             FontWeight="Bold"/>
+                            <Line Grid.Column="0" 
+                          X2="1" 
+                          Stretch="Fill" 
+                          Stroke="#2196F3" 
+                          StrokeThickness="1" 
+                          Y1="0.5" Y2="0.5"/>
 
-                        <StackPanel Grid.Row="1" 
-                              Orientation="Horizontal">
-                            <TextBlock Text="{Binding Date, StringFormat='{}{0:d MMMM}'}"
-                                 Margin="0,0,10,0"/>
-                            <TextBlock Text="{Binding Time, StringFormat='{}{0:hh\\:mm}'}"
-                                 Foreground="Gray"/>
-                        </StackPanel>
-                    </Grid>
+                            <TextBlock Grid.Column="1" 
+                             Text="{Binding Key}" 
+                             FontSize="20"
+                             FontWeight="Bold"
+                             Margin="15,0"
+                             Foreground="#2196F3"/>
+
+                            <Line Grid.Column="2" 
+                          X2="1" 
+                          Stretch="Fill" 
+                          Stroke="#2196F3" 
+                          StrokeThickness="1" 
+                          Y1="0.5" Y2="0.5"/>
+                        </Grid>
+
+                        <!-- Events in magazine style -->
+                        <ItemsControl ItemsSource="{Binding}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="2"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <!-- Your existing event card template -->
+                                    <Border Background="White" 
+                                    BorderBrush="#E0E0E0"
+                                    BorderThickness="1"
+                                    CornerRadius="8" 
+                                    Padding="20,15" 
+                                    Margin="8">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Date Circle with Category Color -->
+                                            <Border Grid.Column="0" 
+                                            Width="60" Height="60" 
+                                            CornerRadius="30"
+                                            Margin="0,0,15,0"
+                                            Effect="{StaticResource SoftShadow}"
+                                            BorderThickness="1"
+                                            BorderBrush="#E0E0E0"
+                                            Panel.ZIndex="1">
+                                                <Border.Background>
+                                                    <Binding Path="Type" Converter="{StaticResource EventTypeToColorConverter}"/>
+                                                </Border.Background>
+                                                <StackPanel VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Date, StringFormat='{}{0:dd}'}"
+                                                     FontSize="24" 
+                                                     FontWeight="Bold"
+                                                     Foreground="White"
+                                                     HorizontalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding Date, StringFormat='{}{0:MMM}'}"
+                                                     Foreground="White"
+                                                     HorizontalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <!-- Event Details -->
+                                            <StackPanel Grid.Column="1">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Type, Converter={StaticResource EventTypeToIconConverter}}"
+                                                      FontSize="20"
+                                                      Margin="0,0,8,0"/>
+                                                    <TextBlock Text="{Binding Title}"
+                                                      FontWeight="Bold"
+                                                      FontSize="16"
+                                                      VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                                <TextBlock Text="{Binding Type}"
+                                                  Foreground="{Binding Type, Converter={StaticResource EventTypeToColorConverter}}"
+                                                  Margin="0,4,0,0"/>
+                                                <StackPanel Orientation="Horizontal" 
+                                                  Margin="0,8,0,0">
+                                                    <TextBlock Text="🕒" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="{Binding Time, StringFormat='{}{0:hh\\:mm}'}" 
+                                                     Foreground="#666"/>
+                                                    <TextBlock Text=" - " Foreground="#666"/>
+                                                    <TextBlock Text="{Binding EndTime, StringFormat='{}{0:hh\\:mm}'}" 
+                                                     Foreground="#666"/>
+                                                </StackPanel>
+                                                <TextBlock Text="{Binding Description}"
+                                                  Margin="0,8,0,0"
+                                                  TextWrapping="Wrap"
+                                                  Foreground="#666"/>
+                                            </StackPanel>
+
+                                            <!-- Delete Button -->
+                                            <Button Grid.Column="2" 
+                                            Width="32" Height="32"
+                                            Background="Transparent"
+                                            BorderThickness="0">
+                                                <TextBlock Text="🗑️" 
+                                                 FontSize="16"/>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
     </Grid>
 </Page>

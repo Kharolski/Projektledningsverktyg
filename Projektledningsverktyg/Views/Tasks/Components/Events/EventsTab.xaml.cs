@@ -1,22 +1,22 @@
 ﻿using Projektledningsverktyg.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace Projektledningsverktyg.Views.Tasks.Components.Events
 {
-    /// <summary>
-    /// Interaction logic for EventsTab.xaml
-    /// </summary>
     public partial class EventsTab : Page
     {
         private ObservableCollection<Event> events;
+        private ObservableCollection<IGrouping<EventType, Event>> eventsByCategory;
+
         public EventsTab()
         {
             InitializeComponent();
             LoadEvents();
-            EventsList.ItemsSource = events;
+            GroupAndDisplayEvents();
         }
 
         private void LoadEvents()
@@ -28,6 +28,7 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Events
                     Title = "Teammöte",
                     Date = DateTime.Now,
                     Time = new TimeSpan(14, 0, 0),
+                    EndTime = new TimeSpan(15, 0, 0),
                     Type = EventType.Meeting,
                     Description = "Veckomöte med utvecklingsteamet"
                 },
@@ -36,10 +37,34 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Events
                     Title = "Lunch med team",
                     Date = DateTime.Now,
                     Time = new TimeSpan(12, 0, 0),
+                    EndTime = new TimeSpan(13, 0, 0),
                     Type = EventType.Other,
                     Description = "Lunch på restaurang Seaside"
+                },
+                new Event
+                {
+                    Title = "Födelsedag",
+                    Date = DateTime.Now,
+                    Time = new TimeSpan(12, 0, 0),
+                    EndTime = new TimeSpan(13, 0, 0),
+                    Type = EventType.Other,
+                    Description = "Mulkus födelsedagen"
                 }
             };
+        }
+
+        private void GroupAndDisplayEvents()
+        {
+            var groupedEvents = events.GroupBy(e => e.Type)
+                                    .OrderBy(g => g.Key);
+
+            eventsByCategory = new ObservableCollection<IGrouping<EventType, Event>>(groupedEvents);
+            DataContext = this;
+        }
+
+        public ObservableCollection<IGrouping<EventType, Event>> EventsByCategory
+        {
+            get { return eventsByCategory; }
         }
 
         private void AddEvent_Click(object sender, RoutedEventArgs e)
@@ -48,6 +73,7 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Events
             if (newEventWindow.ShowDialog() == true)
             {
                 events.Add(newEventWindow.NewEvent);
+                GroupAndDisplayEvents(); // Regroup after adding new event
             }
         }
     }
@@ -113,7 +139,7 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Events
             typeBox = new ComboBox { Margin = new Thickness(0, 0, 0, 15) };
             typeBox.Items.Add(EventType.Meeting);
             typeBox.Items.Add(EventType.Birthday);
-            typeBox.Items.Add(EventType.Task);
+            typeBox.Items.Add(EventType.Travel);
             typeBox.Items.Add(EventType.Other);
             Grid.SetRow(typeBox, 5);
             grid.Children.Add(typeBox);

@@ -259,15 +259,13 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Converters\BoolToIntConverter.cs" />
     <Compile Include="Converters\BoolToIntConverterReverse.cs" />
+    <Compile Include="Converters\ColorConverters.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
     <Compile Include="Converters\CurrentUserVisibilityConverter.cs" />
-    <Compile Include="Converters\DateFormatConverter.cs" />
-    <Compile Include="Converters\EmptyToTextConverter.cs" />
+    <Compile Include="Converters\FormatConverters.cs" />
     <Compile Include="Converters\HalfWidthConverter.cs" />
-    <Compile Include="Converters\ImagePathConverter.cs" />
     <Compile Include="Converters\IndexConverter.cs" />
     <Compile Include="Converters\IsLastStepConverter.cs" />
-    <Compile Include="Converters\PriorityToColorConverter.cs" />
     <Compile Include="Data\Context\ApplicationDbContext.cs" />
     <Compile Include="Data\Entities\Chat.cs" />
     <Compile Include="Data\Entities\Comment.cs" />

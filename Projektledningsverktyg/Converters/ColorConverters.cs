@@ -1,10 +1,6 @@
 ﻿using Projektledningsverktyg.Data.Entities;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
 
@@ -32,6 +28,35 @@ namespace Projektledningsverktyg.Converters
             }
 
             return new SolidColorBrush(Colors.Black);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class EventTypeToColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is Models.EventType eventType)  // Specify the full type
+            {
+                switch (eventType)
+                {
+                    case Models.EventType.Birthday:
+                        return new SolidColorBrush(Color.FromRgb(255, 20, 147));
+                    case Models.EventType.Travel:
+                        return new SolidColorBrush(Color.FromRgb(65, 105, 225));
+                    case Models.EventType.Meeting:
+                        return new SolidColorBrush(Color.FromRgb(50, 205, 50));
+                    case Models.EventType.Other:
+                        return new SolidColorBrush(Color.FromRgb(255, 140, 0));
+                    default:
+                        return new SolidColorBrush(Colors.Gray);
+                }
+            }
+            return new SolidColorBrush(Colors.Gray);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

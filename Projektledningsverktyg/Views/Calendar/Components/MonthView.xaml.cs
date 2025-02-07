@@ -4,23 +4,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Projektledningsverktyg.Views.Calendar.Components
 {
-    /// <summary>
-    /// Interaction logic for MonthView.xaml
-    /// </summary>
     public partial class MonthView : UserControl
     {
         private DateTime currentDate = DateTime.Now;
@@ -175,7 +165,7 @@ namespace Projektledningsverktyg.Views.Calendar.Components
                     return Colors.Blue;
                 case EventType.Birthday:
                     return Colors.Green;
-                case EventType.Task:
+                case EventType.Travel:
                     return Colors.Orange;
                 default:
                     return Colors.Gray;
