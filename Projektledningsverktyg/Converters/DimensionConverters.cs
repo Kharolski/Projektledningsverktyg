@@ -12,7 +12,7 @@ namespace Projektledningsverktyg.Converters
             double halfWidth = (width / 2) - 0;
 
             // Allow scaling below MinWidth when needed
-            return Math.Max(halfWidth, 410); 
+            return Math.Max(halfWidth, 410);
         }
 
 

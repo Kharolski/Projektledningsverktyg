@@ -1,4 +1,4 @@
-﻿using Projektledningsverktyg.Models;
+﻿using Projektledningsverktyg.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -132,7 +132,7 @@ namespace Projektledningsverktyg.Views.Calendar.Components
                 {
                     Title = "Teammöte",
                     Date = DateTime.Now,
-                    Time = new TimeSpan(14, 0, 0),
+                    StartTime = new DateTime(14),
                     Type = EventType.Meeting
                 },
                 new Event

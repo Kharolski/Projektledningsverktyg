@@ -76,17 +76,17 @@ namespace Projektledningsverktyg.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Models.EventType eventType)
+            if (value is EventType eventType)
             {
                 switch (eventType)
                 {
-                    case Models.EventType.Birthday:
+                    case EventType.Birthday:
                         return "🎂";
-                    case Models.EventType.Travel:
+                    case EventType.Travel:
                         return "🚗";
-                    case Models.EventType.Meeting:
+                    case EventType.Meeting:
                         return "👥";
-                    case Models.EventType.Other:
+                    case EventType.Other:
                         return "✨";
                     default:
                         return "📅";
@@ -96,6 +96,32 @@ namespace Projektledningsverktyg.Converters
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class TimeDisplayConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            var startTime = values[0] as DateTime?;
+            var endTime = values[1] as DateTime?;
+
+            if (startTime.HasValue && endTime.HasValue)
+            {
+                return $"{startTime.Value:HH:mm} - {endTime.Value:HH:mm}";
+            }
+
+            if (startTime.HasValue && !endTime.HasValue)
+            {
+                return $"{startTime.Value:HH:mm} - " + "...";
+            }
+
+            return "Under dagen";
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

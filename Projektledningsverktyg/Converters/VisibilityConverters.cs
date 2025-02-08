@@ -1,11 +1,31 @@
-﻿// Required namespaces for converter functionality
-using System;
-using System.Windows;           // For Visibility enum
-using System.Windows.Data;      // For IValueConverter interface
-using System.Globalization;     // For CultureInfo
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Data;
+using System.Windows;
 
 namespace Projektledningsverktyg.Converters
 {
+    public class CountToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is int count)
+            {
+                return count == 0 ? Visibility.Visible : Visibility.Collapsed;
+            }
+            return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     // Converter class that implements IValueConverter to transform values in XAML bindings
     public class CurrentUserVisibilityConverter : IValueConverter
     {

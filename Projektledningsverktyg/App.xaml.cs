@@ -27,7 +27,7 @@ namespace Projektledningsverktyg
 
             using (var db = new ApplicationDbContext())
             {
-                db.Database.Initialize(force: true);
+                db.Database.CreateIfNotExists();
             }
 
         }

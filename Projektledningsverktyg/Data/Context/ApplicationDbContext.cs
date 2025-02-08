@@ -75,12 +75,6 @@ namespace Projektledningsverktyg.Data.Context
 
             // Event relationships
             modelBuilder.Entity<Event>()
-                .HasRequired(e => e.Creator)
-                .WithMany(m => m.CreatedEvents)
-                .HasForeignKey(e => e.CreatorId)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Event>()
                 .HasMany(e => e.Participants)
                 .WithMany(m => m.ParticipatingEvents)
                 .Map(m =>
@@ -89,6 +83,12 @@ namespace Projektledningsverktyg.Data.Context
                     m.MapLeftKey("EventId");
                     m.MapRightKey("MemberId");
                 });
+
+            modelBuilder.Entity<Event>()
+                .HasOptional(e => e.Project)
+                .WithMany()
+                .HasForeignKey(e => e.ProjectId)
+                .WillCascadeOnDelete(false);
 
             // Comment relationships
             modelBuilder.Entity<Comment>()

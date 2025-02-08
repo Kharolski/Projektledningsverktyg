@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Projektledningsverktyg.Data.Entities
 {
@@ -8,12 +9,13 @@ namespace Projektledningsverktyg.Data.Entities
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTime DateTime { get; set; }
+        public DateTime Date { get; set; }
+        public DateTime? StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
         public EventType Type { get; set; }
 
 
         // Foreign keys
-        public int CreatorId { get; set; }
         public int? ProjectId { get; set; }
 
 
@@ -30,9 +32,13 @@ namespace Projektledningsverktyg.Data.Entities
 
     public enum EventType
     {
+        [Display(Name = "Födelsedagar")]
         Birthday,    // Födelsedagar 🎂
+        [Display(Name = "Utflykter/Resor")]
         Travel,      // Utflykter/Resor 🚗
+        [Display(Name = "Möten")]
         Meeting,     // Möten 👥
+        [Display(Name = "Övrigt")]
         Other        // Övrigt ✨
     }
 }

@@ -5,7 +5,18 @@
              xmlns:local="clr-namespace:Projektledningsverktyg">
     
     <Application.Resources>
-        <converters:DateFormatConverter x:Key="DateFormatConverter"/>
-        <converters:CurrentDayConverter x:Key="CurrentDayConverter"/>
+        <ResourceDictionary>
+            <!--<ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>-->
+
+            <converters:ImagePathConverter x:Key="ImagePathConverter"/>
+            <converters:EmptyToTextConverter x:Key="EmptyToTextConverter"/>
+            <converters:EventTypeToIconConverter x:Key="EventTypeToIconConverter"/>
+            <converters:CurrentDayConverter x:Key="CurrentDayConverter"/>
+            <converters:DateFormatConverter x:Key="DateFormatConverter"/>
+
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

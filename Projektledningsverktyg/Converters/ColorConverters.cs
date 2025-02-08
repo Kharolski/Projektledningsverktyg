@@ -40,17 +40,17 @@ namespace Projektledningsverktyg.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Models.EventType eventType)  // Specify the full type
+            if (value is EventType eventType)  // Specify the full type
             {
                 switch (eventType)
                 {
-                    case Models.EventType.Birthday:
+                    case EventType.Birthday:
                         return new SolidColorBrush(Color.FromRgb(255, 20, 147));
-                    case Models.EventType.Travel:
+                    case EventType.Travel:
                         return new SolidColorBrush(Color.FromRgb(65, 105, 225));
-                    case Models.EventType.Meeting:
+                    case EventType.Meeting:
                         return new SolidColorBrush(Color.FromRgb(50, 205, 50));
-                    case Models.EventType.Other:
+                    case EventType.Other:
                         return new SolidColorBrush(Color.FromRgb(255, 140, 0));
                     default:
                         return new SolidColorBrush(Colors.Gray);
