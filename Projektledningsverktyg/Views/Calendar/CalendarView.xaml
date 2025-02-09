@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:Projektledningsverktyg.Views.Calendar"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -22,22 +24,22 @@
         <TabControl Grid.Row="1" Margin="20,0,20,20">
             
             <!-- Week View Tab -->
-            <TabItem>
+            <TabItem Style="{StaticResource ModernTabHeaderStyle}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="📊" Margin="0,0,5,0"/>
-                        <TextBlock Text="Veckovy"/>
+                        <TextBlock Text="📊" Margin="0,2,10,0"  FontSize="15"/>
+                        <TextBlock Text="Veckovy" FontSize="18"/>
                     </StackPanel>
                 </TabItem.Header>
                 <Frame Source="Components/WeekView.xaml"/>
             </TabItem>
 
             <!-- Month View Tab -->
-            <TabItem>
+            <TabItem Style="{StaticResource ModernTabHeaderStyle}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="📅" Margin="0,0,5,0"/>
-                        <TextBlock Text="Månadsvy"/>
+                        <TextBlock Text="📅"  Margin="0,2,10,0"  FontSize="15"/>
+                        <TextBlock Text="Månadsvy" FontSize="18"/>
                     </StackPanel>
                 </TabItem.Header>
                 <Frame Source="Components/MonthView.xaml"/>

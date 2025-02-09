@@ -1,0 +1,90 @@
+﻿<ResourceDictionary x:Class="Projektledningsverktyg.Styles.TabStyles"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- TabControl Style -->
+    <Style x:Key="ModernTabControlStyle" TargetType="TabControl">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+    <!-- TabItem Style -->
+    <Style x:Key="ModernTabHeaderStyle" TargetType="TabItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <!-- Tab Header width settings - Adjust MinWidth to fit your tab text -->
+                    <Border Name="Border" Margin="0,0,4,10" MinWidth="190" MaxWidth="300" Width="Auto">
+                        <Grid>
+                            <Border x:Name="BackgroundFill"
+                                    Background="#E0E0E0"
+                                    Width="Auto" 
+                                    HorizontalAlignment="Center"/>
+
+                            <ContentPresenter x:Name="ContentSite"
+                                            ContentSource="Header"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Margin="12,8"/>
+
+                            <Border x:Name="SelectedBorder" 
+                                    Height="2" 
+                                    Width="0"
+                                    Background="#2196F3"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Name="SelectAnimation">
+                                    <Storyboard>
+                                        <!-- Animation width (To="190") should match the Tab Header MinWidth for proper animation scaling -->
+                                        <DoubleAnimation 
+                                            Storyboard.TargetName="BackgroundFill"
+                                            Storyboard.TargetProperty="Width"
+                                            From="0" To="190"
+                                            Duration="0:0:0.3"/>
+                                        <DoubleAnimation 
+                                            Storyboard.TargetName="SelectedBorder"
+                                            Storyboard.TargetProperty="Width"
+                                            From="0" To="190"
+                                            BeginTime="0:0:0.1"
+                                            Duration="0:0:0.2"/>
+                                        <!-- Delete DoubleAnimation under if you want background visable -->
+                                        <DoubleAnimation   
+                                            Storyboard.TargetName="BackgroundFill"
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="1" To="0"
+                                            BeginTime="0:0:0.2"
+                                            Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <RemoveStoryboard BeginStoryboardName="SelectAnimation"/>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation 
+                                            Storyboard.TargetName="BackgroundFill"
+                                            Storyboard.TargetProperty="Width"
+                                            To="0"
+                                            Duration="0:0:0.2"/>
+                                        <DoubleAnimation 
+                                            Storyboard.TargetName="SelectedBorder"
+                                            Storyboard.TargetProperty="Width"
+                                            To="0"
+                                            Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
+

@@ -25,11 +25,11 @@
         <!-- TabControl -->
         <TabControl Grid.Row="1" Margin="20,0,20,20">
             <!-- Allmänna Uppgifter -->
-            <TabItem>
+            <TabItem Style="{StaticResource ModernTabHeaderStyle}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="📝" Margin="0,0,5,0"/>
-                        <TextBlock Text="Allmänna Uppgifter"/>
+                        <TextBlock Text="📝" Margin="0,1,7,0"  FontSize="15"/>
+                        <TextBlock Text="Allmänna Uppgifter" FontSize="18"/>
                     </StackPanel>
                 </TabItem.Header>
 
@@ -37,33 +37,33 @@
             </TabItem>
 
             <!-- Hushållssysslor -->
-            <TabItem>
+            <TabItem Style="{StaticResource ModernTabHeaderStyle}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🧹" Margin="0,0,5,0"/>
-                        <TextBlock Text="Hushållssysslor"/>
+                        <TextBlock Text="🧹" Margin="0,1,7,0"  FontSize="15"/>
+                        <TextBlock Text="Hushållssysslor"  FontSize="18"/>
                     </StackPanel>
                 </TabItem.Header>
                 <Frame Source="Components/ChoresTab.xaml"/>
             </TabItem>
 
             <!-- Måltider -->
-            <TabItem>
+            <TabItem Style="{StaticResource ModernTabHeaderStyle}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🍽️" Margin="0,0,5,0"/>
-                        <TextBlock Text="Måltider"/>
+                        <TextBlock Text="🍽️" Margin="0,1,7,0"  FontSize="15"/>
+                        <TextBlock Text="Måltider"  FontSize="18"/>
                     </StackPanel>
                 </TabItem.Header>
                 <Frame Source="Components/Meals/MealsTab.xaml"/>
             </TabItem>
 
             <!-- Events -->
-            <TabItem>
+            <TabItem Style="{StaticResource ModernTabHeaderStyle}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🎉" Margin="0,0,5,0"/>
-                        <TextBlock Text="Events"/>
+                        <TextBlock Text="🎉" Margin="0,1,7,0"  FontSize="15"/>
+                        <TextBlock Text="Events"  FontSize="18"/>
                     </StackPanel>
                 </TabItem.Header>
                 <Frame Source="Components/Events/EventsTab.xaml"/>

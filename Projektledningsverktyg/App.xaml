@@ -11,6 +11,10 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>-->
 
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/TabStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
             <converters:ImagePathConverter x:Key="ImagePathConverter"/>
             <converters:EmptyToTextConverter x:Key="EmptyToTextConverter"/>
             <converters:EventTypeToIconConverter x:Key="EventTypeToIconConverter"/>
