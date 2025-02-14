@@ -298,6 +298,7 @@
     <Compile Include="Data\Entities\Discussion.cs" />
     <Compile Include="Data\Entities\Event.cs" />
     <Compile Include="Data\Entities\Household.cs" />
+    <Compile Include="Data\Entities\HouseholdAssignment.cs" />
     <Compile Include="Data\Entities\Ingredient.cs" />
     <Compile Include="Data\Entities\Instruction.cs" />
     <Compile Include="Data\Entities\Meal.cs" />
@@ -311,6 +312,7 @@
     <Compile Include="Data\Entities\Schedule.cs" />
     <Compile Include="Data\Entities\Task.cs" />
     <Compile Include="Data\Repository\EventRepository.cs" />
+    <Compile Include="Data\Repository\HouseholdRepository.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\AppFolders.cs" />
     <Compile Include="Helpers\DragDropTypes.cs" />
@@ -324,13 +326,11 @@
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\ProtocolHandler.cs" />
-    <Compile Include="Styles\TabStyles.xaml.cs">
-      <DependentUpon>TabStyles.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\AddIngredientsWindowViewModel.cs" />
     <Compile Include="ViewModels\AddMealSectionViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
+    <Compile Include="ViewModels\HouseholdViewModel.cs" />
     <Compile Include="ViewModels\ListMealsSectionViewModel.cs" />
     <Compile Include="ViewModels\MembersViewModel.cs" />
     <Compile Include="ViewModels\NavigationType.cs" />
@@ -425,6 +425,12 @@
     <Compile Include="Views\Tasks\Components\Events\EventsTab.xaml.cs">
       <DependentUpon>EventsTab.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Tasks\Components\Household\AddHouseholdTask.xaml.cs">
+      <DependentUpon>AddHouseholdTask.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tasks\Components\Household\HouseholdTab.xaml.cs">
+      <DependentUpon>HouseholdTab.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Tasks\Components\Meals\AddIngredientsWindow.xaml.cs">
       <DependentUpon>AddIngredientsWindow.xaml</DependentUpon>
     </Compile>
@@ -461,6 +467,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles\CardStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\TabStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -577,6 +587,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Tasks\Components\Household\AddHouseholdTask.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tasks\Components\Household\HouseholdTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Tasks\Components\Meals\AddIngredientsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -646,7 +664,6 @@
     <Resource Include="Images\no_image.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Tasks\Components\Chores\" />
     <Folder Include="Views\Tasks\Components\Task\" />
   </ItemGroup>
   <ItemGroup>

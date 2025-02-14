@@ -8,12 +8,8 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 
-
 namespace Projektledningsverktyg
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         public static Member CurrentUser { get; set; }

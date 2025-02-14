@@ -44,7 +44,7 @@
                         <TextBlock Text="Hushållssysslor"  FontSize="18"/>
                     </StackPanel>
                 </TabItem.Header>
-                <Frame Source="Components/ChoresTab.xaml"/>
+                <Frame Source="Components/Household/HouseholdTab.xaml"/>
             </TabItem>
 
             <!-- Måltider -->

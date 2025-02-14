@@ -13,6 +13,7 @@
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/TabStyles.xaml"/>
+                <ResourceDictionary Source="/Styles/CardStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <converters:ImagePathConverter x:Key="ImagePathConverter"/>

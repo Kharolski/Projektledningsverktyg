@@ -29,7 +29,8 @@ namespace Projektledningsverktyg.Data.Context
         public DbSet<Project> Projects { get; set; }
         public DbSet<Task> Tasks { get; set; }
         public DbSet<Event> Events { get; set; }
-        public DbSet<Household> Households { get; set; }    
+        public DbSet<Household> Households { get; set; }
+        public DbSet<HouseholdAssignment> HouseholdAssignments { get; set; }
         public DbSet<PasswordReset> PasswordResets { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
@@ -89,6 +90,22 @@ namespace Projektledningsverktyg.Data.Context
                 .WithMany()
                 .HasForeignKey(e => e.ProjectId)
                 .WillCascadeOnDelete(false);
+
+            // Add Household Assignment configuration
+            modelBuilder.Entity<HouseholdAssignment>()
+                .HasKey(ha => ha.Id);
+
+            modelBuilder.Entity<HouseholdAssignment>()
+                .HasRequired(ha => ha.Household)
+                .WithMany(h => h.Assignments)
+                .HasForeignKey(ha => ha.HouseholdId)
+                .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<HouseholdAssignment>()
+                .HasRequired(ha => ha.Member)
+                .WithMany(m => m.HouseholdAssignments)
+                .HasForeignKey(ha => ha.MemberId)
+                .WillCascadeOnDelete(true);
 
             // Comment relationships
             modelBuilder.Entity<Comment>()

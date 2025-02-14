@@ -1,6 +1,10 @@
 ﻿using Projektledningsverktyg.Data.Entities;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Data;
 using System.Windows.Media;
 
@@ -64,4 +68,5 @@ namespace Projektledningsverktyg.Converters
             throw new NotImplementedException();
         }
     }
+
 }

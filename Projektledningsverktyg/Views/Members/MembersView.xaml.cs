@@ -1,12 +1,7 @@
 ﻿using Projektledningsverktyg.Data.Context;
 using Projektledningsverktyg.ViewModels;
-using System.Globalization;
-using System;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using Projektledningsverktyg.Data.Entities;
 
 namespace Projektledningsverktyg.Views.Members
 {
