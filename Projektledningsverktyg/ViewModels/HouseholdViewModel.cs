@@ -1,10 +1,12 @@
 ﻿using Projektledningsverktyg.Commands;
 using Projektledningsverktyg.Data.Entities;
 using Projektledningsverktyg.Data.Repository;
+using Projektledningsverktyg.Views.Tasks.Components.Household;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
 using System.Windows;
@@ -25,13 +27,18 @@ namespace Projektledningsverktyg.ViewModels
         private HashSet<Household> _selectedTasks = new HashSet<Household>();
         private HashSet<Member> _selectedMembers = new HashSet<Member>();
 
-        private readonly HouseholdRepository _repository;
+        public readonly HouseholdRepository _repository;
         private ObservableCollection<Household> _tasks;
         private ObservableCollection<Member> _members;
 
         private string _userMessage;
+        private string _successMessage;
+        private string _addTaskErrorMessage;
         private System.Timers.Timer _messageTimer;
         private bool _isTeamTask;
+
+        private string _newTaskTitle;
+        private string _newTaskDescription;
         #endregion
 
         #region Properties
@@ -67,7 +74,28 @@ namespace Projektledningsverktyg.ViewModels
                 // Clear message after 4 seconds
                 StartMessageTimer();
             }
-        } 
+        }
+        public string SuccessMessage
+        {
+            get => _successMessage;
+            set
+            {
+                _successMessage = value;
+                Application.Current.Dispatcher.Invoke(() => OnPropertyChanged(nameof(SuccessMessage)));
+
+                // Clear message after 4 seconds
+                StartMessageTimer();
+            }
+        }
+        public string AddTaskErrorMessage
+        {
+            get => _addTaskErrorMessage;
+            set
+            {
+                _addTaskErrorMessage = value;
+                Application.Current.Dispatcher.Invoke(() => OnPropertyChanged(nameof(AddTaskErrorMessage)));
+            }
+        }
         public bool IsTeamTask
         {
             get => _isTeamTask;
@@ -78,10 +106,29 @@ namespace Projektledningsverktyg.ViewModels
             }
         }
 
+        public string NewTaskTitle
+        {
+            get => _newTaskTitle;
+            set
+            {
+                _newTaskTitle = value;
+                OnPropertyChanged(nameof(NewTaskTitle));
+            }
+        }
+        public string NewTaskDescription
+        {
+            get => _newTaskDescription;
+            set
+            {
+                _newTaskDescription = value;
+                OnPropertyChanged(nameof(NewTaskDescription));
+            }
+        }
         #endregion
 
         #region Commands
         public ICommand AddTaskCommand { get; private set; }
+        public ICommand SaveNewTaskCommand { get; private set; }
         public ICommand DeleteTaskCommand { get; private set; }
         public ICommand SelectTaskCommand { get; private set; }
         public ICommand SelectMemberCommand { get; private set; }
@@ -93,7 +140,6 @@ namespace Projektledningsverktyg.ViewModels
             _repository = repository;
             InitializeCommands();
             LoadData();
-
         }
         private void InitializeCommands()
         {
@@ -102,6 +148,8 @@ namespace Projektledningsverktyg.ViewModels
 
             SelectTaskCommand = new RelayCommand<Household>(SelectTask);
             SelectMemberCommand = new RelayCommand<Member>(SelectMember);
+
+            SaveNewTaskCommand = new RelayCommand<object>(_ => ExecuteSaveNewTask(), _ => CanExecuteSaveNewTask());
         }
 
         private void LoadData()
@@ -112,22 +160,50 @@ namespace Projektledningsverktyg.ViewModels
         }
         #endregion
 
-        #region Execute
+        #region Execute / Add
         private void ExecuteAddTask()
+        {
+            var addWindow = new AddHouseholdTask();
+            addWindow.Owner = Application.Current.MainWindow;
+            addWindow.DataContext = this;
+            addWindow.ShowDialog();
+        }
+        private bool CanExecuteSaveNewTask()
+        {
+            if (string.IsNullOrWhiteSpace(NewTaskTitle))
+            {
+                AddTaskErrorMessage = "Titel kan inte vara tom";
+                return false;
+            }
+
+            AddTaskErrorMessage = string.Empty;
+            return true;
+        }
+        public void ExecuteSaveNewTask()
         {
             var newTask = new Household
             {
-                Title = "Ny uppgift",
-                Description = "Beskrivning av uppgiften"
+                Title = NewTaskTitle,
+                Description = NewTaskDescription ?? string.Empty
             };
 
             _repository.AddHouseholdTask(newTask);
             Tasks.Add(newTask);
+
+            SuccessMessage = "Ny uppgift har skapats";
+            // Close the window
+            if (Application.Current.Windows.OfType<AddHouseholdTask>().FirstOrDefault() is AddHouseholdTask window)
+            {
+                window.Close();
+            }
         }
+
         private void ExecuteDeleteTask(Household task)
         {
             _repository.DeleteHouseholdTask(task.Id);
             Tasks.Remove(task);
+
+            SuccessMessage = "Uppgift har raderats";
         }
 
         #endregion
@@ -301,6 +377,7 @@ namespace Projektledningsverktyg.ViewModels
                 _messageTimer.Elapsed += (s, e) =>
                 {
                     UserMessage = string.Empty;
+                    SuccessMessage = string.Empty;
                     _messageTimer.Stop();
                 };
             }

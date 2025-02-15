@@ -29,13 +29,6 @@
             <Setter Property="Background" Value="White"/>
         </Style>
 
-        <Style x:Key="ModernCheckboxStyle" TargetType="{x:Type CheckBox}">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="#2196F3"/>
-            <Setter Property="Foreground" Value="#333333"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="SnapsToDevicePixels" Value="True"/>
-        </Style>
     </Page.Resources>
 
     <Grid Background="#F5F5F5">
@@ -89,6 +82,37 @@
                                   FontSize="14"
                                   FontWeight="Medium"
                                   Foreground="#D32F2F"/>
+                    </Grid>
+                </Border>
+
+                <!-- Success message -->
+                <Border x:Name="SuccessBorder"
+                        CornerRadius="4"
+                        BorderBrush="#2ECC71"
+                        BorderThickness="1"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Margin="0,5,0,10"
+                        Panel.ZIndex="999"
+                        Visibility="Collapsed">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="✓" 
+                                  Foreground="#2ECC71"
+                                  Margin="10,5,0,5"
+                                  VerticalAlignment="Center"/>
+
+                        <TextBlock x:Name="SuccessMessage"
+                              Grid.Column="1"
+                              Text="Uppgift har skapats"
+                              Padding="5,5,10,5"
+                              FontSize="14"
+                              FontWeight="Medium"
+                              Foreground="#2ECC71"/>
                     </Grid>
                 </Border>
             </StackPanel>
@@ -218,42 +242,7 @@
                                             </Border>
                                         </WrapPanel>
                                         
-                                        <WrapPanel Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Right">
-                                            <!-- Team Task -->
-                                            <CheckBox x:Name="TeamTaskCheckbox" IsChecked="{Binding IsTeamTask}"
-                                                      Content="Team Task" 
-                                                      Margin="0,5,0,0"
-                                                      Style="{StaticResource ModernCheckboxStyle}">
-                                                <CheckBox.Template>
-                                                    <ControlTemplate TargetType="CheckBox">
-                                                        <Border Background="#F5F5F5" 
-                                                                CornerRadius="6" 
-                                                                Padding="12,8">
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <TextBlock Text="Teamwork" Margin="0,0,5,0" VerticalAlignment="Center" Foreground="#1669bb"/>
-                                                                <Border Width="20" 
-                                                                        Height="20" 
-                                                                        BorderThickness="2"
-                                                                        BorderBrush="#666666"
-                                                                        CornerRadius="4"
-                                                                        Background="{TemplateBinding Background}">
-                                                                    <Path x:Name="CheckMark"
-                                                                          Data="M1,5 L4,8 L8,2"
-                                                                          Stroke="#2196F3"
-                                                                          StrokeThickness="2"
-                                                                          Visibility="Collapsed"/>
-                                                                </Border>
-                                                            </StackPanel>
-                                                        </Border>
-                                                        <ControlTemplate.Triggers>
-                                                            <Trigger Property="IsChecked" Value="True">
-                                                                <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
-                                                            </Trigger>
-                                                        </ControlTemplate.Triggers>
-                                                    </ControlTemplate>
-                                                </CheckBox.Template>
-                                            </CheckBox>
-                                        </WrapPanel>
+                                        
 
                                     </Grid>
                                 </Border>
@@ -274,7 +263,9 @@
                     HorizontalAlignment="Right"
                     Margin="0,0,30,30"
                     Command="{Binding AddTaskCommand}"
-                    ToolTip="Lägg till ny "/>
+                    ToolTip="Lägg till ny ">
+                
+            </Button>
         </Grid>
 
         <!-- Members Section Header -->

@@ -21,6 +21,64 @@
 
     <Style x:Key="DeleteButton" TargetType="Button" BasedOn="{StaticResource ActionButton}">
         <Setter Property="Background" Value="#FF5252"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#D32F2F"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="CancelButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="#1669bb"/>
+        <Setter Property="BorderBrush" Value="#1669bb"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="15,8"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="4">
+                        <ContentPresenter HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#E3F2FD"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="SaveButton" TargetType="Button">
+        <Setter Property="Background" Value="#1669bb"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="15,8"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                        CornerRadius="4">
+                        <ContentPresenter HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#0D47A1"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="AddButton" TargetType="Button">
@@ -30,11 +88,17 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}"
-                        CornerRadius="25">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                CornerRadius="25">
+                        <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#1976D2"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

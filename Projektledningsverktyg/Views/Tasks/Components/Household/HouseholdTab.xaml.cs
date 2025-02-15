@@ -58,12 +58,12 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Household
             }
         }
 
-        private Data.Entities.Household FindTaskById(int taskId)
-        {
-            return FindVisualChildren<Border>(this)
-                .FirstOrDefault(b => b.DataContext is Data.Entities.Household t && t.Id == taskId)
-                ?.DataContext as Data.Entities.Household;
-        }
+        //private Data.Entities.Household FindTaskById(int taskId)
+        //{
+        //    return FindVisualChildren<Border>(this)
+        //        .FirstOrDefault(b => b.DataContext is Data.Entities.Household t && t.Id == taskId)
+        //        ?.DataContext as Data.Entities.Household;
+        //}
 
         private void ApplyVisualStates(Dictionary<(string Day, int TaskId), (bool IsLocked, bool IsSelected)> states)
         {
@@ -110,6 +110,18 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Household
             {
                 UpdateErrorMessage(_viewModel.UserMessage);
             }
+
+            if (e.PropertyName == nameof(HouseholdViewModel.SuccessMessage))
+            {
+                UpdateSuccessMessage(_viewModel.SuccessMessage);
+            }
+        }
+        private void UpdateSuccessMessage(string message)
+        {
+            SuccessMessage.Text = message;
+            SuccessBorder.Visibility = string.IsNullOrEmpty(message)
+                ? System.Windows.Visibility.Collapsed
+                : System.Windows.Visibility.Visible;
         }
 
         private void UpdateErrorMessage(string message)
