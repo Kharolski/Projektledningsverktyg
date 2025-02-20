@@ -79,7 +79,7 @@ namespace Projektledningsverktyg
 
         private void BtnTasks_Click(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine($"Current User: {App.CurrentUser?.Email}");
+            //Debug.WriteLine($"Current User: {App.CurrentUser?.Email}");
             if (_currentMember != null)
             {
                 MainFrame.Navigate(new TasksView(App.CurrentUser));

@@ -149,7 +149,7 @@ namespace Projektledningsverktyg.ViewModels
             SelectTaskCommand = new RelayCommand<Household>(SelectTask);
             SelectMemberCommand = new RelayCommand<Member>(SelectMember);
 
-            SaveNewTaskCommand = new RelayCommand<object>(_ => ExecuteSaveNewTask(), _ => CanExecuteSaveNewTask());
+            SaveNewTaskCommand = new RelayCommand<object>(_ => ExecuteAddTask(), _ => CanExecuteSaveNewTask());
         }
 
         private void LoadData()
@@ -179,7 +179,7 @@ namespace Projektledningsverktyg.ViewModels
             AddTaskErrorMessage = string.Empty;
             return true;
         }
-        public void ExecuteSaveNewTask()
+        public void ExecuteSaveTask()
         {
             var newTask = new Household
             {
@@ -393,7 +393,6 @@ namespace Projektledningsverktyg.ViewModels
         public bool IsSelectedTask(Household task) => _selectedTasks.Contains(task);
         public bool IsSelectedMember(Member member) => _selectedMembers.Contains(member);
         #endregion
-
 
         public void AssignMemberToTask(Member member)
         {

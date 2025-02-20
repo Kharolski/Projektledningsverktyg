@@ -1,7 +1,9 @@
 ﻿using Projektledningsverktyg.Data.Context;
 using Projektledningsverktyg.Data.Entities;
+using Projektledningsverktyg.Helpers;
 using Projektledningsverktyg.Views.Auth;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -25,7 +27,6 @@ namespace Projektledningsverktyg
             {
                 db.Database.CreateIfNotExists();
             }
-
         }
 
         protected override void OnStartup(StartupEventArgs e)

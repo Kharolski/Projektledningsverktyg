@@ -317,6 +317,7 @@
     <Compile Include="Helpers\AppFolders.cs" />
     <Compile Include="Helpers\DragDropTypes.cs" />
     <Compile Include="Helpers\DraggableControlBase.cs" />
+    <Compile Include="Helpers\EnumDisplayHelper.cs" />
     <Compile Include="Helpers\PositionChangedEventArgs.cs" />
     <Compile Include="Helpers\WeekViewLayoutManager.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -437,20 +438,20 @@
     <Compile Include="Views\Tasks\Components\Meals\AddMealSection.xaml.cs">
       <DependentUpon>AddMealSection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Tasks\Components\ChoresTab.xaml.cs">
-      <DependentUpon>ChoresTab.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Tasks\Components\GeneralTasksTab.xaml.cs">
-      <DependentUpon>GeneralTasksTab.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Tasks\Components\Meals\ListMealsSection.xaml.cs">
       <DependentUpon>ListMealsSection.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Tasks\Components\Meals\MealsTab.xaml.cs">
       <DependentUpon>MealsTab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Tasks\TaskDetail.xaml.cs">
-      <DependentUpon>TaskDetail.xaml</DependentUpon>
+    <Compile Include="Views\Tasks\Components\Task\AddGeneralTask.xaml.cs">
+      <DependentUpon>AddGeneralTask.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tasks\Components\Task\GeneralTab.xaml.cs">
+      <DependentUpon>GeneralTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tasks\Components\Task\TaskComments.xaml.cs">
+      <DependentUpon>TaskComments.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Tasks\TasksView.xaml.cs">
       <DependentUpon>TasksView.xaml</DependentUpon>
@@ -467,11 +468,27 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles\CalendarStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\CardStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\ComboBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\MultiLineTextBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\TabStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\TextBoxStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -603,14 +620,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Tasks\Components\ChoresTab.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Tasks\Components\GeneralTasksTab.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Tasks\Components\Meals\ListMealsSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -619,7 +628,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Tasks\TaskDetail.xaml">
+    <Page Include="Views\Tasks\Components\Task\AddGeneralTask.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Tasks\Components\Task\GeneralTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tasks\Components\Task\TaskComments.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -663,9 +680,7 @@
   <ItemGroup>
     <Resource Include="Images\no_image.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Tasks\Components\Task\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\Avatars\avatar_m1.jpg" />
     <Resource Include="Images\Avatars\avatar_m2.jpg" />

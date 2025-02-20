@@ -23,10 +23,6 @@ namespace Projektledningsverktyg.Data.Entities
 
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-        //internal static async System.Threading.Tasks.Task Delay(int milliseconds)
-        //{
-        //    await Task.Delay(milliseconds);
-        //}
 
     }
 

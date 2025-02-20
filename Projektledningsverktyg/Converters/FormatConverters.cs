@@ -1,4 +1,5 @@
 ﻿using Projektledningsverktyg.Data.Entities;
+using Projektledningsverktyg.Helpers;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -129,4 +130,28 @@ namespace Projektledningsverktyg.Converters
         }
     }
 
+    public class PriorityDisplayConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is TaskPriority priority)
+            {
+                return EnumDisplayHelper.GetDisplayName(priority);
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string displayName)
+            {
+                foreach (TaskPriority priority in Enum.GetValues(typeof(TaskPriority)))
+                {
+                    if (EnumDisplayHelper.GetDisplayName(priority) == displayName)
+                        return priority;
+                }
+            }
+            return TaskPriority.Low;
+        }
+    }
 }

@@ -23,20 +23,12 @@
         <converters:TimeDisplayConverter x:Key="TimeDisplayConverter"/>
     </Page.Resources>
 
-    <Grid Margin="20">
+    <Grid Background="#F5F5F5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>      <!-- Add Event Button -->
             <RowDefinition Height="Auto"/>      <!-- Message Panel -->
             <RowDefinition Height="*"/>         <!-- Events List -->
         </Grid.RowDefinitions>
-
-        <!-- Add Event Button -->
-        <Button Grid.Row="0" 
-                Content="Lägg till händelse"
-                Height="40"
-                Background="#2196F3"
-                Foreground="White"
-                Command="{Binding AddEventCommand}"/>
 
         <!-- Message Panel -->
         <TextBlock Grid.Row="1"
@@ -53,7 +45,7 @@
         <ItemsControl Grid.Row="2" ItemsSource="{Binding EventsByCategory}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Margin="0,20,0,0">
+                    <StackPanel Margin="0,20,0,0" >
                         <!-- Header with lines -->
                         <Grid Height="40">
                             <Grid.ColumnDefinitions>
@@ -63,25 +55,25 @@
                             </Grid.ColumnDefinitions>
 
                             <Line Grid.Column="0" 
-                          X2="1" 
-                          Stretch="Fill" 
-                          Stroke="#2196F3" 
-                          StrokeThickness="1" 
-                          Y1="0.5" Y2="0.5"/>
+                                  X2="1" 
+                                  Stretch="Fill" 
+                                  Stroke="#2196F3" 
+                                  StrokeThickness="1" 
+                                  Y1="0.5" Y2="0.5"/>
 
                             <TextBlock Grid.Column="1" 
-                             Text="{Binding Key}" 
-                             FontSize="20"
-                             FontWeight="Bold"
-                             Margin="15,0"
-                             Foreground="#2196F3"/>
+                                     Text="{Binding Key}" 
+                                     FontSize="20"
+                                     FontWeight="Bold"
+                                     Margin="15,0"
+                                     Foreground="#2196F3"/>
 
                             <Line Grid.Column="2" 
-                          X2="1" 
-                          Stretch="Fill" 
-                          Stroke="#2196F3" 
-                          StrokeThickness="1" 
-                          Y1="0.5" Y2="0.5"/>
+                                  X2="1" 
+                                  Stretch="Fill" 
+                                  Stroke="#2196F3" 
+                                  StrokeThickness="1" 
+                                  Y1="0.5" Y2="0.5"/>
                         </Grid>
 
                         <!-- Events in magazine style -->
@@ -184,5 +176,39 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         </ScrollViewer>
+
+        <!-- Floating Add Button -->
+        <Button Grid.Row="3"
+                Width="56"
+                Height="56"
+                Command="{Binding AddEventCommand}"
+                ToolTip="Lägg till händelse"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Margin="0,0,30,30">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="#1976D2"
+                            CornerRadius="28">
+                        <TextBlock Text="+"
+                                   Margin="0,0,0,8"
+                                  FontSize="28"
+                                  FontWeight="Medium"
+                                  Foreground="White"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
     </Grid>
 </Page>

@@ -42,6 +42,7 @@ namespace Projektledningsverktyg.Data.Entities
         {
             get
             {
+
                 var isCurrentUser = MemberId == App.CurrentUser.Id;
                 System.Diagnostics.Debug.WriteLine($"MemberId: {MemberId}, CurrentUser: {App.CurrentUser.Id}, IsMatch: {isCurrentUser}");
                 return isCurrentUser;

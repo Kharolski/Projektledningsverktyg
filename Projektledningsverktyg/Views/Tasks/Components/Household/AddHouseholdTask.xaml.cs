@@ -38,7 +38,7 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Household
                 return;
             }
 
-            viewModel?.ExecuteSaveNewTask();
+            viewModel?.ExecuteSaveTask();
         }
         private void UpdateErrorMessage(string message)
         {

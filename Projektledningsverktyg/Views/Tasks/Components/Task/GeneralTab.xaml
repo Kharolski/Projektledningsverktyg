@@ -1,0 +1,271 @@
+﻿<Page x:Class="Projektledningsverktyg.Views.Tasks.Components.Task.GeneralTab"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Projektledningsverktyg.Views.Tasks.Components.Task"
+      xmlns:entities="clr-namespace:Projektledningsverktyg.Data.Entities" 
+      xmlns:converters="clr-namespace:Projektledningsverktyg.Converters" 
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="GeneralTab">
+
+    <Page.Resources>
+
+        <converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
+        <converters:EmptyToTextConverter x:Key="EmptyToTextConverter"/>
+        
+        <ObjectDataProvider x:Key="TaskPriorities" 
+                    MethodName="GetValues"
+                    ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="entities:TaskPriority"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <!-- Priority Colors -->
+        <SolidColorBrush x:Key="UrgentBrush" Color="#FF0000"/>
+        <SolidColorBrush x:Key="HighBrush" Color="#FF4500"/>
+        <SolidColorBrush x:Key="MediumBrush" Color="#FFA500"/>
+        <SolidColorBrush x:Key="LowBrush" Color="#32CD32"/>
+    </Page.Resources>
+
+    <Grid Background="#F5F5F5" MouseDown="Grid_MouseDown">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="0" 
+                      VerticalScrollBarVisibility="Hidden">
+            <ItemsControl ItemsSource="{Binding TasksByMonth}" Margin="0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0,20,0,0">
+                            <!-- Month Header -->
+                            <Grid Height="40">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Line Grid.Column="0" 
+                                      X2="1" Stretch="Fill" 
+                                      Stroke="#1976D2" 
+                                      StrokeThickness="1" 
+                                      Y1="0.5" Y2="0.5"/>
+                                <TextBlock Grid.Column="1" 
+                                         Text="{Binding Key}" 
+                                         FontSize="20"
+                                         FontWeight="Bold"
+                                         Margin="15,0"
+                                         Foreground="#1976D2"/>
+                                <Line Grid.Column="2" 
+                                      X2="1" Stretch="Fill" 
+                                      Stroke="#1976D2" 
+                                      StrokeThickness="1" 
+                                      Y1="0.5" Y2="0.5"/>
+                            </Grid>
+
+                            <!-- Tasks Grid -->
+                            <ItemsControl ItemsSource="{Binding}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="2"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <!-- Your existing Border template goes here -->
+                                        <Border Background="White" 
+                                                BorderBrush="#E0E0E0"
+                                                BorderThickness="1"
+                                                CornerRadius="8" 
+                                                Height="130"
+                                                Padding="20,15" 
+                                                Margin="8"
+                                                MouseLeftButtonDown="TaskCard_Click">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <!-- Priority Circle -->
+                                                <Border Grid.Column="0" 
+                                                        Width="60" Height="60" 
+                                                        CornerRadius="30"
+                                                        Margin="0,0,15,0"
+                                                        BorderThickness="1"
+                                                        BorderBrush="#E0E0E0">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Priority}" Value="Urgent">
+                                                                    <Setter Property="Background" Value="#FF0000"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Priority}" Value="High">
+                                                                    <Setter Property="Background" Value="#FF4444"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Priority}" Value="Medium">
+                                                                    <Setter Property="Background" Value="#FFBB33"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Priority}" Value="Low">
+                                                                    <Setter Property="Background" Value="#99CC00"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+
+                                                    <StackPanel VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding DueDate, StringFormat='{}{0:dd}'}"
+                                                                FontSize="24" 
+                                                                FontWeight="Bold"
+                                                                Foreground="White"
+                                                                HorizontalAlignment="Center"/>
+                                                        <TextBlock Text="{Binding DueDate, StringFormat='{}{0:MMM}'}"
+                                                                 Foreground="White"
+                                                                 HorizontalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </Border>
+
+                                                <!-- Task Details -->
+                                                <StackPanel Grid.Column="1">
+                                                    <TextBlock Text="{Binding Title}"
+                                                            FontWeight="Bold"
+                                                            FontSize="16"/>
+
+                                                    <TextBlock Text="{Binding PriorityDisplay}">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Priority}" Value="Urgent">
+                                                                        <Setter Property="Foreground" Value="#FF0000"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Priority}" Value="High">
+                                                                        <Setter Property="Foreground" Value="#FF4444"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Priority}" Value="Medium">
+                                                                        <Setter Property="Foreground" Value="#FFBB33"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Priority}" Value="Low">
+                                                                        <Setter Property="Foreground" Value="#99CC00"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+
+                                                    <TextBlock Text="{Binding Description}"
+                                                                Margin="0,8,0,0"
+                                                                TextWrapping="Wrap"
+                                                                Foreground="#666"/>
+                                                </StackPanel>
+
+                                                <!-- Delete Button -->
+                                                <Button Grid.Column="2" 
+                                                        Width="32" Height="32"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Command="{Binding DataContext.DeleteTaskCommand, 
+                                                                RelativeSource={RelativeSource AncestorType=Page}}"
+                                                        CommandParameter="{Binding}">
+                                                    <TextBlock Text="🗑️" 
+                                                                FontSize="16" Foreground="Red"/>
+                                                </Button>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                        
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+         
+        <!-- Empty state message -->
+        <StackPanel Grid.Row="0" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Center"
+                    Margin="0,100,0,0">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding TasksByMonth.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+
+            <TextBlock Text="📝" 
+                  FontSize="48"
+                  HorizontalAlignment="Center"
+                  Margin="0,0,0,16"/>
+            <TextBlock Text="Inga uppgifter tillagda" 
+                  FontSize="18"
+                  Foreground="#666666"
+                  FontWeight="Medium"/>
+            <TextBlock Text="Klicka på + för att lägga till en ny uppgift" 
+                  FontSize="14"
+                  Foreground="#999999"
+                  Margin="0,8,0,0"/>
+        </StackPanel>
+
+        <!-- Floating Add Button -->
+        <Button Grid.Row="0"
+                Width="56"
+                Height="56"
+                Click="AddButton_Click"
+                ToolTip="Lägg till ny uppgift"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Margin="0,0,30,30">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="#1976D2"
+                            CornerRadius="28">
+                        <TextBlock Text="+"
+                                  FontSize="28"
+                                  FontWeight="Medium"
+                                  Foreground="White"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <!-- Comments Slide Panel -->
+        <Border x:Name="CommentsPanel"
+                Width="500"
+                Height="400"
+                HorizontalAlignment="Right"
+                Background="White"
+                BorderThickness="1,0,0,0"
+                BorderBrush="#E0E0E0"
+                Margin="0,0,-500,0">
+            <Border.RenderTransform>
+                <TranslateTransform x:Name="SlideTransform" X="0"/>
+            </Border.RenderTransform>
+
+            <local:TaskComments x:Name="taskComments"/>
+        </Border>
+
+    </Grid>
+</Page>

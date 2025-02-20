@@ -4,38 +4,63 @@ using Projektledningsverktyg.Data.Entities;
 using Projektledningsverktyg.Models;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using Projektledningsverktyg.Helpers;
 using System.Diagnostics;
-using System.Data.SQLite;
-using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
 
 namespace Projektledningsverktyg.ViewModels
 {
-    public class TaskViewModel : ViewModelBase
+    public class TaskViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        private readonly Member _currentMember;
-
         // This handles the UI logic - how tasks are displayed and manipulated
         public TaskViewModel(ApplicationDbContext context, Member currentMember)
         {
             _context = context;  // Stores database connection
             _currentMember = currentMember;
+            SelectedPriority = TaskPriority.Low;
             LoadTasks();
             InitializeCommands();
         }
 
         // Main collection for tasks
+        private readonly Member _currentMember;
         private ObservableCollection<TaskModel> _tasks;
         private string _newTaskTitle = string.Empty;
+        private string _newTaskDescription = string.Empty;
+        private string _commentText = string.Empty;
         private DateTime _selectedDate = DateTime.Now;
         private TaskPriority _selectedPriority = TaskPriority.Low;
         private TaskStatus _selectedStatus = TaskStatus.NotStarted;
+        private string _addTaskErrorMessage;
         private readonly ApplicationDbContext _context;
+        private ObservableCollection<IGrouping<string, TaskModel>> _tasksByMonth;
 
         #region Property
+        // Observable collection for UI binding
+        public ObservableCollection<TaskModel> Tasks
+        {
+            get => _tasks;
+            set
+            {
+                _tasks = value;
+                OnPropertyChanged(nameof(Tasks));
+            }
+        }
+        public ObservableCollection<IGrouping<string, TaskModel>> TasksByMonth
+        {
+            get => _tasksByMonth;
+            set
+            {
+                _tasksByMonth = value;
+                OnPropertyChanged(nameof(TasksByMonth));
+            }
+        }
 
         private TaskModel _currentTask;
         public TaskModel CurrentTask
@@ -57,7 +82,15 @@ namespace Projektledningsverktyg.ViewModels
                 OnPropertyChanged(nameof(NewTaskTitle));
             }
         }
-
+        public string NewTaskDescription
+        {
+            get => _newTaskDescription;
+            set
+            {
+                _newTaskDescription = value;
+                OnPropertyChanged(nameof(NewTaskDescription));
+            }
+        }
         public DateTime SelectedDate
         {
             get => _selectedDate;
@@ -67,7 +100,6 @@ namespace Projektledningsverktyg.ViewModels
                 OnPropertyChanged(nameof(SelectedDate));
             }
         }
-
         public TaskPriority SelectedPriority
         {
             get => _selectedPriority;
@@ -77,7 +109,33 @@ namespace Projektledningsverktyg.ViewModels
                 OnPropertyChanged(nameof(SelectedPriority));
             }
         }
+        // Display priority by Name
+        public string PriorityDisplay
+        {
+            get
+            {
+                return EnumDisplayHelper.GetDisplayName(SelectedPriority);
+            }
+        }
+        public string AddTaskErrorMessage
+        {
+            get => _addTaskErrorMessage;
+            set
+            {
+                _addTaskErrorMessage = value;
+                OnPropertyChanged(nameof(AddTaskErrorMessage));
+            }
+        }
 
+        public string CommentText
+        {
+            get => _commentText;
+            set
+            {
+                _commentText = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         #region Commands for Execute
@@ -86,14 +144,15 @@ namespace Projektledningsverktyg.ViewModels
         public ICommand AddTaskCommand { get; private set; }
         public ICommand DeleteTaskCommand { get; private set; }
         public ICommand AddCommentCommand { get; private set; }
-        public ICommand SaveDescriptionCommand { get; private set; }
+        public ICommand DeleteCommentCommand { get; private set; }
 
         private void InitializeCommands()
         {
-            AddTaskCommand = new RelayCommand(ExecuteAddTask);
+            AddTaskCommand = new RelayCommand(ExecuteSaveTask);
             DeleteTaskCommand = new RelayCommand<TaskModel>(ExecuteDeleteTask);
             AddCommentCommand = new RelayCommand<string>(ExecuteAddComment);
-            SaveDescriptionCommand = new RelayCommand<string>(SaveDescription);
+            DeleteCommentCommand = new RelayCommand<int>(commentId =>
+                        ExecuteDeleteSingleComment(commentId, App.CurrentUser.Id));
         }
 
         #endregion
@@ -116,26 +175,59 @@ namespace Projektledningsverktyg.ViewModels
             {
                 Content = content,
                 CreatedAt = DateTime.Now,
-                MemberId = _currentMember.Id,
+                MemberId = App.CurrentUser.Id,
                 Type = CommentType.Task,
-                TaskId = CurrentTask?.Id
+                TaskId = CurrentTask?.Id,
+                //Member = _currentMember
             };
+
+            // Get fresh member data for display
+            var member = _context.Members.Find(App.CurrentUser.Id);
+            newComment.Member = member;
 
             _context.Comments.Add(newComment);
             await _context.SaveChangesAsync();
             CurrentTaskComments.Add(newComment);
+
+            // Clear the TextBox through binding
+            CommentText = string.Empty;
         }
 
+        public async void ExecuteSaveTask()
+        {
+            var newTask = new Data.Entities.Task
+            {
+                Title = NewTaskTitle,
+                Description = NewTaskDescription,
+                DueDate = SelectedDate,
+                Priority = SelectedPriority,
+                Status = TaskStatus.NotStarted,
+                MemberId = _currentMember.Id
+            };
+
+            _context.Tasks.Add(newTask);
+            await _context.SaveChangesAsync();
+
+            LoadTasks(); // Refresh the task list
+        }
         #endregion
 
         #region Load
 
-        private void LoadTasks()
+        public void LoadTasks()
         {
+            // Get all tasks from database
             var dbTasks = _context.Tasks
-                .Include(t => t.AssignedTo)
+                // Load all comments for each task
+                .Include(t => t.Comments)
+                    // For each comment, load the member who wrote it
+                    .ThenInclude(c => c.Member)
+                // Sort tasks by due date
+                .OrderBy(t => t.DueDate)
+                // Execute query and get results
                 .ToList();
 
+            // Convert database tasks to TaskModel objects
             var taskModels = dbTasks.Select(t => new TaskModel
             {
                 Id = t.Id,
@@ -143,120 +235,110 @@ namespace Projektledningsverktyg.ViewModels
                 Description = t.Description,
                 DueDate = t.DueDate,
                 Priority = t.Priority,
-                Status = t.Status
-                //MemberId null by default
+                Status = t.Status,
+
+                // Create collection of comments with author details
+                CurrentTaskComments = new ObservableCollection<Comment>(
+                    t.Comments.Select(c => new Comment
+                    {
+                        Id = c.Id,
+                        Content = c.Content,
+                        CreatedAt = c.CreatedAt,
+                        MemberId = c.MemberId,
+                        Member = new Member
+                        {
+                            Id = c.Member.Id,
+                            FirstName = c.Member.FirstName,
+                            ProfileImagePath = c.Member.ProfileImagePath
+                        }
+                    }).ToList())
             });
 
-            Tasks = new ObservableCollection<TaskModel>(taskModels);
+            // Group tasks by month and year
+            var groupedTasks = taskModels
+                .GroupBy(t => t.DueDate.ToString("MMMM yyyy"))
+                .OrderBy(g => DateTime.ParseExact(g.Key, "MMMM yyyy", CultureInfo.CurrentCulture));
+
+            // Update the observable collection
+            TasksByMonth = new ObservableCollection<IGrouping<string, TaskModel>>(groupedTasks);
         }
 
         public void SelectTask(TaskModel task)
         {
             CurrentTask = task;
-            Debug.WriteLine($"Task selected: {task?.Id}");
         }
 
         private void LoadComments()
         {
+            // Check if we have a selected task
             if (CurrentTask != null)
             {
+                // Get comments from database
                 var comments = _context.Comments
-                    .AsNoTracking()
-                    .Include(c => c.Member)
-                    .Where(c => c.TaskId == CurrentTask.Id)
+                    .AsNoTracking()           // For better performance
+                    .Include(c => c.Member)   // Load the comment author details
+                    .Where(c => c.TaskId == CurrentTask.Id)  // Get comments for current task only
+                    .ToList()
+                    .Select(c => new Comment  // Map to new Comment objects with additional properties
+                    {
+                        Id = c.Id,
+                        Content = c.Content,
+                        CreatedAt = c.CreatedAt,
+                        MemberId = c.MemberId,
+                        Member = c.Member
+                    })
                     .ToList();
 
+                // Update the observable collection with new comments
                 CurrentTaskComments = new ObservableCollection<Comment>(comments);
             }
         }
 
         #endregion
 
-        #region Add Task Command
-
-        // Add command execution methods
-        private async void ExecuteAddTask()
-        {
-            var newTask = new Data.Entities.Task
-            {
-                Title = NewTaskTitle,
-                DueDate = SelectedDate,
-                Priority = SelectedPriority,
-                Status = TaskStatus.NotStarted,
-                Description = string.Empty
-                // MemberId is null by default
-            };
-
-            _context.Tasks.Add(newTask);
-            await _context.SaveChangesAsync();
-
-            var taskModel = new TaskModel
-            {
-                Id = newTask.Id,
-                Title = newTask.Title,
-                DueDate = newTask.DueDate,
-                Priority = newTask.Priority,
-                Status = newTask.Status,
-                Description = newTask.Description
-            };
-
-            Tasks.Add(taskModel);
-
-            // Reset the form
-            NewTaskTitle = string.Empty;
-            SelectedDate = DateTime.Now;
-            SelectedPriority = TaskPriority.Low;
-        }
-
-        private void SaveDescription(string description)
-        {
-            // Save description to database
-            var task = _context.Tasks.Find(CurrentTask.Id);
-            if (task != null)
-            {
-                task.Description = description;
-                _context.SaveChanges();
-
-                // Update the current task model
-                CurrentTask.Description = description;
-
-                // Force refresh of button text binding
-                OnPropertyChanged(nameof(CurrentTask));
-                CommandManager.InvalidateRequerySuggested();
-            }
-        }
-        #endregion
-
         #region Delete Task Command
 
         private void ExecuteDeleteTask(TaskModel taskModel)
         {
+            ExecuteDeleteAllTaskComments(taskModel.Id);
+
             var taskToDelete = _context.Tasks
-                .Include(t => t.Comments)
                 .FirstOrDefault(t => t.Id == taskModel.Id);
 
             if (taskToDelete != null)
             {
                 _context.Tasks.Remove(taskToDelete);
                 _context.SaveChanges();
-                Tasks.Remove(taskModel);
+                LoadTasks();
             }
         }
 
+        // Delete all comments for a task
+        private void ExecuteDeleteAllTaskComments(int taskId)
+        {
+            var taskComments = _context.Comments
+                .Where(c => c.TaskId == taskId)
+                .ToList();
 
+            _context.Comments.RemoveRange(taskComments);
+            _context.SaveChanges();
+        }
+
+        private void ExecuteDeleteSingleComment(int commentId, int currentUserId)
+        {
+            var comment = _context.Comments.Find(commentId);
+            if (comment != null && comment.MemberId == currentUserId)
+            {
+                _context.Comments.Remove(comment);
+                _context.SaveChanges();
+                // Refresh the comments list
+                CurrentTaskComments.Remove(CurrentTaskComments.First(c => c.Id == commentId));
+            }
+        }
         #endregion
 
-        // Observable collection for UI binding
-        public ObservableCollection<TaskModel> Tasks
-        {
-            get => _tasks;
-            set
-            {
-                _tasks = value;
-                OnPropertyChanged(nameof(Tasks));
-            }
-        }
 
-        
+
+
     }
 }

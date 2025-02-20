@@ -58,13 +58,6 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Household
             }
         }
 
-        //private Data.Entities.Household FindTaskById(int taskId)
-        //{
-        //    return FindVisualChildren<Border>(this)
-        //        .FirstOrDefault(b => b.DataContext is Data.Entities.Household t && t.Id == taskId)
-        //        ?.DataContext as Data.Entities.Household;
-        //}
-
         private void ApplyVisualStates(Dictionary<(string Day, int TaskId), (bool IsLocked, bool IsSelected)> states)
         {
             foreach (var border in FindVisualChildren<Border>(this))
@@ -93,14 +86,6 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Household
                 border.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#b3dcfa"));
             else
                 border.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F5F5F5"));
-        }
-        private Color GetColorForState((bool IsLocked, bool IsSelected) state)
-        {
-            if (state.IsLocked)
-                return (Color)ColorConverter.ConvertFromString("#ffcdd2");
-            if (state.IsSelected)
-                return (Color)ColorConverter.ConvertFromString("#b3dcfa");
-            return (Color)ColorConverter.ConvertFromString("#F5F5F5");
         }
         #endregion 
 

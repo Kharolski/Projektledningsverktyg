@@ -50,9 +50,6 @@ namespace Projektledningsverktyg.Views.Members
         }
 
 
-
-
-
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             var member = (MemberModel)((Button)sender).DataContext;

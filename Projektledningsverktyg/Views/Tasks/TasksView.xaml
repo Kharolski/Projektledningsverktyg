@@ -24,6 +24,7 @@
 
         <!-- TabControl -->
         <TabControl Grid.Row="1" Margin="20,0,20,20">
+            
             <!-- Allmänna Uppgifter -->
             <TabItem Style="{StaticResource ModernTabHeaderStyle}">
                 <TabItem.Header>
