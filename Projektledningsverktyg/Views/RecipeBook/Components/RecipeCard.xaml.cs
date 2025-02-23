@@ -108,9 +108,14 @@ namespace Projektledningsverktyg.Views.RecipeBook.Components
                     var newMeal = new Meal
                     {
                         Name = recipe.Name,
-                        Notes = recipe.Description,
+                        Description = recipe.Description,
                         Date = DateTime.Today,
-                        Type = (MealType)recipe.MealType
+                        Type = (MealType)recipe.MealType,
+                        MainIngredient = recipe.MainIngredient,
+                        CookingTime = recipe.CookingTime,
+                        Servings = recipe.Servings,
+                        RecipeId = recipe.Id,
+                        ImagePath = recipe.ImagePath
                     };
                     newContext.Meals.Add(newMeal);
                 }

@@ -1,0 +1,113 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ColorScheme.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <DropShadowEffect x:Key="FloatingShadow"
+                      ShadowDepth="2"
+                      Direction="270"
+                      Color="Black"
+                      Opacity="0.3"
+                      BlurRadius="5"/>
+
+    <Style x:Key="FloatingAddButton" TargetType="Button">
+        <Setter Property="Width" Value="60"/>
+        <Setter Property="Height" Value="60"/>
+        <Setter Property="Background" Value="#4CAF50"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                CornerRadius="30"
+                Effect="{StaticResource FloatingShadow}">
+                        <ContentPresenter HorizontalAlignment="Center" 
+                            VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#388E3C"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="WeekNavigationButton" TargetType="Button">
+        <Setter Property="Width" Value="40"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Background" Value="#1976D2"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+            CornerRadius="20">
+                        <ContentPresenter HorizontalAlignment="Center" 
+                        VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#1565C0"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Day Card Styles -->
+    <Style x:Key="DayCardStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource PrimaryBackground}"/>
+        <Setter Property="Margin" Value="0,0,0,20"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+    </Style>
+
+    <!-- Meal Card Styles -->
+    <Style x:Key="MealCardStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource SecondaryBackground}"/>
+        <Setter Property="Width" Value="250"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Padding" Value="15"/>
+        <Setter Property="CornerRadius" Value="8"/>
+    </Style>
+
+    <!-- Text Styles -->
+    <Style x:Key="DayNameStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+    </Style>
+
+    <Style x:Key="DateStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Foreground" Value="{StaticResource SecondaryText}"/>
+    </Style>
+
+    <!-- Button Styles -->
+    <Style x:Key="AddMealButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="#4CAF50"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Padding" Value="15,8"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="5">
+                        <ContentPresenter HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

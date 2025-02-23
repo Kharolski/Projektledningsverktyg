@@ -38,7 +38,8 @@ namespace Projektledningsverktyg.Data.Context
         // Our Meal setup
         public DbSet<Meal> Meals { get; set; }
         public DbSet<MealIngredient> MealIngredients { get; set; }
-        public DbSet<MealDietaryTag> MealDietaryTags { get; set; }
+        public DbSet<MealInstruction> MealInstructions { get; set; }
+        //public DbSet<MealDietaryTag> MealDietaryTags { get; set; }
 
         // Our Recipe setup
         public DbSet<Recipe> Recipes { get; set; }
@@ -130,14 +131,14 @@ namespace Projektledningsverktyg.Data.Context
 
             // Meal relationships
             modelBuilder.Entity<Meal>()
-                .HasMany(m => m.Ingredients)
+                .HasMany(m => m.Instructions)
                 .WithRequired(i => i.Meal)
                 .HasForeignKey(i => i.MealId);
 
             modelBuilder.Entity<Meal>()
-                .HasMany(m => m.DietaryTags)
-                .WithRequired(t => t.Meal)
-                .HasForeignKey(t => t.MealId);
+                .HasMany(m => m.Ingredients)
+                .WithRequired(i => i.Meal)
+                .HasForeignKey(i => i.MealId);
 
             // Recipe relationships
             modelBuilder.Entity<Recipe>()

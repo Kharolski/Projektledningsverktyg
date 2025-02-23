@@ -4,21 +4,73 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Projektledningsverktyg.Views.Tasks.Components.Meals"
+      xmlns:components="clr-namespace:Projektledningsverktyg.Views.Tasks.Components.Meals.Components"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="MealsTab">
 
-    <Grid x:Name="MainGrid" Margin="20">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/MealStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Add Meal Section -->
-        <local:AddMealSection x:Name="AddMealSection" Grid.Row="0"/>
+        <!-- Header med vecka -->
+        <Border Background="#2196F3" Padding="20">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="◀" 
+                Style="{StaticResource WeekNavigationButton}"
+                Command="{Binding PreviousWeekCommand}"/>
 
-        <!-- Meals List -->
-        <local:ListMealsSection x:Name="ListMealsSection" Grid.Row="1"/>
-        
+                <StackPanel Margin="20,0">
+                    <TextBlock Foreground="White" 
+                      FontSize="24" 
+                      FontWeight="SemiBold"
+                      HorizontalAlignment="Center" 
+                      Text="{Binding CurrentMonth}"/>
+                    <TextBlock Foreground="White" 
+                      FontSize="20" 
+                      HorizontalAlignment="Center">
+                <Run Text="Vecka "/>
+                <Run Text="{Binding CurrentWeek}"/>
+                    </TextBlock>
+                </StackPanel>
+
+                <Button Content="▶" 
+                Style="{StaticResource WeekNavigationButton}"
+                Command="{Binding NextWeekCommand}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Dagar med måltider -->
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding WeekDays}" Margin="20">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <components:DayCard/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <!-- Floating Add Button -->
+        <Button Grid.Row="1"
+                Style="{StaticResource FloatingAddButton}"
+                Command="{Binding AddMealCommand}"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Margin="30">
+            <TextBlock Text="+" 
+                     FontSize="24" 
+                     FontWeight="Bold"/>
+        </Button>
     </Grid>
 </Page>

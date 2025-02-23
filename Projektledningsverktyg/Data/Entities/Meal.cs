@@ -8,25 +8,24 @@ namespace Projektledningsverktyg.Data.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public MealType Type { get; set; }
+        public MainIngredients MainIngredient { get; set; }
+        public int CookingTime { get; set; }
+        public int Servings { get; set; }
         public DateTime Date { get; set; }
+        public string ImagePath { get; set; }
+        public int RecipeId { get; set; }  // Reference to original recipe
 
-        // Nutritional Information
-        public int Calories { get; set; }
-        public float Protein { get; set; }
-        public float Carbohydrates { get; set; }
-        public float Fat { get; set; }
-        public float Fiber { get; set; }
+        // Navigation properties
+        public virtual ICollection<MealIngredient> Ingredients { get; set; }
+        public virtual ICollection<MealInstruction> Instructions { get; set; }
 
-        // Recipe Details
-        public string Instructions { get; set; }
-        public int PreparationTime { get; set; }
-        public int ServingSize { get; set; }
-        public string Notes { get; set; }
-
-        // Navigation properties for Ingredients and DietaryTags
-        public virtual ICollection<MealIngredient> Ingredients { get; set; } = new List<MealIngredient>();
-        public virtual ICollection<MealDietaryTag> DietaryTags { get; set; } = new List<MealDietaryTag>();
+        public Meal()
+        {
+            Ingredients = new List<MealIngredient>();
+            Instructions = new List<MealInstruction>();
+        }
     }
 
     public enum MealType

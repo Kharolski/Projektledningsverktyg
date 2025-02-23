@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="Projektledningsverktyg.Views.Tasks.Components.Meals.Components.MealCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Projektledningsverktyg.Views.Tasks.Components.Meals.Components"
+             xmlns:converters="clr-namespace:Projektledningsverktyg.Converters" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/ColorScheme.xaml"/>
+                <ResourceDictionary Source="../Styles/MealStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Local resources -->
+            <converters:MealTypeToColorConverter x:Key="MealTypeToColorConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Border Style="{StaticResource MealCardStyle}">
+        <Grid>
+            <Grid.InputBindings>
+                <MouseBinding MouseAction="LeftClick" 
+                         Command="{Binding ViewDetailsCommand}"/>
+            </Grid.InputBindings>
+            
+            <StackPanel>
+                <Border Background="{Binding Type, Converter={StaticResource MealTypeToColorConverter}}"
+                    CornerRadius="4"
+                    Padding="8,4"
+                    HorizontalAlignment="Left">
+                    <TextBlock Text="{Binding Type}"
+                         Foreground="White"
+                         FontSize="12"/>
+                </Border>
+
+                <TextBlock Text="{Binding Name}"
+                     FontSize="18"
+                     FontWeight="SemiBold"
+                     Margin="0,10"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding MainIngredient}"
+                         Style="{StaticResource DateStyle}"/>
+                    <TextBlock Text="•"
+                         Margin="8,0"
+                         Style="{StaticResource DateStyle}"/>
+                    <TextBlock Text="{Binding PreparationTime, StringFormat={}{0} min}"
+                         Style="{StaticResource DateStyle}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <Button HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,5,5,0"
+                Command="{Binding DeleteMealCommand}"
+                Content="✖"
+                Foreground="Gray"
+                Background="Transparent"
+                BorderThickness="0"
+                Cursor="Hand"/>
+        </Grid>
+    </Border>
+</UserControl>

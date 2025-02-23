@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Projektledningsverktyg.ViewModels;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Projektledningsverktyg.Views.Tasks.Components.Meals
@@ -8,19 +9,9 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Meals
         public MealsTab()
         {
             InitializeComponent();
-            Loaded += MealsTab_Loaded;
+            DataContext = new MealsTabViewModel();
 
         }
 
-        private void MealsTab_Loaded(object sender, RoutedEventArgs e)
-        {
-            var listSection = (ListMealsSection)FindName("ListMealsSection");
-            var addSection = (AddMealSection)FindName("AddMealSection");
-
-            if (listSection != null && addSection != null)
-            {
-                addSection.Initialize(listSection.ViewModel);
-            }
-        }
     }
 }

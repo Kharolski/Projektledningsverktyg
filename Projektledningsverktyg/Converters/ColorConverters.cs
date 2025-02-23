@@ -1,10 +1,6 @@
 ﻿using Projektledningsverktyg.Data.Entities;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Windows.Data;
 using System.Windows.Media;
 
@@ -69,4 +65,29 @@ namespace Projektledningsverktyg.Converters
         }
     }
 
+    public class MealTypeToColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is MealType mealType)
+            {
+                if (mealType == MealType.Frukost)
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF9800"));
+                if (mealType == MealType.Lunch)
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4CAF50"));
+                if (mealType == MealType.Middag)
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2196F3"));
+                if (mealType == MealType.Mellanmål)
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9C27B0"));
+                if (mealType == MealType.Efterrätt)
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E91E63"));
+            }
+            return new SolidColorBrush(Colors.Gray);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
