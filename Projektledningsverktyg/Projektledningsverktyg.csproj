@@ -313,6 +313,7 @@
     <Compile Include="Data\Entities\Task.cs" />
     <Compile Include="Data\Repository\EventRepository.cs" />
     <Compile Include="Data\Repository\HouseholdRepository.cs" />
+    <Compile Include="Data\Repository\ScheduleRepository.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\AppFolders.cs" />
     <Compile Include="Helpers\DragDropTypes.cs" />
@@ -327,7 +328,10 @@
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\ProtocolHandler.cs" />
+    <Compile Include="Services\ScheduleService.cs" />
     <Compile Include="ViewModels\AddMealDialogViewModel.cs" />
+    <Compile Include="ViewModels\Calendar\AddEditScheduleViewModel.cs" />
+    <Compile Include="ViewModels\Calendar\CalendarViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\DayViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
@@ -361,6 +365,18 @@
     </Compile>
     <Compile Include="Views\Calendar\CalendarView.xaml.cs">
       <DependentUpon>CalendarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Calendar\Components\MonthComponents\AddEditScheduleView.xaml.cs">
+      <DependentUpon>AddEditScheduleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Calendar\Components\MonthComponents\DayCell.xaml.cs">
+      <DependentUpon>DayCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Calendar\Components\MonthComponents\ScheduleListView.xaml.cs">
+      <DependentUpon>ScheduleListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Calendar\Components\MonthComponents\ScheduleWindow.xaml.cs">
+      <DependentUpon>ScheduleWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Calendar\Components\MonthView.xaml.cs">
       <DependentUpon>MonthView.xaml</DependentUpon>
@@ -481,6 +497,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\CheckboxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\ComboBoxStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -518,6 +538,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Calendar\CalendarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Calendar\Components\MonthComponents\AddEditScheduleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Calendar\Components\MonthComponents\DayCell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Calendar\Components\MonthComponents\ScheduleListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Calendar\Components\MonthComponents\ScheduleWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -154,4 +154,33 @@ namespace Projektledningsverktyg.Converters
             return TaskPriority.Low;
         }
     }
+
+    public class ScheduleDisplayConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            var title = values[0] as string;
+            var startTime = values[1] as DateTime?;
+            var endTime = values[2] as DateTime?;
+
+            var timeDisplay = GetTimeDisplay(startTime, endTime);
+            return $"{title} ({timeDisplay})";
+        }
+
+        private string GetTimeDisplay(DateTime? startTime, DateTime? endTime)
+        {
+            if (startTime.HasValue && endTime.HasValue)
+                return $"{startTime.Value:HH:mm} - {endTime.Value:HH:mm}";
+
+            if (startTime.HasValue)
+                return $"{startTime.Value:HH:mm}";
+
+            return "Under dagen";
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

@@ -60,7 +60,6 @@ namespace Projektledningsverktyg.ViewModels
         #endregion
 
         #region Commands
-        public ICommand CopyMealCommand { get; }
         public ICommand DeleteMealCommand { get; }
         public ICommand ViewDetailsCommand { get; }
         #endregion
@@ -68,7 +67,6 @@ namespace Projektledningsverktyg.ViewModels
         #region Constructor
         public MealViewModel()
         {
-            CopyMealCommand = new RelayCommand(ExecuteCopyMeal);
             DeleteMealCommand = new RelayCommand(ExecuteDeleteMeal);
             ViewDetailsCommand = new RelayCommand(ExecuteViewDetails);
         }

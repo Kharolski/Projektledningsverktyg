@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="/Styles/TextBoxStyle.xaml"/>
                 <ResourceDictionary Source="/Styles/MultiLineTextBoxStyle.xaml"/>
                 <ResourceDictionary Source="/Styles/ComboBoxStyle.xaml"/>
+                <ResourceDictionary Source="/Styles/CheckboxStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <converters:ImagePathConverter x:Key="ImagePathConverter"/>
@@ -23,6 +24,7 @@
             <converters:EventTypeToIconConverter x:Key="EventTypeToIconConverter"/>
             <converters:CurrentDayConverter x:Key="CurrentDayConverter"/>
             <converters:DateFormatConverter x:Key="DateFormatConverter"/>
+            
 
         </ResourceDictionary>
     </Application.Resources>

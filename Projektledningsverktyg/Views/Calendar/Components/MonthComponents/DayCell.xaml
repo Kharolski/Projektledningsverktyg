@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Projektledningsverktyg.Views.Calendar.Components.MonthComponents.DayCell"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Projektledningsverktyg.Views.Calendar.Components.MonthComponents"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{Binding Date.Day}"
+               Margin="5"
+               FontWeight="Bold"
+               HorizontalAlignment="Left"/>
+
+        <StackPanel Grid.Row="1" 
+                Orientation="Horizontal"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="0,0,0,5">
+            <Ellipse Width="6" Height="6" 
+                 Fill="#2196F3"
+                 Visibility="{Binding HasWorkSchedule, Converter={StaticResource BoolToVis}}"/>
+            <Rectangle Width="12" Height="2" 
+                   Fill="#2196F3"
+                   Margin="2,0,0,0"
+                   Visibility="{Binding HasNightShift, Converter={StaticResource BoolToVis}}"/>
+            <Ellipse Width="6" Height="6" 
+                 Fill="#FF5722"
+                 Margin="2,0,0,0"
+                 Visibility="{Binding HasDeviation, Converter={StaticResource BoolToVis}}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
