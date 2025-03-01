@@ -81,7 +81,8 @@
             <StackPanel Margin="20">
                 
                 <!-- Comments List -->
-                <ListBox ItemsSource="{Binding CurrentTaskComments}" 
+                <ListBox x:Name="commentsListBox" 
+                         SelectionMode="Single" 
                             Background="White"
                             Margin="0,0,0,15">
                     <ListBox.Template>
@@ -243,7 +244,7 @@
                 BorderThickness="0,1,0,0"
                 BorderBrush="#E0E0E0">
             <DockPanel Margin="20">
-                <TextBox x:Name="CommentBox" Text="{Binding CommentText, UpdateSourceTrigger=PropertyChanged}"
+                <TextBox x:Name="CommentBox"
                         DockPanel.Dock="Left"
                         Margin="0,0,10,0"
                         MinHeight="60"
@@ -271,8 +272,7 @@
                     </TextBox.Style>
                 </TextBox>
                 <Button Content="Lägg till"
-                        Command="{Binding AddCommentCommand}"
-                        CommandParameter="{Binding Text, ElementName=CommentBox}"
+                        Click="AddCommentButton_Click"
                         Padding="15,8"
                         Width="80"
                         Height="35"

@@ -24,7 +24,12 @@
             <converters:EventTypeToIconConverter x:Key="EventTypeToIconConverter"/>
             <converters:CurrentDayConverter x:Key="CurrentDayConverter"/>
             <converters:DateFormatConverter x:Key="DateFormatConverter"/>
-            
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+            <converters:EventTypeToColorConverter x:Key="EventTypeToColorConverter"/>
+            <converters:TimeDisplayConverter x:Key="TimeDisplayConverter"/>
+            <converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
+            <converters:CommentsCountToVisibilityConverter x:Key="CommentsCountToVisibilityConverter"/>
 
         </ResourceDictionary>
     </Application.Resources>

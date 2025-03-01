@@ -212,21 +212,6 @@
                         </RadioButton.ContentTemplate>
                     </RadioButton>
 
-                    <!-- AI Assistant Button -->
-                    <RadioButton x:Name="BtnAIAssistant" 
-                        Style="{StaticResource NavButton}"
-                        Content="AI Assistent"
-                        Checked="BtnAIAssistant_Click">
-                        <RadioButton.ContentTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="🤖" Margin="0,0,10,0"/>
-                                    <TextBlock Text="AI Assistent"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </RadioButton.ContentTemplate>
-                    </RadioButton>
-
                     <!-- Recipe Book Button -->
                     <RadioButton x:Name="BtnRecipeBook" 
                                 Style="{StaticResource NavButton}"

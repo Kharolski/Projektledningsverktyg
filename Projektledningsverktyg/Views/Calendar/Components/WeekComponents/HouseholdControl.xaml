@@ -32,104 +32,70 @@
             <!-- Header with Add button only -->
             <DockPanel Grid.Row="0">
                 <TextBlock Text="Hushåll uppgifter" FontSize="16" FontWeight="DemiBold" Foreground="#2196F3" DockPanel.Dock="Left"/>
-                <Button Content="+" Width="30" Height="30" Background="#4CAF50" Foreground="White" 
-                            HorizontalAlignment="Right"/>
+                <Button Content="+" 
+                        Background="#4CAF50" Foreground="White" 
+                        HorizontalAlignment="Right"
+                        Command="{Binding NavigateToHouseholdTabCommand}"
+                        Padding="8,4"
+                        />
             </DockPanel>
 
             <!-- Content with hover controls -->
             <StackPanel Grid.Row="1">
-                <!-- Task Item 1 -->
-                <Grid Margin="0,5">
-                    <TextBlock Text="✓ Dammsuga (Erik)" VerticalAlignment="Center"/>
-                    <StackPanel x:Name="EditButtons4" Orientation="Horizontal" HorizontalAlignment="Right" 
-                                Opacity="0">
-                        <Button Content="❌" Width="24" Height="24" Background="#f0370e"/>
-                    </StackPanel>
-                    <Grid.Triggers>
-                        <EventTrigger RoutedEvent="MouseEnter">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                        Storyboard.TargetName="EditButtons4"
-                                        Storyboard.TargetProperty="Opacity"
-                                        To="1" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                        Storyboard.TargetName="EditButtons4"
-                                        Storyboard.TargetProperty="Opacity"
-                                        To="0" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Grid.Triggers>
-                </Grid>
+                <!-- Visa när det finns uppgifter -->
+                <ItemsControl ItemsSource="{Binding HouseholdTasks}" 
+                              Visibility="{Binding HasHouseholdTasks, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,5">
+                                <TextBlock VerticalAlignment="Center">
+                                        <Run Text="{Binding Title}" />
+                                        <Run Text=" (" />
+                                        <Run Text="{Binding AssignedTo}" />
+                                        <Run Text=")" />
+                                </TextBlock>
+                                <Button Content="❌" Width="24" Height="24" Background="#f0370e"
+                                        HorizontalAlignment="Right"
+                                        Opacity="0"
+                                        x:Name="DeleteButton"
+                                        Command="{Binding DataContext.RemoveDayFromTaskCommand, 
+                                                 RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                        CommandParameter="{Binding}"/>
+                                <Grid.Triggers>
+                                    <EventTrigger RoutedEvent="MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation 
+                                                    Storyboard.TargetName="DeleteButton"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="1" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="MouseLeave">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation 
+                                                    Storyboard.TargetName="DeleteButton"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="0" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Grid.Triggers>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                <!-- Task Item 2 -->
-                <Grid Margin="0,5">
-                    <TextBlock Text="□ Tvätta (Anna)" VerticalAlignment="Center"/>
-                    <StackPanel x:Name="EditButtons5" Orientation="Horizontal" HorizontalAlignment="Right" 
-                                Opacity="0">
-                        <Button Content="❌" Width="24" Height="24" Background="#f0370e"/>
-                    </StackPanel>
-                    <Grid.Triggers>
-                        <EventTrigger RoutedEvent="MouseEnter">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                        Storyboard.TargetName="EditButtons5"
-                                        Storyboard.TargetProperty="Opacity"
-                                        To="1" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                        Storyboard.TargetName="EditButtons5"
-                                        Storyboard.TargetProperty="Opacity"
-                                        To="0" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Grid.Triggers>
-                </Grid>
+                <!-- Visa när det är tomt -->
+                <TextBlock Text="Inga hushållsuppgifter för denna dag" 
+                           Foreground="#666666" 
+                           HorizontalAlignment="Center"
+                           Margin="0,10"
+                           FontStyle="Italic"
+                           Visibility="{Binding HasHouseholdTasks, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
 
-                <!-- Task Item 3 -->
-                <Grid Margin="0,5">
-                    <TextBlock Text="□ Vattna blommor (Lisa)" VerticalAlignment="Center"/>
-                    <StackPanel x:Name="EditButtons6" Orientation="Horizontal" HorizontalAlignment="Right" 
-                                Opacity="0">
-                        <Button Content="❌" Width="24" Height="24" Background="#f0370e"/>
-                    </StackPanel>
-                    <Grid.Triggers>
-                        <EventTrigger RoutedEvent="MouseEnter">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                        Storyboard.TargetName="EditButtons6"
-                                        Storyboard.TargetProperty="Opacity"
-                                        To="1" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                        Storyboard.TargetName="EditButtons6"
-                                        Storyboard.TargetProperty="Opacity"
-                                        To="0" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Grid.Triggers>
-                </Grid>
             </StackPanel>
         </Grid>
     </Border>

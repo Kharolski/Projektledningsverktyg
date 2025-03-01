@@ -6,6 +6,7 @@
              xmlns:converters="clr-namespace:Projektledningsverktyg.Converters"
              xmlns:viewmodels="clr-namespace:Projektledningsverktyg.ViewModels"
              xmlns:weekComponents="clr-namespace:Projektledningsverktyg.Views.Calendar.Components.WeekComponents"
+             xmlns:comments="clr-namespace:Projektledningsverktyg.Views.Tasks.Components.Task"
              mc:Ignorable="d" 
              Loaded="WeekView_Loaded"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -71,16 +72,34 @@
                         <UniformGrid Columns="7"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
-
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Background="{Binding IsCurrentDay, Converter={StaticResource CurrentDayConverter}}"
-                        Padding="10,5">
+                        <!-- Use a Border with two backgrounds that can overlay -->
+                        <Grid Cursor="Hand">
+                            <Grid.InputBindings>
+                                <MouseBinding MouseAction="LeftClick" 
+                                    Command="{Binding DataContext.SelectDayCommand, 
+                                    RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                    CommandParameter="{Binding}"/>
+                            </Grid.InputBindings>
+
+                            <!-- Base color for all days -->
+                            <Border Background="#1976D2" Padding="10,5"/>
+
+                            <!-- Current day highlighting -->
+                            <Border Background="{Binding IsCurrentDay, Converter={StaticResource DateFormatConverter}}" 
+                            Padding="10,5"/>
+
+                            <!-- Selected day highlighting -->
+                            <Border Background="{Binding IsSelected, Converter={StaticResource DateFormatConverter}, ConverterParameter=Selected}" 
+                            Padding="10,5"/>
+
+                            <!-- Day text -->
                             <TextBlock Text="{Binding DayName, StringFormat='{}{0:dddd d}'}"
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               Foreground="White"/>
-                        </Border>
+                        </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -133,10 +152,24 @@
 
                 <!-- Events Section -->
                 <weekComponents:EventsControl x:Name="EventsControl" MinHeight="150" MinWidth="300"
-                                              Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}"
-                                              />
+                                              Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}" />
                 
             </Canvas>
         </ScrollViewer>
+
+        <!-- Comments Slide Panel -->
+        <Border x:Name="CommentsPanel" Grid.Row="3"
+                Visibility="Collapsed" Width="500" Height="400"
+                HorizontalAlignment="Right" VerticalAlignment="Center"
+                Background="White"
+                BorderThickness="1"
+                BorderBrush="#E0E0E0"
+                Margin="0,0,100,0" Panel.ZIndex="1000">
+            <Border.RenderTransform>
+                <TranslateTransform x:Name="SlideTransform" X="500"/>
+            </Border.RenderTransform>
+            <comments:TaskComments x:Name="taskComments"/>
+        </Border>
+        
     </Grid>
 </UserControl>

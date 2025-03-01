@@ -13,130 +13,195 @@
     <UserControl.Resources>
         <converters:HalfWidthConverter x:Key="HalfWidthConverter"/>
         <converters:HalfWidthPlusMarginConverter x:Key="HalfWidthPlusMarginConverter"/>
+        <converters:PriorityDisplayConverter x:Key="PriorityDisplayConverter"/>
     </UserControl.Resources>
 
-    <Border  MinWidth="410"
-                Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}"
-                Name="MainBorder"
-                Background="Transparent"
-                BorderThickness="1" 
-                BorderBrush="#DDDDDD"
-                Margin="5,2.5,5,2.5">
-
+    <Border MinWidth="410"
+            Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}"
+            Name="MainBorder"
+            Background="Transparent"
+            BorderThickness="1" 
+            BorderBrush="#DDDDDD"
+            Margin="5,2.5,5,2.5">
         <Grid Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- Header with Add button only -->
+            <!-- Header med add-knappen -->
             <DockPanel>
                 <TextBlock Text="Allmänna uppgifter" FontSize="16" FontWeight="DemiBold" Foreground="#2196F3" DockPanel.Dock="Left"/>
-                <Button Content="+" Width="30" Height="30" Background="#4CAF50" Foreground="White" 
-                            HorizontalAlignment="Right"/>
+                <Button Content="+" 
+                        Width="30" 
+                        Height="30" 
+                        Background="#4CAF50" 
+                        Foreground="White"  VerticalAlignment="Top"
+                        HorizontalAlignment="Right" Margin="0,0,0,0"
+                        Command="{Binding AddTaskCommand}"/>
             </DockPanel>
 
-            <!-- Content with hover controls -->
-            <StackPanel Grid.Row="1">
-                <!-- Task Item 1 -->
-                <Grid Margin="0,5">
-                    <TextBlock Text="📝 Planera veckohandling" VerticalAlignment="Center"/>
-                    <StackPanel x:Name="EditButtons7" Orientation="Horizontal" HorizontalAlignment="Right" 
-                                    Opacity="0">
-                        <Button Content="✏️" Width="24" Height="24" Background="#f0b40e" 
-                                    Margin="0,0,5,0"/>
-                        <Button Content="❌" Width="24" Height="24" Background="#f0370e"/>
-                    </StackPanel>
-                    <Grid.Triggers>
-                        <EventTrigger RoutedEvent="MouseEnter">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                            Storyboard.TargetName="EditButtons7"
-                                            Storyboard.TargetProperty="Opacity"
-                                            To="1" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                            Storyboard.TargetName="EditButtons7"
-                                            Storyboard.TargetProperty="Opacity"
-                                            To="0" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Grid.Triggers>
-                </Grid>
+            <!-- Lista med uppgifter -->
+            <ItemsControl Grid.Row="1" 
+                          ItemsSource="{Binding Tasks}" 
+                          Margin="0,5,0,0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="#F5F5F5" CornerRadius="4" Margin="0,5" Padding="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                <!-- Task Item 2 -->
-                <Grid Margin="0,5">
-                    <TextBlock Text="📞 Ring försäkringsbolaget" VerticalAlignment="Center"/>
-                    <StackPanel x:Name="EditButtons8" Orientation="Horizontal" HorizontalAlignment="Right" 
-                                    Opacity="0">
-                        <Button Content="✏️" Width="24" Height="24" Background="#f0b40e" 
-                                    Margin="0,0,5,0"/>
-                        <Button Content="❌" Width="24" Height="24" Background="#f0370e"/>
-                    </StackPanel>
-                    <Grid.Triggers>
-                        <EventTrigger RoutedEvent="MouseEnter">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                Storyboard.TargetName="EditButtons8"
-                Storyboard.TargetProperty="Opacity"
-                To="1" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                Storyboard.TargetName="EditButtons8"
-                Storyboard.TargetProperty="Opacity"
-                To="0" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Grid.Triggers>
-                </Grid>
+                                <!-- Icon with priority color as background -->
+                                <Border Grid.Column="0"
+                                        CornerRadius="20"
+                                        Width="25" Height="25"
+                                        Margin="0,0,12,0" VerticalAlignment="Top">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Priority}" Value="Urgent">
+                                                    <Setter Property="Background" Value="#FF0000"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Priority}" Value="High">
+                                                    <Setter Property="Background" Value="#FF4444"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Priority}" Value="Medium">
+                                                    <Setter Property="Background" Value="#FFBB33"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Priority}" Value="Low">
+                                                    <Setter Property="Background" Value="#99CC00"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <TextBlock Text="✓" 
+                                              FontSize="14" Padding="0,0,0,3"
+                                              Foreground="White"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                                </Border>
 
-                <!-- Task Item 3 -->
-                <Grid Margin="0,5">
-                    <TextBlock Text="📦 Hämta paket" VerticalAlignment="Center"/>
-                    <StackPanel x:Name="EditButtons9" Orientation="Horizontal" HorizontalAlignment="Right" 
-                                    Opacity="0">
-                        <Button Content="✏️" Width="24" Height="24" Background="#f0b40e" 
-                                    Margin="0,0,5,0"/>
-                        <Button Content="❌" Width="24" Height="24" Background="#f0370e"/>
-                    </StackPanel>
-                    <Grid.Triggers>
-                        <EventTrigger RoutedEvent="MouseEnter">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                            Storyboard.TargetName="EditButtons9"
-                                            Storyboard.TargetProperty="Opacity"
-                                            To="1" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                            Storyboard.TargetName="EditButtons9"
-                                            Storyboard.TargetProperty="Opacity"
-                                            To="0" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Grid.Triggers>
-                </Grid>
-            </StackPanel>
+                                <!-- Task Details -->
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Title with edit buttons -->
+                                    <Grid Grid.Row="0">
+                                        <TextBlock FontWeight="SemiBold" FontSize="15">
+                                            <Run Text="{Binding Title}" />
+                                        </TextBlock>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
+                                                    Opacity="0" x:Name="EditButtons">
+                                        <Button Content="✏️" Width="24" Height="24" Background="#f0b40e" 
+                                                Margin="0,0,5,0"
+                                                Command="{Binding DataContext.EditTaskCommand, 
+                                                    RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}"/>
+                                                    <Button Content="❌" Width="24" Height="24" Background="#f0370e"
+                                                Command="{Binding DataContext.DeleteTaskCommand, 
+                                                    RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <!-- Priority text -->
+                                    <TextBlock Grid.Row="1" Text="{Binding Priority, Converter={StaticResource PriorityDisplayConverter}}" 
+                                            Margin="0,2,0,0" FontSize="12">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Priority}" Value="Urgent">
+                                                        <Setter Property="Foreground" Value="#FF0000"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Priority}" Value="High">
+                                                        <Setter Property="Foreground" Value="#FF4444"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Priority}" Value="Medium">
+                                                        <Setter Property="Foreground" Value="#FFBB33"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Priority}" Value="Low">
+                                                        <Setter Property="Foreground" Value="#99CC00"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+
+                                    <!-- Description -->
+                                    <TextBlock Grid.Row="2" 
+                                             Text="{Binding Description}" 
+                                             TextWrapping="Wrap"
+                                             Foreground="#666666"
+                                             Margin="0,5,0,5"/>
+
+                                    <!-- Comments -->
+                                    <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,4,0,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column="0" Text="💬" Margin="0,4,5,0"/>
+                                            <TextBlock Grid.Column="1" VerticalAlignment="Center">
+                                                <Run Text="{Binding CommentCount, Mode=OneWay}" />
+                                                <Run Text=" kommentarer" />
+                                            </TextBlock>
+                                            <Button Grid.Column="2" Content="💬" Width="24" Height="24" Background="#4285F4" 
+                                                    Margin="30,0,0,0" 
+                                                    Command="{Binding DataContext.ShowCommentsCommand, 
+                                                        RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                    CommandParameter="{Binding}"/>
+                                        </Grid>
+                                        
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid.Triggers>
+                                    <EventTrigger RoutedEvent="MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation 
+                                                    Storyboard.TargetName="EditButtons"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="1" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="MouseLeave">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation 
+                                                    Storyboard.TargetName="EditButtons"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="0" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Grid.Triggers>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Visa när det är tomt -->
+            <TextBlock Text="Inga uppgifter för denna dag" 
+                       Foreground="#666666" 
+                       HorizontalAlignment="Center"
+                       Margin="0,50"
+                       FontStyle="Italic"
+                       Visibility="{Binding HasTasks, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
+
         </Grid>
     </Border>
 </helpers:DraggableControlBase>

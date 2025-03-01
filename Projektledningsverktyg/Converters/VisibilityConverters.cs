@@ -9,6 +9,7 @@ using System.Windows;
 
 namespace Projektledningsverktyg.Converters
 {
+    // Count for recepts
     public class CountToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -22,6 +23,25 @@ namespace Projektledningsverktyg.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class CommentsCountToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            // Om vi har kommentarer (count > 0), visa elementet
+            if (value is int count && count > 0)
+            {
+                return Visibility.Visible;
+            }
+            return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            // Envägskonvertering, vi konverterar aldrig tillbaka
             throw new NotImplementedException();
         }
     }

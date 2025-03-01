@@ -33,109 +33,120 @@
             <DockPanel>
                 <TextBlock Text="Events" FontSize="16" FontWeight="DemiBold" Foreground="#2196F3" DockPanel.Dock="Left"/>
                 <Button Content="+" Width="30" Height="30" Background="#4CAF50" Foreground="White" 
-                        HorizontalAlignment="Right"/>
+                        HorizontalAlignment="Right" Command="{Binding AddEventCommand}"/>
             </DockPanel>
 
             <!-- Content with hover controls -->
             <StackPanel Grid.Row="1">
-                <!-- Event Item 1 -->
-                <Grid Margin="0,5">
-                    <TextBlock Text="🎉 Födelsedagsfest - Lisa" VerticalAlignment="Center"/>
-                    <StackPanel x:Name="EditButtons10" Orientation="Horizontal" HorizontalAlignment="Right" 
-                                Opacity="0">
-                        <Button Content="✏️" Width="24" Height="24" Background="#f0b40e" 
-                                Margin="0,0,5,0"/>
-                        <Button Content="❌" Width="24" Height="24" Background="#f0370e"/>
-                    </StackPanel>
-                    <Grid.Triggers>
-                        <EventTrigger RoutedEvent="MouseEnter">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                        Storyboard.TargetName="EditButtons10"
-                                        Storyboard.TargetProperty="Opacity"
-                                        To="1" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                        Storyboard.TargetName="EditButtons10"
-                                        Storyboard.TargetProperty="Opacity"
-                                        To="0" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Grid.Triggers>
-                </Grid>
+                <!-- Events -->
+                <ItemsControl ItemsSource="{Binding Events}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#F5F5F5" CornerRadius="4" Margin="0,5" Padding="10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                <!-- Event Item 2 -->
-                <Grid Margin="0,5">
-                    <TextBlock Text="🎭 Teaterföreställning" VerticalAlignment="Center"/>
-                    <StackPanel x:Name="EditButtons11" Orientation="Horizontal" HorizontalAlignment="Right" 
-                                Opacity="0">
-                        <Button Content="✏️" Width="24" Height="24" Background="#f0b40e" 
-                                Margin="0,0,5,0"/>
-                        <Button Content="❌" Width="24" Height="24" Background="#f0370e"/>
-                    </StackPanel>
-                    <Grid.Triggers>
-                        <EventTrigger RoutedEvent="MouseEnter">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                        Storyboard.TargetName="EditButtons11"
-                                        Storyboard.TargetProperty="Opacity"
-                                        To="1" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                        Storyboard.TargetName="EditButtons11"
-                                        Storyboard.TargetProperty="Opacity"
-                                        To="0" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Grid.Triggers>
-                </Grid>
+                                    <!-- Icon with event type color as background -->
+                                    <Border Grid.Column="0"
+                                            Background="{Binding Type, Converter={StaticResource EventTypeToColorConverter}}"
+                                            CornerRadius="20"
+                                            Width="25" Height="25"
+                                            Margin="0,0,12,0" VerticalAlignment="Top">
+                                        <TextBlock Text="{Binding Type, Converter={StaticResource EventTypeToIconConverter}}"
+                                                   FontSize="14" Padding="0,0,0,3"
+                                                   Foreground="White"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                    </Border>
 
-                <!-- Event Item 3 -->
-                <Grid Margin="0,5">
-                    <TextBlock Text="🎨 Konstutställning" VerticalAlignment="Center"/>
-                    <StackPanel x:Name="EditButtons12" Orientation="Horizontal" HorizontalAlignment="Right" 
-                                Opacity="0">
-                        <Button Content="✏️" Width="24" Height="24" Background="#f0b40e" 
-                                Margin="0,0,5,0"/>
-                        <Button Content="❌" Width="24" Height="24" Background="#f0370e"/>
-                    </StackPanel>
-                    <Grid.Triggers>
-                        <EventTrigger RoutedEvent="MouseEnter">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                        Storyboard.TargetName="EditButtons12"
-                                        Storyboard.TargetProperty="Opacity"
-                                        To="1" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                        Storyboard.TargetName="EditButtons12"
-                                        Storyboard.TargetProperty="Opacity"
-                                        To="0" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Grid.Triggers>
-                </Grid>
+                                    <!-- Event Details -->
+                                    <Grid Grid.Column="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Title with edit buttons -->
+                                        <Grid Grid.Row="0">
+                                            <TextBlock FontWeight="SemiBold" FontSize="15">
+                                                    <Run Text="{Binding Title}" />
+                                            </TextBlock>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
+                                                    Opacity="0" x:Name="EditButtons">
+                                                <Button Content="✏️" Width="24" Height="24" Background="#f0b40e" 
+                                                        Margin="0,0,5,0"
+                                                        Command="{Binding DataContext.EditEventCommand, 
+                                                            RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                        CommandParameter="{Binding}"/>
+                                                <Button Content="❌" Width="24" Height="24" Background="#f0370e"
+                                                        Command="{Binding DataContext.DeleteEventCommand, 
+                                                            RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                        CommandParameter="{Binding}"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <!-- Time with icon -->
+                                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,4,0,0">
+                                            <TextBlock Text="🕒" Margin="0,0,5,0"/>
+                                            <TextBlock VerticalAlignment="Center">
+                                                <TextBlock.Text>
+                                                    <MultiBinding Converter="{StaticResource TimeDisplayConverter}">
+                                                        <Binding Path="StartTime"/>
+                                                        <Binding Path="EndTime"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </StackPanel>
+
+                                        <!-- Description -->
+                                        <TextBlock Grid.Row="2" 
+                                               Text="{Binding Description}" 
+                                               TextWrapping="Wrap"
+                                               Foreground="#666666"
+                                               Margin="0,4,0,0"/>
+                                    </Grid>
+
+                                    <Grid.Triggers>
+                                        <EventTrigger RoutedEvent="MouseEnter">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetName="EditButtons"
+                                                        Storyboard.TargetProperty="Opacity"
+                                                        To="1" Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                        <EventTrigger RoutedEvent="MouseLeave">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetName="EditButtons"
+                                                        Storyboard.TargetProperty="Opacity"
+                                                        To="0" Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </Grid.Triggers>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Visa när det är tomt -->
+                <TextBlock Text="Inga händelser för denna dag" 
+                           Foreground="#666666" 
+                           HorizontalAlignment="Center"
+                           Margin="0,10"
+                           FontStyle="Italic"
+                           Visibility="{Binding HasEvents, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
+
+
             </StackPanel>
         </Grid>
     </Border>

@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media;
+using System.Collections.ObjectModel;
 
 namespace Projektledningsverktyg.Views.Tasks.Components.Task
 {
@@ -32,6 +33,11 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Task
             var dbContext = new ApplicationDbContext();
             viewModel = new TaskViewModel(dbContext, currentMember);
             DataContext = viewModel;
+
+            viewModel.CommentCountChanged += (taskId, newCount) => {
+                // Uppdatera UI om det behövs
+                viewModel.LoadTasks(); 
+            };
 
             taskComments.CloseRequested += (s, e) =>
             {
@@ -61,8 +67,17 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Task
         {
             if (sender is FrameworkElement element && element.DataContext is TaskModel task)
             {
+                // Sätt vald uppgift
                 viewModel.SelectTask(task);
 
+                // Ladda kommentarerna explicit
+                viewModel.LoadComments();
+
+                // Uppdatera taskComments-kontrollen
+                taskComments.DataContext = viewModel;
+                taskComments.UpdateComments(viewModel.CurrentTaskComments);
+
+                // Animera panelen
                 double targetPosition = isPanelOpen ? 0 : -600;
 
                 DoubleAnimation slideAnimation = new DoubleAnimation
@@ -92,7 +107,6 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Task
                 isPanelOpen = false;
             }
         }
-
 
         #endregion
 

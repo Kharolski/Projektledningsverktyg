@@ -18,6 +18,8 @@ namespace Projektledningsverktyg.ViewModels
 {
     public class TaskViewModel : ViewModelBase, INotifyPropertyChanged
     {
+        public event Action<int, int> CommentCountChanged;
+
         // This handles the UI logic - how tasks are displayed and manipulated
         public TaskViewModel(ApplicationDbContext context, Member currentMember)
         {
@@ -136,6 +138,12 @@ namespace Projektledningsverktyg.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        // ID för uppgiften som redigeras, null om det är en ny uppgift
+        public int? EditingTaskId { get; private set; }
+
+        // Flagga för att markera om vi är i redigeringsläge
+        public bool IsEditMode { get; private set; }
         #endregion
 
         #region Commands for Execute
@@ -191,22 +199,44 @@ namespace Projektledningsverktyg.ViewModels
 
             // Clear the TextBox through binding
             CommentText = string.Empty;
+
+            // Utlös event med uppdaterad räkning
+            CommentCountChanged?.Invoke(CurrentTask.Id, CurrentTaskComments.Count);
         }
 
         public async void ExecuteSaveTask()
         {
-            var newTask = new Data.Entities.Task
+            if (IsEditMode && EditingTaskId > 0)
             {
-                Title = NewTaskTitle,
-                Description = NewTaskDescription,
-                DueDate = SelectedDate,
-                Priority = SelectedPriority,
-                Status = TaskStatus.NotStarted,
-                MemberId = _currentMember.Id
-            };
+                // Vi är i redigeringsläge - hitta och uppdatera den befintliga uppgiften
+                var existingTask = await _context.Tasks.FindAsync(EditingTaskId);
 
-            _context.Tasks.Add(newTask);
-            await _context.SaveChangesAsync();
+                if (existingTask != null)
+                {
+                    // Använd den befintliga ExecuteUpdateTask-metoden
+                    ExecuteUpdateTask(existingTask);
+                }
+            }
+            else
+            {
+                // Vi skapar en ny uppgift
+                var newTask = new Data.Entities.Task
+                {
+                    Title = NewTaskTitle,
+                    Description = NewTaskDescription,
+                    DueDate = SelectedDate,
+                    Priority = SelectedPriority,
+                    Status = TaskStatus.NotStarted,
+                    MemberId = _currentMember.Id
+                };
+
+                _context.Tasks.Add(newTask);
+                await _context.SaveChangesAsync();
+            }
+
+            // Återställ efter redigering
+            IsEditMode = false;
+            EditingTaskId = 0;
 
             LoadTasks(); // Refresh the task list
         }
@@ -268,7 +298,29 @@ namespace Projektledningsverktyg.ViewModels
             CurrentTask = task;
         }
 
-        private void LoadComments()
+        /// <summary>
+        /// Förbereder en befintlig uppgift för redigering
+        /// </summary>
+        /// <param name="taskToEdit">Uppgiften som ska redigeras</param>
+        public void LoadTaskForEditing(Task taskToEdit)
+        {
+            if (taskToEdit == null)
+                return;
+
+            // Spara uppgiftens ID för att kunna uppdatera rätt uppgift
+            EditingTaskId = taskToEdit.Id;
+
+            // Fyll i formulärfält med befintlig information
+            NewTaskTitle = taskToEdit.Title;
+            NewTaskDescription = taskToEdit.Description;
+            SelectedDate = taskToEdit.DueDate;
+            SelectedPriority = taskToEdit.Priority;
+
+            // Sätt flagga att vi är i redigeringsläge
+            IsEditMode = true;
+        }
+
+        public void LoadComments()
         {
             // Check if we have a selected task
             if (CurrentTask != null)
@@ -294,6 +346,17 @@ namespace Projektledningsverktyg.ViewModels
             }
         }
 
+        public void ExecuteUpdateTask(Task existingTask)
+        {
+            // Uppdatera befintlig uppgift med nya värden
+            existingTask.Title = NewTaskTitle;
+            existingTask.Description = NewTaskDescription;
+            existingTask.DueDate = SelectedDate;
+            existingTask.Priority = SelectedPriority;
+
+            // Spara ändringarna i databasen
+            _context.SaveChanges();
+        }
         #endregion
 
         #region Delete Task Command
@@ -331,14 +394,15 @@ namespace Projektledningsverktyg.ViewModels
             {
                 _context.Comments.Remove(comment);
                 _context.SaveChanges();
+
                 // Refresh the comments list
                 CurrentTaskComments.Remove(CurrentTaskComments.First(c => c.Id == commentId));
+
+                // Utlös event med uppdaterad räkning efter borttagning
+                CommentCountChanged?.Invoke(CurrentTask.Id, CurrentTaskComments.Count);
             }
         }
         #endregion
-
-
-
 
     }
 }

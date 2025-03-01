@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Projektledningsverktyg.Data.Entities
 {
@@ -23,7 +24,9 @@ namespace Projektledningsverktyg.Data.Entities
 
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-
+        // Property som inte tillhör databasen
+        [NotMapped]
+        public int CommentCount { get; set; }
     }
 
     public enum TaskStatus

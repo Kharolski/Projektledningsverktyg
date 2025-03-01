@@ -63,8 +63,21 @@ namespace Projektledningsverktyg.Data.Repository
 
         public void UpdateSchedule(Schedule schedule)
         {
-            _context.Entry(schedule).State = EntityState.Modified;
-            _context.SaveChanges();
+            // Hämta existerade schedule från databasen
+            var existingSchedule = _context.Schedules.Find(schedule.Id);
+
+            if (existingSchedule != null)
+            {
+                // Uppdatera egenskaperna manuellt
+                existingSchedule.Title = schedule.Title;
+                existingSchedule.Type = schedule.Type;
+                existingSchedule.StartTime = schedule.StartTime;
+                existingSchedule.EndTime = schedule.EndTime;
+                existingSchedule.Description = schedule.Description;
+
+                // Spara ändringarna
+                _context.SaveChanges();
+            }
         }
 
         public void DeleteSchedule(int scheduleId)

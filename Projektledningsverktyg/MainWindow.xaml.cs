@@ -1,5 +1,4 @@
 ﻿using Projektledningsverktyg.Data.Entities;
-using Projektledningsverktyg.Views.AIAssistant;
 using Projektledningsverktyg.Views.Calendar;
 using Projektledningsverktyg.Views.Dashboard;
 using Projektledningsverktyg.Views.Members;
@@ -91,11 +90,6 @@ namespace Projektledningsverktyg
             MainFrame.Navigate(new MembersView());
         }
 
-        private void BtnAIAssistant_Click(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Navigate(new AIAssistantView());
-        }
-
         private void BtnRecipeBook_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Navigate(new RecipeBookView());
@@ -118,7 +112,6 @@ namespace Projektledningsverktyg
             BtnCalendar.IsChecked = false;
             BtnTasks.IsChecked = false;
             BtnMembers.IsChecked = false;
-            BtnAIAssistant.IsChecked = false;
             BtnSettings.IsChecked = false;
 
             // Create fresh login view

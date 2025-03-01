@@ -39,6 +39,22 @@ namespace Projektledningsverktyg.Data.Repository
             _context.SaveChanges();
         }
 
+        // Hämta event med ID
+        public Event GetEventById(int id)
+        {
+            return _context.Events
+                .Include(e => e.Participants)
+                .Include(e => e.Project)
+                .FirstOrDefault(e => e.Id == id);
+        }
+
+        // Uppdatera event
+        public void UpdateEvent(Event eventToUpdate)
+        {
+            _context.Entry(eventToUpdate).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
+
         // Remove participant from event
         public void RemoveParticipant(int eventId, Member participant)
         {

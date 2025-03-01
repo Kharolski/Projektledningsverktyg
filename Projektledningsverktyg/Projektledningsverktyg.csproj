@@ -313,7 +313,9 @@
     <Compile Include="Data\Entities\Task.cs" />
     <Compile Include="Data\Repository\EventRepository.cs" />
     <Compile Include="Data\Repository\HouseholdRepository.cs" />
+    <Compile Include="Data\Repository\ITaskRepository.cs" />
     <Compile Include="Data\Repository\ScheduleRepository.cs" />
+    <Compile Include="Data\Repository\TaskRepository.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\AppFolders.cs" />
     <Compile Include="Helpers\DragDropTypes.cs" />
@@ -323,8 +325,6 @@
     <Compile Include="Helpers\WeekViewLayoutManager.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SQLiteConfiguration.cs" />
-    <Compile Include="Models\FilterOption.cs" />
-    <Compile Include="Models\Meal.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\ProtocolHandler.cs" />
@@ -332,6 +332,10 @@
     <Compile Include="ViewModels\AddMealDialogViewModel.cs" />
     <Compile Include="ViewModels\Calendar\AddEditScheduleViewModel.cs" />
     <Compile Include="ViewModels\Calendar\CalendarViewModel.cs" />
+    <Compile Include="ViewModels\Calendar\WeekModels\EventWeekViewModel.cs" />
+    <Compile Include="ViewModels\Calendar\WeekModels\HouseholdTasksWeekViewModel.cs" />
+    <Compile Include="ViewModels\Calendar\WeekModels\ScheduleWeekViewModel.cs" />
+    <Compile Include="ViewModels\Calendar\WeekModels\TaskWeekViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\DayViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
@@ -347,10 +351,6 @@
     <Compile Include="ViewModels\ViewMealDialogViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\WeekMonthViewModel.cs" />
-    <Compile Include="Views\AIAssistant\AIAssistantView.xaml.cs">
-      <DependentUpon>AIAssistantView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AIAssistant\Converters\BoolToAlignmentConverter.cs" />
     <Compile Include="Views\Auth\ForgotPasswordView.xaml.cs">
       <DependentUpon>ForgotPasswordView.xaml</DependentUpon>
     </Compile>
@@ -514,10 +514,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\TextBoxStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\AIAssistant\AIAssistantView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -700,7 +696,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Member.cs" />
-    <Compile Include="Models\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

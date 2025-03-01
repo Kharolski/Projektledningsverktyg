@@ -62,11 +62,25 @@ namespace Projektledningsverktyg.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is bool isCurrentDay && isCurrentDay)
+            // Check if this is for the IsSelected property
+            if (parameter != null && parameter.ToString() == "Selected")
             {
-                return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#215b77")); // För att markera dagens datum
+                // If this is a selected day check
+                if (value is bool isSelected && isSelected)
+                {
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0D47A1")); // Darker blue for selected day
+                }
+                return new SolidColorBrush(Colors.Transparent);
             }
-            return new SolidColorBrush(Colors.Transparent); // Standard bakgrund för andra dagar
+            else
+            {
+                // This is the original current day check
+                if (value is bool isCurrentDay && isCurrentDay)
+                {
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#215b77")); // Current day highlight
+                }
+                return new SolidColorBrush(Colors.Transparent); // Standard background for other days
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

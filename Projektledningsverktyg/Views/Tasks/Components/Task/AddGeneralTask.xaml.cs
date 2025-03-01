@@ -1,18 +1,15 @@
 ﻿using Projektledningsverktyg.ViewModels;
-using System.Windows.Controls;
 using System.Windows;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.Windows.Controls.Primitives;
 using System;
 using Projektledningsverktyg.Data.Context;
 using Projektledningsverktyg.Data.Entities;
-using System.Diagnostics;
 
 namespace Projektledningsverktyg.Views.Tasks.Components.Task
 {
-    public partial class AddGeneralTask : System.Windows.Window
+    public partial class AddGeneralTask : Window
     {
         private TaskViewModel _viewModel;
+        private Data.Entities.Task _existingTask;
 
         public AddGeneralTask()
         {
@@ -25,6 +22,20 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Task
             var dbContext = new ApplicationDbContext();
             _viewModel = new TaskViewModel(dbContext, member);
             DataContext = _viewModel;
+        }
+
+        public AddGeneralTask(Member member, DateTime initialDate)
+        {
+            InitializeComponent();
+            var dbContext = new ApplicationDbContext();
+            _viewModel = new TaskViewModel(dbContext, member);
+
+            // Sätt det valda datumet
+            _viewModel.SelectedDate = initialDate;
+
+            DataContext = _viewModel;
+
+            this.Title = "Lägg till ny uppgift";
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -46,7 +57,17 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Task
                 return;
             }
 
-            _viewModel.ExecuteSaveTask();
+            if (_existingTask != null)
+            {
+                // Vi redigerar en befintlig uppgift
+                _viewModel.ExecuteUpdateTask(_existingTask);
+            }
+            else
+            {
+                // Vi skapar en ny uppgift
+                _viewModel.ExecuteSaveTask();
+            }
+
             DialogResult = true;
             Close();
         }

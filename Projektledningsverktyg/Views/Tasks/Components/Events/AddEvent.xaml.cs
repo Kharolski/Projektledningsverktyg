@@ -60,42 +60,93 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Events
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            DateTime selectedDate = DatePicker.Value ?? DateTime.Now;
-
-            // Directly get values from ComboBoxes
-            string startHourValue = StartHourCombo.SelectedItem?.ToString();
-            string startMinuteValue = StartMinuteCombo.SelectedItem?.ToString();
-            string endHourValue = EndHourCombo.SelectedItem?.ToString();
-            string endMinuteValue = EndMinuteCombo.SelectedItem?.ToString();
-
-            // Parse start time
-            DateTime? startTime = null;
-            if (!string.IsNullOrEmpty(startHourValue) && !string.IsNullOrEmpty(startMinuteValue))
+            try
             {
-                var timeString = $"{startHourValue.PadLeft(2, '0')}:{startMinuteValue.PadLeft(2, '0')}";
-                startTime = selectedDate.Date + TimeSpan.Parse(timeString);
+                // Hide error message if shown
+                ErrorBorder.Visibility = Visibility.Collapsed;
+
+                // Validate input
+                if (string.IsNullOrWhiteSpace(TitleTextBox.Text))
+                {
+                    ShowError("Titel måste anges");
+                    return;
+                }
+
+                // Mer robust kontroll för DatePicker
+                DateTime? selectedDateNullable = DatePicker.SelectedDate;
+                if (!selectedDateNullable.HasValue)
+                {
+                    ShowError("Du måste välja ett datum");
+                    return;
+                }
+
+                DateTime selectedDate = selectedDateNullable.Value;
+
+                if (TypeComboBox.SelectedValue == null)
+                {
+                    ShowError("Du måste välja en händelsetyp");
+                    return;
+                }
+
+                // Resten av koden fortsätter här...
+
+                // Direkta kontrollen för timecomboboxes
+                string startHourValue = StartHourCombo.SelectedItem?.ToString();
+                string startMinuteValue = StartMinuteCombo.SelectedItem?.ToString();
+                string endHourValue = EndHourCombo.SelectedItem?.ToString();
+                string endMinuteValue = EndMinuteCombo.SelectedItem?.ToString();
+
+                // Parse start time
+                DateTime? startTime = null;
+                if (!string.IsNullOrEmpty(startHourValue) && !string.IsNullOrEmpty(startMinuteValue))
+                {
+                    var timeString = $"{startHourValue.PadLeft(2, '0')}:{startMinuteValue.PadLeft(2, '0')}";
+                    startTime = selectedDate.Date + TimeSpan.Parse(timeString);
+                }
+
+                // Parse end time
+                DateTime? endTime = null;
+                if (!string.IsNullOrEmpty(endHourValue) && !string.IsNullOrEmpty(endMinuteValue))
+                {
+                    var timeString = $"{endHourValue.PadLeft(2, '0')}:{endMinuteValue.PadLeft(2, '0')}";
+                    endTime = selectedDate.Date + TimeSpan.Parse(timeString);
+                }
+
+                // Validate start/end time relationship
+                if (startTime.HasValue && endTime.HasValue && startTime > endTime)
+                {
+                    ShowError("Sluttiden måste vara efter starttiden");
+                    return;
+                }
+
+                NewEvent = new Event
+                {
+                    Title = TitleTextBox.Text,
+                    Date = selectedDate,
+                    StartTime = startTime,
+                    EndTime = endTime,
+                    Type = (EventType)TypeComboBox.SelectedValue,
+                    Description = DescriptionTextBox.Text
+                };
+
+                DialogResult = true;
+                Close();
             }
-
-            // Parse end time
-            DateTime? endTime = null;
-            if (!string.IsNullOrEmpty(endHourValue) && !string.IsNullOrEmpty(endMinuteValue))
+            catch (Exception ex)
             {
-                var timeString = $"{endHourValue.PadLeft(2, '0')}:{endMinuteValue.PadLeft(2, '0')}";
-                endTime = selectedDate.Date + TimeSpan.Parse(timeString);
+                // Visa felet i gränssnittet
+                ShowError($"Ett fel inträffade: {ex.Message}");
+
+                // Logga detaljerat fel (ta bort i produktion om du inte vill visa för användaren)
+                MessageBox.Show($"Detaljerat fel: {ex.ToString()}", "Feldetaljer",
+                                MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
 
-            NewEvent = new Event
-            {
-                Title = TitleTextBox.Text,
-                Date = selectedDate,
-                StartTime = startTime,
-                EndTime = endTime,
-                Type = (EventType)TypeComboBox.SelectedValue,
-                Description = DescriptionTextBox.Text
-            };
-
-            DialogResult = true;
-            Close();
+        private void ShowError(string message)
+        {
+            ErrorMessage.Text = message;
+            ErrorBorder.Visibility = Visibility.Visible;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
