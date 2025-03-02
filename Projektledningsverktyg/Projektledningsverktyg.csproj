@@ -314,6 +314,7 @@
     <Compile Include="Data\Repository\EventRepository.cs" />
     <Compile Include="Data\Repository\HouseholdRepository.cs" />
     <Compile Include="Data\Repository\ITaskRepository.cs" />
+    <Compile Include="Data\Repository\MealRepository.cs" />
     <Compile Include="Data\Repository\ScheduleRepository.cs" />
     <Compile Include="Data\Repository\TaskRepository.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
@@ -334,6 +335,7 @@
     <Compile Include="ViewModels\Calendar\CalendarViewModel.cs" />
     <Compile Include="ViewModels\Calendar\WeekModels\EventWeekViewModel.cs" />
     <Compile Include="ViewModels\Calendar\WeekModels\HouseholdTasksWeekViewModel.cs" />
+    <Compile Include="ViewModels\Calendar\WeekModels\MealWeekViewModel.cs" />
     <Compile Include="ViewModels\Calendar\WeekModels\ScheduleWeekViewModel.cs" />
     <Compile Include="ViewModels\Calendar\WeekModels\TaskWeekViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />

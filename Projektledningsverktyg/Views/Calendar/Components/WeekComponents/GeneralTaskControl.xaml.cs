@@ -39,7 +39,6 @@ namespace Projektledningsverktyg.Views.Calendar.Components.WeekComponents
                 try
                 {
                     _isEventInProgress = true;
-                    System.Diagnostics.Debug.WriteLine($"Event utlöst från {Name}");
                     ShowTaskCommentsRequested?.Invoke(this, task);
                 }
                 finally

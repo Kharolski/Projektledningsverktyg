@@ -74,6 +74,12 @@ namespace Projektledningsverktyg.Views.Calendar.Components
                 generalTaskControl.UpdateSelectedDate(selectedDate);
             }
 
+            // Uppdatera MealsControl med den valda dagens data
+            var mealsControl = FindName("MealsControl") as MealsControl;
+            if (mealsControl != null)
+            {
+                mealsControl.UpdateSelectedDate(selectedDate);
+            }
         }
 
         private void WeekView_Loaded(object sender, RoutedEventArgs e)

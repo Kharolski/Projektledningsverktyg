@@ -3,10 +3,12 @@ using Projektledningsverktyg.Helpers;
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Projektledningsverktyg.Converters
 {
@@ -24,6 +26,43 @@ namespace Projektledningsverktyg.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value;
+        }
+    }
+
+    public class MealsControlImageConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null || string.IsNullOrEmpty(value.ToString()))
+                return new BitmapImage(new Uri("/Images/Recept/recept.png", UriKind.Relative));
+
+            string imagePath = value.ToString();
+
+            try
+            {
+                // Använd den fysiska sökvägen till där programmet körs
+                string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                string fullPath = Path.Combine(basePath, imagePath);
+
+                // Kontrollera om filen existerar
+                if (File.Exists(fullPath))
+                {
+                    return new BitmapImage(new Uri(fullPath, UriKind.Absolute));
+                }
+
+                // Återgå till standardbilden om filen inte hittas
+                return new BitmapImage(new Uri("/Images/Recept/recept.png", UriKind.Relative));
+            }
+            catch (Exception)
+            {
+                return new BitmapImage(new Uri("/Images/Recept/recept.png", UriKind.Relative));
+            }
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -110,6 +149,37 @@ namespace Projektledningsverktyg.Converters
                 }
             }
             return "📅";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class MealTypeToIconConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is MealType mealType)
+            {
+                switch (mealType)
+                {
+                    case MealType.Frukost:
+                        return "🍳"; // Frukost
+                    case MealType.Lunch:
+                        return "🍲"; // Lunch
+                    case MealType.Middag:
+                        return "🍽️"; // Middag
+                    case MealType.Efterrätt:
+                        return "🍰"; // Efterrätt
+                    case MealType.Mellanmål:
+                        return "🥪"; // Mellanmål
+                    default:
+                        return "🍴"; // Generellt matikon
+                }
+            }
+            return "🍴";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

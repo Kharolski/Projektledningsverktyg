@@ -62,6 +62,7 @@ namespace Projektledningsverktyg.Views.Tasks.Components.Task
                 viewModel.LoadTasks(); // Refresh the list when dialog closes successfully
             }
         }
+
         #region Comments click
         private void TaskCard_Click(object sender, MouseButtonEventArgs e)
         {

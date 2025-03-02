@@ -111,6 +111,7 @@ namespace Projektledningsverktyg.ViewModels
                 OnPropertyChanged(nameof(SelectedPriority));
             }
         }
+
         // Display priority by Name
         public string PriorityDisplay
         {

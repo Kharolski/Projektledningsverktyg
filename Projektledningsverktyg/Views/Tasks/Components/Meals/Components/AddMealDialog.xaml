@@ -20,12 +20,13 @@
             <StackPanel Orientation="Horizontal" Margin="0,20,0,15">
                 <StackPanel>
                     <ComboBox ItemsSource="{Binding WeekDays}"
-                  SelectedItem="{Binding SelectedDay}"
-                  DisplayMemberPath="DayName"
-                  Style="{StaticResource ModernComboBox}"
-                  Tag="Dag"
-                  Width="200"
-                  Margin="0,0,15,0"/>
+                              SelectedItem="{Binding SelectedDay}"
+                              DisplayMemberPath="DayName"
+                              Style="{StaticResource ModernComboBox}"
+                              x:Name="DayComboBox"
+                              Tag="Dag"
+                              Width="200"
+                              Margin="0,0,15,0"/>
                 </StackPanel>
 
                 <StackPanel>

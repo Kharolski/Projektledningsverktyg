@@ -13,62 +13,188 @@
     <UserControl.Resources>
         <converters:HalfWidthConverter x:Key="HalfWidthConverter"/>
         <converters:HalfWidthPlusMarginConverter x:Key="HalfWidthPlusMarginConverter"/>
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:MealTypeToIconConverter x:Key="MealTypeToIconConverter"/>
+        <converters:MealsControlImageConverter x:Key="MealsControlImageConverter"/>
     </UserControl.Resources>
 
-    <Border  MinWidth="410"
-                Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}"
-                Name="MainBorder"
-                Background="Transparent"
-                BorderThickness="1" 
-                BorderBrush="#DDDDDD"
-                Margin="5,2.5,5,2.5">
-
+    <Border MinWidth="410"
+            Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}"
+            Name="MainBorder"
+            Background="Transparent"
+            BorderThickness="1" 
+            BorderBrush="#DDDDDD"
+            Margin="5,2.5,5,2.5">
         <Grid Margin="10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <!-- Header -->
-                <RowDefinition Height="Auto"/>
-                <!-- Main Meal -->
-                <RowDefinition Height="Auto"/>
-                <!-- Expander -->
+                <RowDefinition Height="Auto"/>          <!-- Header -->
+                <RowDefinition Height="Auto"/>          <!-- Main Meal -->
+                <RowDefinition Height="Auto"/>          <!-- Expander -->
             </Grid.RowDefinitions>
 
             <!-- Header with Add Button -->
             <DockPanel>
                 <TextBlock Text="Måltider" FontSize="16" FontWeight="DemiBold" Foreground="#2196F3" DockPanel.Dock="Left"/>
-                <Button Content="+" Width="30" Height="30" Background="#4CAF50" Foreground="White" HorizontalAlignment="Right"/>
+                <Button Content="+" Width="30" Height="30" Background="#4CAF50" Foreground="White" 
+                        HorizontalAlignment="Right" Command="{Binding AddMealCommand}"/>
             </DockPanel>
 
             <!-- Main Meal Information -->
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Margin="0,10,0,0" 
+                  Visibility="{Binding HasMeals, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <!-- Image on the Left -->
-                <Image Source="/Images/Recept/recept.png" Width="100" Height="100" Grid.Column="0" Margin="0,0,10,0"/>
+                <Border Grid.Column="0" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,10,0">
+                    <Image Width="120" Height="100" Stretch="UniformToFill">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedMeal.ImagePath}" Value="{x:Null}">
+                                        <Setter Property="Source" Value="/Images/Recept/recept.png"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SelectedMeal.ImagePath}" Value="">
+                                        <Setter Property="Source" Value="/Images/Recept/recept.png"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <!-- Använd vår converter för standardfallet -->
+                                <Setter Property="Source" Value="{Binding SelectedMeal.ImagePath, Converter={StaticResource MealsControlImageConverter}}"/>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </Border>
 
                 <!-- Meal Details on the Right -->
-                <StackPanel Grid.Column="1">
-                    <TextBlock Text="Köttbullar med potatismos" FontSize="16" Margin="0,5"/>
-                    <TextBlock MaxWidth="290" Text="Klassiska svenska köttbullar serverade med potatismos, lingon och pressgurka" TextWrapping="Wrap" Foreground="#666666"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                        <Button Content="✏️" Margin="0,0,5,0"/>
-                        <Button Content="❌"/>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Title and Type -->
+                    <Grid Grid.Row="0">
+                        <TextBlock Text="{Binding SelectedMeal.Name}" FontSize="16" FontWeight="SemiBold"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
+                                   Opacity="0" x:Name="EditButtons">
+                            <Button Content="❌" Width="24" Height="24" Background="#f0370e"
+                                    Command="{Binding DeleteMealCommand}"
+                                    CommandParameter="{Binding SelectedMeal}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Meal Type Badge -->
+                    <Border Grid.Row="1" Background="#E1F5FE" CornerRadius="4" 
+                            Padding="5,2" HorizontalAlignment="Left" Margin="0,2,0,5">
+                        <TextBlock Text="{Binding SelectedMeal.Type}" FontSize="12" />
+                    </Border>
+
+                    <!-- Description -->
+                    <TextBlock Grid.Row="2" Text="{Binding SelectedMeal.Description}" 
+                               TextWrapping="Wrap" Foreground="#666666" Margin="0,0,0,8"/>
+
+                    <!-- Cooking Info -->
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,0,0,5">
+                        <TextBlock Text="🕒" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding SelectedMeal.CookingTime, StringFormat='{} {0} min'}" 
+                                   Margin="5,0,15,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="👥" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding SelectedMeal.Servings, StringFormat='{} {0} portioner'}" 
+                                   Margin="5,0,0,0" VerticalAlignment="Center"/>
+                        <Border Grid.Row="4" 
+                                Background="Transparent"
+                                BorderBrush="#2196F3"
+                                BorderThickness="1"
+                                CornerRadius="4"
+                                HorizontalAlignment="Left"
+                                Margin="15,5,0,0">
+                            <Button Background="Transparent"
+                                    Foreground="#2196F3"
+                                    BorderThickness="0" ToolTip="Visa Recept"
+                                    Padding="5,3,5,5"
+                                    Command="{Binding ShowMealDetailsCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="📖" FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+                        </Border>
                     </StackPanel>
-                </StackPanel>
+                </Grid>
+
+                <!-- Trigger for edit buttons -->
+                <Grid.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation 
+                                    Storyboard.TargetName="EditButtons"
+                                    Storyboard.TargetProperty="Opacity"
+                                    To="1" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation 
+                                    Storyboard.TargetName="EditButtons"
+                                    Storyboard.TargetProperty="Opacity"
+                                    To="0" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Grid.Triggers>
             </Grid>
+
+            <!-- No Meals Message -->
+            <StackPanel Grid.Row="1" 
+                  Visibility="{Binding HasMeals, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                  HorizontalAlignment="Center" 
+                  Margin="0,20,0,20">
+                <TextBlock Text="Inga måltider planerade" 
+                           Foreground="#666666" 
+                           HorizontalAlignment="Center"
+                           FontSize="13"
+                           FontStyle="Italic"/>
+            </StackPanel>
 
             <!-- Expandable Meal List -->
             <Expander Header="Visa fler måltider" Grid.Row="2" Margin="0,10,0,0"
-                       Expanded="Expander_Expanded" Collapsed="Expander_Collapsed">
-                <StackPanel>
-                    <TextBlock Text="🍝 Spaghetti Bolognese" Margin="0,5"/>
-                    <TextBlock Text="🥗 Caesar Salad" Margin="0,5"/>
-                    <TextBlock Text="🍲 Vegetable Soup" Margin="0,5"/>
-                    <!-- Add more meal options as needed -->
-                </StackPanel>
+                      Expanded="Expander_Expanded" Collapsed="Expander_Collapsed"
+                      Visibility="{Binding HasMeals, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ListView ItemsSource="{Binding Meals}" 
+                          SelectedItem="{Binding SelectedMeal, Mode=TwoWay}"
+                          BorderThickness="0" Background="Transparent"
+                          MaxHeight="200">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Meal type icon or indicator -->
+                                <Border Grid.Column="0" Background="#E3F2FD" Width="30" Height="30" 
+                                        CornerRadius="15" Margin="0,0,10,0">
+                                    <TextBlock Text="{Binding Type, Converter={StaticResource MealTypeToIconConverter}}" 
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+
+                                <!-- Meal name and time -->
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                                    <TextBlock Text="{Binding Type}" Foreground="#666666" FontSize="12"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Expander>
         </Grid>
     </Border>
