@@ -50,6 +50,9 @@ namespace Projektledningsverktyg.Data.Context
         public DbSet<MonthView> MonthViews { get; set; }
         public DbSet<DayView> DayViews { get; set; }
 
+        // Dragable Widget
+        public DbSet<WidgetPosition> WidgetPositions { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -150,6 +153,17 @@ namespace Projektledningsverktyg.Data.Context
                 .HasMany(r => r.Instructions)
                 .WithRequired()
                 .HasForeignKey(i => i.RecipeId);
+
+            // Widget
+            modelBuilder.Entity<WidgetPosition>()
+                .HasRequired(wp => wp.Member)
+                .WithMany(m => m.WidgetPositions)
+                .HasForeignKey(wp => wp.MemberId);
+
+            // Skapa ett unikt index på MemberId och WidgetId
+            modelBuilder.Entity<WidgetPosition>()
+                .HasIndex(wp => new { wp.MemberId, wp.WidgetId })
+                .IsUnique();
 
 
             base.OnModelCreating(modelBuilder);

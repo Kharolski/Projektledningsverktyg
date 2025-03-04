@@ -1,15 +1,13 @@
 ﻿using Projektledningsverktyg.Data.Context;
 using Projektledningsverktyg.Data.Entities;
 using Projektledningsverktyg.Data.Repository;
-using Projektledningsverktyg.Helpers;
 using Projektledningsverktyg.ViewModels.Calendar.WeekModels;
 using System;
-using System.Diagnostics;
-using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace Projektledningsverktyg.Views.Calendar.Components.WeekComponents
 {
-    public partial class GeneralTaskControl : DraggableControlBase
+    public partial class GeneralTaskControl : UserControl
     {
         #region Events
         public event EventHandler ContentSizeChanged;

@@ -12,26 +12,36 @@ using System.Diagnostics;
 using Projektledningsverktyg.ViewModels.Calendar.WeekModels;
 using System.Windows.Media.Animation;
 using System.Linq;
+using Projektledningsverktyg.Widgets.WeekView;
+using Projektledningsverktyg.Widgets;
+using Projektledningsverktyg.Data.Entities;
 
 namespace Projektledningsverktyg.Views.Calendar.Components
 {
     public partial class WeekView : UserControl
     {
         public WeekMonthViewModel ViewModel { get; set; }
-        private WeekViewLayoutManager _layoutManager;
+        //private WeekViewLayoutManager _layoutManager;
         private TaskViewModel _commentsViewModel;
         private int _lastTaskId = -1;
+        private WidgetPositionRepository _widgetRepository;
+
+        // Reference till widgets
+        private MealsWidget _mealsWidget;
+        private ScheduleWidget _scheduleWidget;
+        private HouseholdWidget _householdWidget;
+        private GeneralTaskWidget _generalTaskWidget;
+        private EventWidget _eventWidget;
 
         public WeekView()
         {
             InitializeComponent();
 
-            // Initialize layout manager early
-            _layoutManager = new WeekViewLayoutManager(null); // Will be properly set in Loaded event
+            // Skapa widget position repository
+            _widgetRepository = new WidgetPositionRepository();
 
             // Initialize repositories
             var context = new ApplicationDbContext();
-            //_scheduleRepository = new ScheduleRepository(context);
 
             // Initialize view model
             ViewModel = new WeekMonthViewModel();
@@ -41,75 +51,52 @@ namespace Projektledningsverktyg.Views.Calendar.Components
             ViewModel.OnSelectedDayChanged += ViewModel_OnSelectedDayChanged;
 
             Loaded += WeekView_Loaded;
-            RegisterContentChangeHandlers();
         }
 
         // This method will be called when the selected day changes
         private void ViewModel_OnSelectedDayChanged(object sender, DateTime selectedDate)
         {
-            // Uppdatera ScheduleControl med den valda dagens data
-            var scheduleControl = FindName("ScheduleControl") as ScheduleControl;
-            if (scheduleControl != null)
+            // Uppdatera widgets med den valda dagens data
+            if (_scheduleWidget != null)
             {
-                scheduleControl.UpdateSelectedDate(selectedDate);
+                (_scheduleWidget.Content as ScheduleControl)?.UpdateSelectedDate(selectedDate);
             }
 
-            // Uppdatera HouseholdControl med den valda dagens data
-            var householdControl = FindName("HouseholdControl") as HouseholdControl;
-            if (householdControl != null)
+            if (_householdWidget != null)
             {
-                householdControl.UpdateSelectedDate(selectedDate);
+                (_householdWidget.Content as HouseholdControl)?.UpdateSelectedDate(selectedDate);
             }
 
-            // Uppdatera EventsControl med den valda dagens data
-            var eventsControl = FindName("EventsControl") as EventsControl;
-            if (eventsControl != null)
+            if (_eventWidget != null)
             {
-                eventsControl.UpdateSelectedDate(selectedDate);
+                (_eventWidget.Content as EventsControl)?.UpdateSelectedDate(selectedDate);
             }
 
-            var generalTaskControl = FindName("GeneralTaskControl") as GeneralTaskControl;
-            if (generalTaskControl != null)
+            if (_generalTaskWidget != null)
             {
-                generalTaskControl.UpdateSelectedDate(selectedDate);
+                (_generalTaskWidget.Content as GeneralTaskControl)?.UpdateSelectedDate(selectedDate);
             }
 
-            // Uppdatera MealsControl med den valda dagens data
-            var mealsControl = FindName("MealsControl") as MealsControl;
-            if (mealsControl != null)
+            if (_mealsWidget != null)
             {
-                mealsControl.UpdateSelectedDate(selectedDate);
+                (_mealsWidget.Content as MealsControl)?.UpdateSelectedDate(selectedDate);
             }
         }
 
         private void WeekView_Loaded(object sender, RoutedEventArgs e)
         {
-            _layoutManager = new WeekViewLayoutManager(MainCanvas);
-
-            // Register controls with specific keys
-            _layoutManager.RegisterControl("Schedule", FindName("ScheduleControl") as DraggableControlBase);
-            _layoutManager.RegisterControl("Meals", FindName("MealsControl") as DraggableControlBase);
-            _layoutManager.RegisterControl("Household", FindName("HouseholdControl") as DraggableControlBase);
-            _layoutManager.RegisterControl("GeneralTask", FindName("GeneralTaskControl") as DraggableControlBase);
-            _layoutManager.RegisterControl("Events", FindName("EventsControl") as DraggableControlBase);
-
-            _layoutManager.UpdateLayout();
-
-            // Check initial content height
-            MainCanvas.UpdateLayout();
-            MainCanvas.MinHeight = _layoutManager.GetMaxContentHeight();
-
-            // Monitor all controls for size changes
-            foreach (var control in _layoutManager.GetAllControls())
-            {
-                control.SizeChanged += (s, args) =>
-                {
-                    MainCanvas.MinHeight = _layoutManager.GetMaxContentHeight();
-                };
-            }
+            InitializeWidgets();
 
             // Anslut till händelse för att visa kommentarer
-            GeneralTaskControl.ShowTaskCommentsRequested += GeneralTaskControl_ShowTaskCommentsRequested;
+            // Hitta GeneralTaskControl direkt från _generalTaskWidget.Content
+            if (_generalTaskWidget != null)
+            {
+                var generalTaskControl = _generalTaskWidget.Content as GeneralTaskControl;
+                if (generalTaskControl != null)
+                {
+                    generalTaskControl.ShowTaskCommentsRequested += GeneralTaskControl_ShowTaskCommentsRequested;
+                }
+            }
 
             // Skapa och konfigurera kommentar-ViewModel
             _commentsViewModel = new TaskViewModel(new ApplicationDbContext(), App.CurrentUser);
@@ -121,12 +108,58 @@ namespace Projektledningsverktyg.Views.Calendar.Components
             _commentsViewModel.CommentCountChanged += UpdateTaskCommentCount;
         }
 
+        private void InitializeWidgets()
+        {
+            // Återställ containerns layout till 3x2
+            widgetContainer.ResetLayout(3, 2);
+
+            // Rensa container först
+            widgetContainer.Children.Clear();
+
+            // Ladda sparade positioner från databasen
+            var savedPositions = _widgetRepository.GetWidgetPositionsForMember(App.CurrentUser?.Id ?? 0);
+
+            // Skapa lookup för snabb åtkomst till positioner
+            var positionLookup = savedPositions.ToDictionary(p => p.WidgetId);
+
+            // Skapa alla widgets
+            _mealsWidget = new MealsWidget();
+            _scheduleWidget = new ScheduleWidget();
+            _householdWidget = new HouseholdWidget();
+            _generalTaskWidget = new GeneralTaskWidget();
+            _eventWidget = new EventWidget();
+
+            // Registrera widgets med rätt positioner - använd sparade positioner om tillgängliga
+            RegisterWidgetWithPosition(_mealsWidget, 0, 0, positionLookup);
+            RegisterWidgetWithPosition(_scheduleWidget, 0, 1, positionLookup);
+            RegisterWidgetWithPosition(_householdWidget, 1, 0, positionLookup);
+            RegisterWidgetWithPosition(_generalTaskWidget, 1, 1, positionLookup);
+            RegisterWidgetWithPosition(_eventWidget, 2, 0, positionLookup);
+
+            // Anslut till positionsändring-eventet för att spara ändringar
+            widgetContainer.PositionsChanged += WidgetContainer_PositionsChanged;
+        }
+
+        private void WidgetContainer_PositionsChanged(object sender, EventArgs e)
+        {
+            // Spara de uppdaterade positionerna
+            if (App.CurrentUser?.Id > 0)
+            {
+                var newPositions = widgetContainer.GetCurrentPositions(App.CurrentUser.Id);
+                _widgetRepository.SaveWidgetPositions(newPositions);
+            }
+        }
+
         private void WeekView_Unloaded(object sender, RoutedEventArgs e)
         {
             // Koppla bort händelser
-            if (GeneralTaskControl != null)
+            if (_generalTaskWidget != null)
             {
-                GeneralTaskControl.ShowTaskCommentsRequested -= GeneralTaskControl_ShowTaskCommentsRequested;
+                var generalTaskControl = _generalTaskWidget.Content as GeneralTaskControl;
+                if (generalTaskControl != null)
+                {
+                    generalTaskControl.ShowTaskCommentsRequested -= GeneralTaskControl_ShowTaskCommentsRequested;
+                }
             }
 
             if (taskComments != null)
@@ -134,13 +167,16 @@ namespace Projektledningsverktyg.Views.Calendar.Components
                 taskComments.CloseRequested -= TaskComments_CloseRequested;
             }
 
+            // Avregistrera från PositionsChanged event
+            if (widgetContainer != null)
+            {
+                widgetContainer.PositionsChanged -= WidgetContainer_PositionsChanged;
+            }
+
             // Städa upp resurser
             if (_commentsViewModel != null)
             {
-                // Avregistrera CommentCountChanged - detta saknas!
                 _commentsViewModel.CommentCountChanged -= UpdateTaskCommentCount;
-
-                // Om TaskViewModel implementerar IDisposable, anropa Dispose här
                 (_commentsViewModel as IDisposable)?.Dispose();
             }
 
@@ -161,36 +197,6 @@ namespace Projektledningsverktyg.Views.Calendar.Components
                     foreach (T childOfChild in FindVisualChildren<T>(child))
                         yield return childOfChild;
                 }
-            }
-        }
-
-        private void RegisterContentChangeHandlers()
-        {
-            // This method might be called before controls are loaded
-            // We'll add guards to prevent null reference exceptions
-
-            var eventsControl = FindName("EventsControl") as EventsControl;
-            var mealsControl = FindName("MealsControl") as MealsControl;
-            var householdControl = FindName("HouseholdControl") as HouseholdControl;
-            var generalTaskControl = FindName("GeneralTaskControl") as GeneralTaskControl;
-
-            if (eventsControl != null)
-                eventsControl.ContentSizeChanged += Control_ContentSizeChanged;
-            if (mealsControl != null)
-                mealsControl.ContentSizeChanged += Control_ContentSizeChanged;
-            if (householdControl != null)
-                householdControl.ContentSizeChanged += Control_ContentSizeChanged;
-            if (generalTaskControl != null)
-                generalTaskControl.ContentSizeChanged += Control_ContentSizeChanged;
-        }
-
-        private void Control_ContentSizeChanged(object sender, EventArgs e)
-        {
-            // Add null check to prevent NullReferenceException
-            if (_layoutManager != null)
-            {
-                MainCanvas.UpdateLayout();
-                MainCanvas.MinHeight = _layoutManager.GetMaxContentHeight();
             }
         }
 
@@ -257,12 +263,16 @@ namespace Projektledningsverktyg.Views.Calendar.Components
         private void TaskComments_CloseRequested(object sender, EventArgs e)
         {
             // Uppdatera kommentarantalet i ViewModel
-            var taskWeekViewModel = GeneralTaskControl.DataContext as TaskWeekViewModel;
-
-            if (taskWeekViewModel != null && _commentsViewModel.CurrentTask != null)
+            var generalTaskControl = _generalTaskWidget.Content as GeneralTaskControl;
+            if (generalTaskControl != null)
             {
-                int commentCount = _commentsViewModel.CurrentTaskComments?.Count ?? 0;
-                taskWeekViewModel.UpdateCommentCount(_commentsViewModel.CurrentTask.Id, commentCount);
+                var taskWeekViewModel = generalTaskControl.DataContext as TaskWeekViewModel;
+
+                if (taskWeekViewModel != null && _commentsViewModel.CurrentTask != null)
+                {
+                    int commentCount = _commentsViewModel.CurrentTaskComments?.Count ?? 0;
+                    taskWeekViewModel.UpdateCommentCount(_commentsViewModel.CurrentTask.Id, commentCount);
+                }
             }
 
             // Animera panelen ut
@@ -284,22 +294,53 @@ namespace Projektledningsverktyg.Views.Calendar.Components
 
         private void UpdateTaskCommentCount(int taskId, int newCount)
         {
-            var taskWeekViewModel = GeneralTaskControl.DataContext as TaskWeekViewModel;
-            if (taskWeekViewModel != null)
+            var generalTaskControl = _generalTaskWidget.Content as GeneralTaskControl;
+            if (generalTaskControl != null)
             {
-                var task = taskWeekViewModel.Tasks.FirstOrDefault(t => t.Id == taskId);
-                if (task != null)
+                var taskWeekViewModel = generalTaskControl.DataContext as TaskWeekViewModel;
+                if (taskWeekViewModel != null)
                 {
-                    task.CommentCount = newCount;
+                    var task = taskWeekViewModel.Tasks.FirstOrDefault(t => t.Id == taskId);
+                    if (task != null)
+                    {
+                        task.CommentCount = newCount;
 
-                    // Ta en kopia av uppgiften
-                    var taskCopy = task;
-                    // Ta bort den
-                    taskWeekViewModel.Tasks.Remove(task);
-                    // Lägg till den igen
-                    taskWeekViewModel.Tasks.Add(taskCopy);
+                        // Ta en kopia av uppgiften
+                        var taskCopy = task;
+                        // Ta bort den
+                        taskWeekViewModel.Tasks.Remove(task);
+                        // Lägg till den igen
+                        taskWeekViewModel.Tasks.Add(taskCopy);
+                    }
                 }
             }
+        }
+        #endregion
+
+        #region Helper Method
+        // Hjälpmetod för att registrera widgets med sparade positioner
+        private void RegisterWidgetWithPosition(DraggableWidget widget, int defaultRow, int defaultCol,
+                                                Dictionary<string, WidgetPosition> positionLookup)
+        {
+            const int MAX_ROWS = 3;
+            const int MAX_COLUMNS = 2;
+
+            int row = defaultRow;
+            int col = defaultCol;
+
+            // Om vi har en sparad position för denna widget, använd den
+            if (positionLookup.TryGetValue(widget.WidgetId, out var position))
+            {
+                // Begränsa positioner till giltigt område
+                row = Math.Min(position.RowIndex, MAX_ROWS - 1);
+                col = Math.Min(position.ColumnIndex, MAX_COLUMNS - 1);
+
+                // Tillämpa synlighet om den är sparad
+                widget.Visibility = position.IsVisible ? Visibility.Visible : Visibility.Collapsed;
+            }
+
+            // Registrera widget med rätt position
+            widgetContainer.RegisterWidget(widget, row, col);
         }
         #endregion
     }

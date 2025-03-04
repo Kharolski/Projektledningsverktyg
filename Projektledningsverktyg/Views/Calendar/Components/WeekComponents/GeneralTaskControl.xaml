@@ -1,6 +1,4 @@
-﻿<helpers:DraggableControlBase 
-    x:Class="Projektledningsverktyg.Views.Calendar.Components.WeekComponents.GeneralTaskControl"
-    xmlns:helpers="clr-namespace:Projektledningsverktyg.Helpers"
+﻿<UserControl x:Class="Projektledningsverktyg.Views.Calendar.Components.WeekComponents.GeneralTaskControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -17,8 +15,8 @@
     </UserControl.Resources>
 
     <Border MinWidth="410"
-            Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}"
-            Name="MainBorder"
+            Width="Auto" HorizontalAlignment="Stretch"
+            Name="MainBorder" CornerRadius="6"
             Background="Transparent"
             BorderThickness="1" 
             BorderBrush="#DDDDDD"
@@ -204,4 +202,4 @@
 
         </Grid>
     </Border>
-</helpers:DraggableControlBase>
+</UserControl>

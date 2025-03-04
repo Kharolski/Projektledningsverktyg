@@ -142,56 +142,44 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- AI Förslag -->
-                <Border Grid.Column="0" 
-            Background="White" 
-            CornerRadius="10" 
-            Padding="20" 
-            Margin="0,0,10,0">
+                <!-- Recent Activities -->
+                <Border Grid.Column="0" Background="White" CornerRadius="10" Padding="20">
                     <StackPanel>
-                        <DockPanel>
-                            <TextBlock Text="AI Familjeassistent" 
-                         FontSize="20" 
-                         FontWeight="Bold"/>
-                            <TextBlock Text="BETA" 
-                         Foreground="#7C4DFF" 
-                         FontSize="12" 
-                         Margin="10,0,0,0" 
-                         VerticalAlignment="Center"/>
-                        </DockPanel>
-
-                        <ItemsControl Margin="0,15,0,0">
-                            <TextBlock>
-                    <Run Text="🍽️" />
-                    <Run Text=" Middagstips: Pasta med köttfärssås (baserat på tillgängliga ingredienser)"/>
-                            </TextBlock>
-                            <TextBlock Margin="0,10,0,0">
-                    <Run Text="📚" />
-                    <Run Text=" Påminnelse: Lisas läxor behöver granskas"/>
-                            </TextBlock>
-                            <TextBlock Margin="0,10,0,0">
-                    <Run Text="🧹" />
-                    <Run Text=" Städschema: Dags att dammsuga övervåningen"/>
-                            </TextBlock>
-                            <TextBlock Margin="0,10,0,0">
-                    <Run Text="🌤️" />
-                    <Run Text=" Helgtips: Fint väder på lördag - perfekt för utflykt"/>
-                            </TextBlock>
-                        </ItemsControl>
+                        <TextBlock Text="Senaste Aktiviteter" 
+                 FontSize="20" 
+                 FontWeight="Bold" 
+                 Margin="0,0,0,15"/>
+                        <ListView BorderThickness="0">
+                            <ListViewItem>
+                                <TextBlock Text="Anna skapade en ny uppgift: 'Planera sommarutflykt'"/>
+                            </ListViewItem>
+                            <ListViewItem>
+                                <TextBlock Text="Erik uppdaterade status på 'Projektmöte'"/>
+                            </ListViewItem>
+                            <ListViewItem>
+                                <TextBlock Text="Maria lade till 3 nya medlemmar"/>
+                            </ListViewItem>
+                            <ListViewItem>
+                                <TextBlock Text="Ny event planerad: 'Teambuilding'"/>
+                            </ListViewItem>
+                            <ListViewItem>
+                                <TextBlock Text="Johan markerade uppgift som klar"/>
+                            </ListViewItem>
+                        </ListView>
                     </StackPanel>
                 </Border>
 
                 <!-- AI Analys -->
                 <Border Grid.Column="1" 
-            Background="White" 
-            CornerRadius="10" 
-            Padding="20"
-            Margin="10,0,0,0">
+                        Background="White" 
+                        CornerRadius="10" 
+                        Padding="20"
+                        Margin="10,0,0,0">
                     <StackPanel>
                         <TextBlock Text="Veckans Översikt" 
-                     FontSize="20" 
-                     FontWeight="Bold" 
-                     Margin="0,0,0,15"/>
+                                    FontSize="20" 
+                                    FontWeight="Bold" 
+                                    Margin="0,0,0,15"/>
                         <ItemsControl>
                             <TextBlock Text="📅 Denna vecka:" FontWeight="SemiBold" Margin="0,5"/>
                             <TextBlock Text="• 3 familjemiddagar planerade" Margin="20,5,0,0"/>
@@ -207,32 +195,7 @@
                 </Border>
             </Grid>
 
-            <!-- Recent Activities -->
-            <Border Grid.Row="3" Background="White" CornerRadius="10" Padding="20">
-                <StackPanel>
-                    <TextBlock Text="Senaste Aktiviteter" 
-                             FontSize="20" 
-                             FontWeight="Bold" 
-                             Margin="0,0,0,15"/>
-                    <ListView BorderThickness="0">
-                        <ListViewItem>
-                            <TextBlock Text="Anna skapade en ny uppgift: 'Planera sommarutflykt'"/>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <TextBlock Text="Erik uppdaterade status på 'Projektmöte'"/>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <TextBlock Text="Maria lade till 3 nya medlemmar"/>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <TextBlock Text="Ny event planerad: 'Teambuilding'"/>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <TextBlock Text="Johan markerade uppgift som klar"/>
-                        </ListViewItem>
-                    </ListView>
-                </StackPanel>
-            </Border>
+            
         </Grid>
     </ScrollViewer>
 </UserControl>

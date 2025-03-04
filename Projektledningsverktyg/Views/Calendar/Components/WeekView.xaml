@@ -7,6 +7,8 @@
              xmlns:viewmodels="clr-namespace:Projektledningsverktyg.ViewModels"
              xmlns:weekComponents="clr-namespace:Projektledningsverktyg.Views.Calendar.Components.WeekComponents"
              xmlns:comments="clr-namespace:Projektledningsverktyg.Views.Tasks.Components.Task"
+             xmlns:widgets="clr-namespace:Projektledningsverktyg.Widgets"
+             xmlns:weekWidgets="clr-namespace:Projektledningsverktyg.Widgets.WeekView"
              mc:Ignorable="d" 
              Loaded="WeekView_Loaded"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -119,42 +121,23 @@
             </StackPanel>
         </Grid>
 
-        <!--Canvas-based Content Area-->
-        <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled"
+        <!--Content Area-->
+        <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled" Padding="0,5"
                       x:Name="MainScrollViewer">
   
             <!-- Main Content Grid -->
-            <Canvas x:Name="MainCanvas" Background="White" 
-                    Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ScrollViewer}}"
-                    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
-
-                                            <!-- Left Column Components --> 
-                <!-- Schedule Section -->
-                <weekComponents:ScheduleControl x:Name="ScheduleControl" MinHeight="150" MinWidth="300"
-                                                Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}"
-                                                />
-
-                <!-- Meals Section -->
-                <weekComponents:MealsControl x:Name="MealsControl" MinHeight="150" MinWidth="300"
-                                             Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}"
-                                             />
-
-                                            <!-- Right Column Components -->
-                <!-- Hushåll Section -->
-                <weekComponents:HouseholdControl x:Name="HouseholdControl" MinHeight="150" MinWidth="300"
-                                                 Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}"
-                                                 />
-
-                <!-- Allmänna uppgifter Section -->
-                <weekComponents:GeneralTaskControl x:Name="GeneralTaskControl" MinHeight="150" MinWidth="300"
-                                                   Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}"
-                                                   />
-
-                <!-- Events Section -->
-                <weekComponents:EventsControl x:Name="EventsControl" MinHeight="150" MinWidth="300"
-                                              Width="{Binding ActualWidth, ElementName=MainCanvas, Converter={StaticResource HalfWidthConverter}}" />
-                
-            </Canvas>
+            <widgets:WidgetContainer x:Name="widgetContainer" Background="White" 
+                             Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
+                <widgets:WidgetContainer.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </widgets:WidgetContainer.RowDefinitions>
+                <widgets:WidgetContainer.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </widgets:WidgetContainer.ColumnDefinitions>
+            </widgets:WidgetContainer>
         </ScrollViewer>
 
         <!-- Comments Slide Panel -->

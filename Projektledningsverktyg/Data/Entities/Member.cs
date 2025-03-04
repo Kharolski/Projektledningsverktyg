@@ -24,6 +24,7 @@ namespace Projektledningsverktyg.Data.Entities
         public virtual ICollection<Event> CreatedEvents { get; set; }
         public virtual ICollection<Event> ParticipatingEvents { get; set; }
         public virtual ICollection<HouseholdAssignment> HouseholdAssignments { get; set; } = new List<HouseholdAssignment>();
+        public virtual ICollection<WidgetPosition> WidgetPositions { get; set; } = new List<WidgetPosition>();
 
         public Member()
         {

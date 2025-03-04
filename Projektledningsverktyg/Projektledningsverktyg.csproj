@@ -311,19 +311,17 @@
     <Compile Include="Data\Entities\Recipe.cs" />
     <Compile Include="Data\Entities\Schedule.cs" />
     <Compile Include="Data\Entities\Task.cs" />
+    <Compile Include="Data\Entities\WidgetPosition.cs" />
     <Compile Include="Data\Repository\EventRepository.cs" />
     <Compile Include="Data\Repository\HouseholdRepository.cs" />
     <Compile Include="Data\Repository\ITaskRepository.cs" />
     <Compile Include="Data\Repository\MealRepository.cs" />
     <Compile Include="Data\Repository\ScheduleRepository.cs" />
     <Compile Include="Data\Repository\TaskRepository.cs" />
+    <Compile Include="Data\Repository\WidgetPositionRepository.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\AppFolders.cs" />
-    <Compile Include="Helpers\DragDropTypes.cs" />
-    <Compile Include="Helpers\DraggableControlBase.cs" />
     <Compile Include="Helpers\EnumDisplayHelper.cs" />
-    <Compile Include="Helpers\PositionChangedEventArgs.cs" />
-    <Compile Include="Helpers\WeekViewLayoutManager.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SQLiteConfiguration.cs" />
     <Compile Include="Models\TaskModel.cs" />
@@ -479,6 +477,13 @@
     <Compile Include="Views\Tasks\TasksView.xaml.cs">
       <DependentUpon>TasksView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Widgets\DraggableWidget.cs" />
+    <Compile Include="Widgets\WeekView\EventWidget.cs" />
+    <Compile Include="Widgets\WeekView\GeneralTaskWidget.cs" />
+    <Compile Include="Widgets\WeekView\HouseholdWidget.cs" />
+    <Compile Include="Widgets\WeekView\MealsWidget.cs" />
+    <Compile Include="Widgets\WeekView\ScheduleWidget.cs" />
+    <Compile Include="Widgets\WidgetContainer.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
