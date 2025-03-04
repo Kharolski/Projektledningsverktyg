@@ -9,9 +9,6 @@ using Task = System.Threading.Tasks.Task;
 
 namespace Projektledningsverktyg.Views.Auth
 {
-    /// <summary>
-    /// Interaction logic for LoginView.xaml
-    /// </summary>
     public partial class LoginView : UserControl
     {
         public LoginView()
@@ -70,13 +67,13 @@ namespace Projektledningsverktyg.Views.Auth
                             {
                                 var loginScreen = mainWindow.FindName("LoginScreen") as UIElement;
                                 var mainContent = mainWindow.FindName("MainContent") as UIElement;
-                                var dashboardButton = mainWindow.FindName("BtnDashboard") as RadioButton;
+                                var kalenderButton = mainWindow.FindName("BtnCalendar") as RadioButton;
 
-                                if (loginScreen != null && mainContent != null && dashboardButton != null)
+                                if (loginScreen != null && mainContent != null && kalenderButton != null)
                                 {
                                     loginScreen.Visibility = Visibility.Collapsed;
                                     mainContent.Visibility = Visibility.Visible;
-                                    dashboardButton.IsChecked = true;
+                                    kalenderButton.IsChecked = true;
                                 }
 
                                 mainWindow.WindowStyle = WindowStyle.None;

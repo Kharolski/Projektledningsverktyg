@@ -1,6 +1,5 @@
 ﻿using Projektledningsverktyg.Data.Entities;
 using Projektledningsverktyg.Views.Calendar;
-using Projektledningsverktyg.Views.Dashboard;
 using Projektledningsverktyg.Views.Members;
 using Projektledningsverktyg.Views.RecipeBook;
 using Projektledningsverktyg.Views.Settings;
@@ -19,7 +18,7 @@ namespace Projektledningsverktyg
             InitializeComponent();
 
             // Starta med Dashboard som default vy
-            MainFrame.Navigate(new DashboardView());
+            MainFrame.Navigate(new CalendarView());
         }
 
         // Set current member after successful login
@@ -66,11 +65,6 @@ namespace Projektledningsverktyg
             TitleBar.Visibility = (viewName == "MainWindow") ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void BtnDashboard_Click(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Navigate(new DashboardView());
-        }
-
         private void BtnCalendar_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Navigate(new CalendarView());
@@ -108,7 +102,6 @@ namespace Projektledningsverktyg
             Width = 500;
 
             // Clear navigation buttons
-            BtnDashboard.IsChecked = false;
             BtnCalendar.IsChecked = false;
             BtnTasks.IsChecked = false;
             BtnMembers.IsChecked = false;

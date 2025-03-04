@@ -319,6 +319,7 @@
     <Compile Include="Data\Repository\ScheduleRepository.cs" />
     <Compile Include="Data\Repository\TaskRepository.cs" />
     <Compile Include="Data\Repository\WidgetPositionRepository.cs" />
+    <Compile Include="Data\SeedData\RecipeImporter.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\AppFolders.cs" />
     <Compile Include="Helpers\EnumDisplayHelper.cs" />
@@ -336,7 +337,6 @@
     <Compile Include="ViewModels\Calendar\WeekModels\MealWeekViewModel.cs" />
     <Compile Include="ViewModels\Calendar\WeekModels\ScheduleWeekViewModel.cs" />
     <Compile Include="ViewModels\Calendar\WeekModels\TaskWeekViewModel.cs" />
-    <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\DayViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\HouseholdViewModel.cs" />
@@ -398,9 +398,6 @@
     </Compile>
     <Compile Include="Views\Calendar\Components\WeekView.xaml.cs">
       <DependentUpon>WeekView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Dashboard\DashboardView.xaml.cs">
-      <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Members\AddMemberDialog.xaml.cs">
       <DependentUpon>AddMemberDialog.xaml</DependentUpon>
@@ -588,10 +585,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Dashboard\DashboardView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Members\AddMemberDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -720,6 +713,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Data\SeedData\recipes.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -755,6 +751,33 @@
     <Resource Include="Images\Recept\green_apple.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Data\SeedData\Images\Recipes\acai_bowl.jpg" />
+    <Resource Include="Data\SeedData\Images\Recipes\avokadosmorgas.jpg" />
+    <Resource Include="Data\SeedData\Images\Recipes\avokadotoast.jpg" />
+    <Content Include="Data\SeedData\Images\Recipes\carbonara.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\SeedData\Images\Recipes\chokladmousse.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\SeedData\Images\Recipes\kottbullar.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\SeedData\Images\Recipes\laxfile.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Data\SeedData\Images\Recipes\nicoise_sallad.jpg" />
+    <Content Include="Data\SeedData\Images\Recipes\overnight_oats.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Data\SeedData\Images\Recipes\quinoa_sallad.jpg" />
+    <Resource Include="Data\SeedData\Images\Recipes\rotfruktssoppa.jpg" />
+    <Content Include="Data\SeedData\Images\Recipes\tikka_masala.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\SeedData\Images\Recipes\vegetarisk_lasagne.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\Recept\recept.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -87,7 +87,7 @@
                 </Border>
 
                 <!-- Welcome Text -->
-                <TextBlock Text="Välkommen till Projektverktyget!" 
+                    <TextBlock Text="Välkommen till Familjensverktyg!" 
                      FontSize="24" 
                      FontWeight="Bold" 
                      HorizontalAlignment="Center"

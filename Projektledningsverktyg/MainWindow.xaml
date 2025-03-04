@@ -57,7 +57,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Fönstertitel -->
-            <TextBlock Text="Projektledningsverktyg" Foreground="White" 
+            <TextBlock Text="Familjensverktyg" Foreground="White" 
                    VerticalAlignment="Center" Margin="10,0"
                    MouseLeftButtonDown="TitleBar_MouseLeftButtonDown"/>
 
@@ -151,21 +151,6 @@
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center"/>
                     </Border>
-
-                    <!-- Navigation Menu Items -->
-                    <RadioButton x:Name="BtnDashboard" 
-                        Style="{StaticResource NavButton}"
-                        Content="Dashboard"
-                        Checked="BtnDashboard_Click">
-                        <RadioButton.ContentTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="📊" Margin="0,0,10,0"/>
-                                    <TextBlock Text="Dashboard"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </RadioButton.ContentTemplate>
-                    </RadioButton>
 
                     <!-- Calendar Button -->
                     <RadioButton x:Name="BtnCalendar" 

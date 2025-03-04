@@ -1,0 +1,1537 @@
+[
+  {
+    "Name": "Köttbullar med potatismos",
+    "Description": "Klassiska svenska köttbullar med krämigt potatismos och lingonsylt.",
+    "MealType": 2,
+    "MainIngredient": 0,
+    "CookingTime": 45,
+    "Servings": 4,
+    "ImagePath": "Images/Recipes/kottbullar.jpg",
+    "IsFavorite": false,
+    "CreatedDate": "2023-10-01T00:00:00",
+    "Ingredients": [
+      {
+        "Amount": 500,
+        "Unit": 1,
+        "Name": "Blandfärs"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Lök"
+      },
+      {
+        "Amount": 1,
+        "Unit": 5,
+        "Name": "Ströbröd"
+      },
+      {
+        "Amount": 1,
+        "Unit": 5,
+        "Name": "Mjölk"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Ägg"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Salt"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Svartpeppar"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Smör till stekning"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Lingonsylt"
+      },
+      {
+        "Amount": 1,
+        "Unit": 1,
+        "Name": "Potatis till potatismos"
+      }
+    ],
+    "Instructions": [
+      {
+        "StepNumber": 1,
+        "Description": "Skala och hacka löken fint.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 2,
+        "Description": "Blanda ströbröd med mjölk i en skål och låt svälla cirka 10 minuter.",
+        "ImagePath": null,
+        "PrepTime": 10
+      },
+      {
+        "StepNumber": 3,
+        "Description": "Blanda färsen med löken, ströbrödsblandningen, ägg, salt och peppar.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 4,
+        "Description": "Forma färsen till jämnstora köttbullar.",
+        "ImagePath": null,
+        "PrepTime": 10
+      },
+      {
+        "StepNumber": 5,
+        "Description": "Stek köttbullarna i smör tills de är genomstekta.",
+        "ImagePath": null,
+        "PrepTime": 15
+      }
+    ]
+  },
+  {
+    "Name": "Laxfilé med rostad potatis",
+    "Description": "Saftig ugnsbakad lax med rostad potatis och dillsås.",
+    "MealType": 2,
+    "MainIngredient": 1,
+    "CookingTime": 35,
+    "Servings": 4,
+    "ImagePath": "Images/Recipes/laxfile.jpg",
+    "IsFavorite": false,
+    "CreatedDate": "2023-10-02T00:00:00",
+    "Ingredients": [
+      {
+        "Amount": 600,
+        "Unit": 1,
+        "Name": "Laxfilé"
+      },
+      {
+        "Amount": 800,
+        "Unit": 1,
+        "Name": "Fast potatis"
+      },
+      {
+        "Amount": 2,
+        "Unit": 3,
+        "Name": "Olivolja"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Salt"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Svartpeppar"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Citronjuice"
+      },
+      {
+        "Amount": 2,
+        "Unit": 3,
+        "Name": "Dill, hackad"
+      },
+      {
+        "Amount": 2,
+        "Unit": 5,
+        "Name": "Gräddfil"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Citron, i klyftor"
+      }
+    ],
+    "Instructions": [
+      {
+        "StepNumber": 1,
+        "Description": "Sätt ugnen på 200 grader.",
+        "ImagePath": null,
+        "PrepTime": 1
+      },
+      {
+        "StepNumber": 2,
+        "Description": "Skala och skär potatisen i bitar, blanda med olivolja, salt och peppar på en plåt.",
+        "ImagePath": null,
+        "PrepTime": 10
+      },
+      {
+        "StepNumber": 3,
+        "Description": "Rosta potatisen i ugnen i 20 minuter.",
+        "ImagePath": null,
+        "PrepTime": 20
+      },
+      {
+        "StepNumber": 4,
+        "Description": "Lägg laxen på ett ugnssäkert fat, krydda med salt och peppar.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 5,
+        "Description": "Ringla över citronjuice och sätt in fisken i ugnen, ca 12-15 minuter.",
+        "ImagePath": null,
+        "PrepTime": 15
+      },
+      {
+        "StepNumber": 6,
+        "Description": "Blanda gräddfil med hackad dill och servera till laxen och potatisen.",
+        "ImagePath": null,
+        "PrepTime": 5
+      }
+    ]
+  },
+  {
+    "Name": "Overnight oats med bär",
+    "Description": "Nyttig frukost som förbereds kvällen innan för en snabb morgonstart.",
+    "MealType": 0,
+    "MainIngredient": 4,
+    "CookingTime": 5,
+    "Servings": 1,
+    "ImagePath": "Images/Recipes/overnight_oats.jpg",
+    "IsFavorite": false,
+    "CreatedDate": "2023-10-03T00:00:00",
+    "Ingredients": [
+      {
+        "Amount": 1,
+        "Unit": 5,
+        "Name": "Havregryn"
+      },
+      {
+        "Amount": 1,
+        "Unit": 5,
+        "Name": "Mjölk eller växtbaserad mjölk"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Chiafrön"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Honung eller lönnsirap"
+      },
+      {
+        "Amount": 0.5,
+        "Unit": 5,
+        "Name": "Färska bär"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Nötter, hackade"
+      }
+    ],
+    "Instructions": [
+      {
+        "StepNumber": 1,
+        "Description": "Blanda havregryn, mjölk och chiafrön i en burk med lock.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 2,
+        "Description": "Tillsätt honung eller lönnsirap och rör om ordentligt.",
+        "ImagePath": null,
+        "PrepTime": 1
+      },
+      {
+        "StepNumber": 3,
+        "Description": "Sätt på locket och låt stå i kylskåp över natten.",
+        "ImagePath": null,
+        "PrepTime": 1
+      },
+      {
+        "StepNumber": 4,
+        "Description": "På morgonen, toppa med färska bär och hackade nötter innan servering.",
+        "ImagePath": null,
+        "PrepTime": 1
+      }
+    ]
+  },
+  {
+    "Name": "Pasta Carbonara",
+    "Description": "Krämig pasta carbonara med ägg, parmesan och pancetta.",
+    "MealType": 2,
+    "MainIngredient": 3,
+    "CookingTime": 20,
+    "Servings": 4,
+    "ImagePath": "Images/Recipes/carbonara.jpg",
+    "IsFavorite": false,
+    "CreatedDate": "2023-10-04T00:00:00",
+    "Ingredients": [
+      {
+        "Amount": 400,
+        "Unit": 1,
+        "Name": "Spaghetti"
+      },
+      {
+        "Amount": 150,
+        "Unit": 1,
+        "Name": "Pancetta eller bacon"
+      },
+      {
+        "Amount": 3,
+        "Unit": 0,
+        "Name": "Ägg"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Äggula"
+      },
+      {
+        "Amount": 100,
+        "Unit": 1,
+        "Name": "Riven parmesanost"
+      },
+      {
+        "Amount": 2,
+        "Unit": 0,
+        "Name": "Vitlöksklyftor"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Salt"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Svartpeppar, nymalen"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Olivolja"
+      }
+    ],
+    "Instructions": [
+      {
+        "StepNumber": 1,
+        "Description": "Koka upp saltat vatten och tillsätt spagettin. Koka enligt paketet.",
+        "ImagePath": null,
+        "PrepTime": 10
+      },
+      {
+        "StepNumber": 2,
+        "Description": "Under tiden, vispa ihop ägg, äggula och riven ost i en skål.",
+        "ImagePath": null,
+        "PrepTime": 3
+      },
+      {
+        "StepNumber": 3,
+        "Description": "Skär pancetta eller bacon i små bitar och hacka vitlöken.",
+        "ImagePath": null,
+        "PrepTime": 3
+      },
+      {
+        "StepNumber": 4,
+        "Description": "Stek pancetta/bacon och vitlök i olivolja tills de är knapriga.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 5,
+        "Description": "När pastan är klar, spara lite av kokvattnet och häll av resten.",
+        "ImagePath": null,
+        "PrepTime": 1
+      },
+      {
+        "StepNumber": 6,
+        "Description": "Blanda den varma pastan med pancetta/bacon och häll sedan över äggblandningen under omrörning.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 7,
+        "Description": "Tillsätt lite av det sparade pastavattnet för att få en krämig konsistens.",
+        "ImagePath": null,
+        "PrepTime": 1
+      },
+      {
+        "StepNumber": 8,
+        "Description": "Krydda med nymalen svartpeppar och servera genast.",
+        "ImagePath": null,
+        "PrepTime": 1
+      }
+    ]
+  },
+  {
+    "Name": "Vegetarisk lasagne",
+    "Description": "Smakrik vegetarisk lasagne med aubergine, zucchini och ricotta.",
+    "MealType": 2,
+    "MainIngredient": 4,
+    "CookingTime": 60,
+    "Servings": 6,
+    "ImagePath": "Images/Recipes/vegetarisk_lasagne.jpg",
+    "IsFavorite": false,
+    "CreatedDate": "2023-10-05T00:00:00",
+    "Ingredients": [
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Aubergine"
+      },
+      {
+        "Amount": 2,
+        "Unit": 0,
+        "Name": "Zucchini"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Röd paprika"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Gul lök"
+      },
+      {
+        "Amount": 3,
+        "Unit": 0,
+        "Name": "Vitlöksklyftor"
+      },
+      {
+        "Amount": 500,
+        "Unit": 1,
+        "Name": "Krossade tomater"
+      },
+      {
+        "Amount": 2,
+        "Unit": 3,
+        "Name": "Tomatpuré"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Torkad oregano"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Torkad basilika"
+      },
+      {
+        "Amount": 250,
+        "Unit": 1,
+        "Name": "Ricottaost"
+      },
+      {
+        "Amount": 100,
+        "Unit": 1,
+        "Name": "Riven mozzarella"
+      },
+      {
+        "Amount": 50,
+        "Unit": 1,
+        "Name": "Riven parmesan"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Förpackning lasagneplattor"
+      },
+      {
+        "Amount": 2,
+        "Unit": 3,
+        "Name": "Olivolja"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Salt"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Svartpeppar"
+      }
+    ],
+    "Instructions": [
+      {
+        "StepNumber": 1,
+        "Description": "Sätt ugnen på 200 grader.",
+        "ImagePath": null,
+        "PrepTime": 1
+      },
+      {
+        "StepNumber": 2,
+        "Description": "Skiva aubergine och zucchini i tunna skivor, lägg dem på en plåt, pensla med olivolja och rosta i ugnen ca 15 minuter.",
+        "ImagePath": null,
+        "PrepTime": 20
+      },
+      {
+        "StepNumber": 3,
+        "Description": "Hacka lök, vitlök och paprika. Fräs i olivolja i en kastrull tills löken är mjuk.",
+        "ImagePath": null,
+        "PrepTime": 10
+      },
+      {
+        "StepNumber": 4,
+        "Description": "Tillsätt krossade tomater, tomatpuré, oregano och basilika. Låt sjuda i 15 minuter.",
+        "ImagePath": null,
+        "PrepTime": 15
+      },
+      {
+        "StepNumber": 5,
+        "Description": "Blanda ricotta med hälften av parmesanosten, salt och peppar i en skål.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 6,
+        "Description": "Varva i en ugnsfast form: tomatsås, lasagneplattor, grönsaker, ricottablandning. Upprepa och avsluta med ett lager tomatsås.",
+        "ImagePath": null,
+        "PrepTime": 10
+      },
+      {
+        "StepNumber": 7,
+        "Description": "Strö över mozzarella och resterande parmesan.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 8,
+        "Description": "Grädda i ugnen i 30-35 minuter tills ytan är gyllenbrun.",
+        "ImagePath": null,
+        "PrepTime": 35
+      },
+      {
+        "StepNumber": 9,
+        "Description": "Låt vila i 10 minuter innan servering.",
+        "ImagePath": null,
+        "PrepTime": 10
+      }
+    ]
+  },
+  {
+    "Name": "Chokladmousse",
+    "Description": "Lyxig chokladmousse med mörk choklad och lätt vispad grädde.",
+    "MealType": 3,
+    "MainIngredient": 4,
+    "CookingTime": 20,
+    "Servings": 4,
+    "ImagePath": "Images/Recipes/chokladmousse.jpg",
+    "IsFavorite": false,
+    "CreatedDate": "2023-10-06T00:00:00",
+    "Ingredients": [
+      {
+        "Amount": 200,
+        "Unit": 1,
+        "Name": "Mörk choklad, minst 70% kakao"
+      },
+      {
+        "Amount": 3,
+        "Unit": 0,
+        "Name": "Ägg"
+      },
+      {
+        "Amount": 3,
+        "Unit": 3,
+        "Name": "Strösocker"
+      },
+      {
+        "Amount": 300,
+        "Unit": 2,
+        "Name": "Vispgrädde"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Vaniljsocker"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Salt, en nypa"
+      },
+      {
+        "Amount": 2,
+        "Unit": 3,
+        "Name": "Kakao till garnering"
+      },
+      {
+        "Amount": 100,
+        "Unit": 1,
+        "Name": "Hallon till garnering"
+      }
+    ],
+    "Instructions": [
+      {
+        "StepNumber": 1,
+        "Description": "Hacka chokladen fint och smält den försiktigt över vattenbad.",
+        "ImagePath": null,
+        "PrepTime": 10
+      },
+      {
+        "StepNumber": 2,
+        "Description": "Separera äggulor från äggvitor. Vispa äggulorna med hälften av sockret tills blandningen blir ljus och fluffig.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 3,
+        "Description": "Blanda försiktigt ner den smälta chokladen i äggulorna.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 4,
+        "Description": "Vispa äggvitorna med en nypa salt och resten av sockret till ett fast skum.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 5,
+        "Description": "Vänd försiktigt ner äggvitorna i chokladblandningen.",
+        "ImagePath": null,
+        "PrepTime": 3
+      },
+      {
+        "StepNumber": 6,
+        "Description": "Vispa grädden med vaniljsocker till mjuka toppar och vänd försiktigt ner i moussen.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 7,
+        "Description": "Fördela moussen i serveringsglas och ställ kallt i kylskåp minst 3 timmar.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 8,
+        "Description": "Garnera med siktat kakaopulver och färska hallon innan servering.",
+        "ImagePath": null,
+        "PrepTime": 2
+      }
+    ]
+  },
+  {
+    "Name": "Kyckling Tikka Masala",
+    "Description": "Smakrik indisk gryta med kycklingfilé i krämig tomatsås.",
+    "MealType": 2,
+    "MainIngredient": 2,
+    "CookingTime": 45,
+    "Servings": 4,
+    "ImagePath": "Images/Recipes/tikka_masala.jpg",
+    "IsFavorite": false,
+    "CreatedDate": "2023-10-07T00:00:00",
+    "Ingredients": [
+      {
+        "Amount": 600,
+        "Unit": 1,
+        "Name": "Kycklingfilé"
+      },
+      {
+        "Amount": 2,
+        "Unit": 0,
+        "Name": "Gul lök"
+      },
+      {
+        "Amount": 3,
+        "Unit": 0,
+        "Name": "Vitlöksklyftor"
+      },
+      {
+        "Amount": 2,
+        "Unit": 3,
+        "Name": "Färsk ingefära, riven"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Garam masala"
+      },
+      {
+        "Amount": 2,
+        "Unit": 4,
+        "Name": "Gurkmeja"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Chilipulver"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Spiskummin"
+      },
+      {
+        "Amount": 2,
+        "Unit": 3,
+        "Name": "Tomatpuré"
+      },
+      {
+        "Amount": 400,
+        "Unit": 1,
+        "Name": "Krossade tomater"
+      },
+      {
+        "Amount": 200,
+        "Unit": 2,
+        "Name": "Kokosmjölk"
+      },
+      {
+        "Amount": 1,
+        "Unit": 5,
+        "Name": "Grekisk yoghurt"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Färsk koriander, hackad"
+      },
+      {
+        "Amount": 2,
+        "Unit": 3,
+        "Name": "Neutral olja"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Salt"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Svartpeppar"
+      }
+    ],
+    "Instructions": [
+      {
+        "StepNumber": 1,
+        "Description": "Skär kycklingen i bitar och lägg i en skål. Blanda med 1 msk yoghurt, 1/2 msk garam masala, salt och peppar. Låt marinera minst 30 minuter.",
+        "ImagePath": null,
+        "PrepTime": 10
+      },
+      {
+        "StepNumber": 2,
+        "Description": "Hacka lök och vitlök fint. Riv ingefäran.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 3,
+        "Description": "Hetta upp olja i en stor stekpanna och bryn kycklingen i omgångar. Ta upp och lägg åt sidan.",
+        "ImagePath": null,
+        "PrepTime": 8
+      },
+      {
+        "StepNumber": 4,
+        "Description": "I samma panna, stek lök, vitlök och ingefära tills löken är mjuk.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 5,
+        "Description": "Tillsätt alla kryddor och tomatpuré, stek under omrörning i 1-2 minuter.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 6,
+        "Description": "Häll i krossade tomater och låt sjuda i 5 minuter.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 7,
+        "Description": "Tillsätt kokosmjölk, resten av yoghurten och lägg tillbaka kycklingen. Låt sjuda i 15-20 minuter tills kycklingen är genomkokt.",
+        "ImagePath": null,
+        "PrepTime": 20
+      },
+      {
+        "StepNumber": 8,
+        "Description": "Smaka av med salt och peppar. Garnera med färsk koriander vid servering.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 9,
+        "Description": "Serveras bäst med basmatiris och naanbröd.",
+        "ImagePath": null,
+        "PrepTime": 2
+      }
+    ]
+  },
+  {
+    "Name": "Avokadotoast med pocherat ägg",
+    "Description": "Krämig avokado på rostat surdegsbröd, toppat med ett perfekt pocherat ägg.",
+    "MealType": 1,
+    "MainIngredient": 4,
+    "CookingTime": 15,
+    "Servings": 2,
+    "ImagePath": "Images/Recipes/avokadotoast.jpg",
+    "IsFavorite": false,
+    "CreatedDate": "2023-10-08T00:00:00",
+    "Ingredients": [
+      {
+        "Amount": 2,
+        "Unit": 0,
+        "Name": "Mogna avokado"
+      },
+      {
+        "Amount": 4,
+        "Unit": 0,
+        "Name": "Skivor surdegsbröd"
+      },
+      {
+        "Amount": 4,
+        "Unit": 0,
+        "Name": "Ägg"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Lime"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Chiliflakes"
+      },
+      {
+        "Amount": 2,
+        "Unit": 3,
+        "Name": "Olivolja"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Vitvinsvinäger"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Flingsalt"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Svartpeppar"
+      },
+      {
+        "Amount": 2,
+        "Unit": 3,
+        "Name": "Färsk koriander (valfritt)"
+      }
+    ],
+    "Instructions": [
+      {
+        "StepNumber": 1,
+        "Description": "Skala och gröpa ur avokadorna. Mosa dem i en skål med en gaffel.",
+        "ImagePath": null,
+        "PrepTime": 3
+      },
+      {
+        "StepNumber": 2,
+        "Description": "Pressa i limejuice, tillsätt en nypa salt och peppar, och blanda väl.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 3,
+        "Description": "Rosta brödet tills det är gyllenbrunt och krispigt.",
+        "ImagePath": null,
+        "PrepTime": 3
+      },
+      {
+        "StepNumber": 4,
+        "Description": "Fyll en kastrull med 8-10 cm vatten. Tillsätt vitvinsvinäger och låt sjuda (inte koka).",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 5,
+        "Description": "Knäck ett ägg i en liten skål. Skapa en virvel i vattnet och häll försiktigt i ägget. Pochera i 3 minuter för löskokt.",
+        "ImagePath": null,
+        "PrepTime": 3
+      },
+      {
+        "StepNumber": 6,
+        "Description": "Upprepa med resterande ägg, ett i taget.",
+        "ImagePath": null,
+        "PrepTime": 6
+      },
+      {
+        "StepNumber": 7,
+        "Description": "Bred avokadomoset på de rostade brödskivorna.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 8,
+        "Description": "Lyft försiktigt upp de pocherade äggen med en hålslev och lägg ett på varje avokadotoast.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 9,
+        "Description": "Strö över chiliflakes, flingsalt, nymalen svartpeppar och eventuellt koriander. Droppa lite olivolja över.",
+        "ImagePath": null,
+        "PrepTime": 1
+      }
+    ]
+  },
+  {
+    "Name": "Sallad Niçoise",
+    "Description": "Klassisk fransk sallad med tonfisk, ägg, grönsaker och oliver i en dijonvinägrett.",
+    "MealType": 2,
+    "MainIngredient": 3,
+    "CookingTime": 25,
+    "Servings": 4,
+    "ImagePath": "Images/Recipes/nicoise_sallad.jpg",
+    "IsFavorite": false,
+    "CreatedDate": "2023-10-09T00:00:00",
+    "Ingredients": [
+      {
+        "Amount": 400,
+        "Unit": 1,
+        "Name": "Färsk tonfisk eller tonfisk i olja"
+      },
+      {
+        "Amount": 4,
+        "Unit": 0,
+        "Name": "Ägg"
+      },
+      {
+        "Amount": 500,
+        "Unit": 1,
+        "Name": "Små färskpotatisar"
+      },
+      {
+        "Amount": 200,
+        "Unit": 1,
+        "Name": "Haricots verts eller gröna bönor"
+      },
+      {
+        "Amount": 2,
+        "Unit": 0,
+        "Name": "Tomater"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Röd lök"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Romansallad eller blandad sallad"
+      },
+      {
+        "Amount": 100,
+        "Unit": 1,
+        "Name": "Svarta oliver, gärna Kalamata"
+      },
+      {
+        "Amount": 2,
+        "Unit": 3,
+        "Name": "Dijonsenap"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Vitvinsvinäger"
+      },
+      {
+        "Amount": 6,
+        "Unit": 3,
+        "Name": "Olivolja"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Vitlöksklyfta"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Salt"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Svartpeppar"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Färsk basilika, hackad"
+      }
+    ],
+    "Instructions": [
+      {
+        "StepNumber": 1,
+        "Description": "Koka potatisarna i saltat vatten tills de är mjuka, ca 15 minuter. Låt svalna och skär i halvor.",
+        "ImagePath": null,
+        "PrepTime": 20
+      },
+      {
+        "StepNumber": 2,
+        "Description": "Koka äggen i 8 minuter, skölj i kallt vatten och skala. Dela i halvor.",
+        "ImagePath": null,
+        "PrepTime": 10
+      },
+      {
+        "StepNumber": 3,
+        "Description": "Blanchera haricots verts eller gröna bönor i kokande vatten i 3 minuter. Skölj i kallt vatten för att bevara den gröna färgen.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 4,
+        "Description": "Skär tomaterna i klyftor, skiva löken tunt.",
+        "ImagePath": null,
+        "PrepTime": 3
+      },
+      {
+        "StepNumber": 5,
+        "Description": "Gör vinägretten: Blanda dijonsenap, pressad vitlök, vitvinsvinäger, salt och peppar. Vispa i olivoljan och tillsätt hackad basilika.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 6,
+        "Description": "Om du använder färsk tonfisk: stek den lätt i olivolja, 1-2 minuter per sida för medium rare. Låt vila och skär i skivor.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 7,
+        "Description": "Arrangera salladen: lägg salladsbladen i botten av ett stort fat. Placera potatis, bönor, tomater, lök, tonfisk, ägg och oliver i separata grupper.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 8,
+        "Description": "Ringla vinägretten över salladen och servera direkt.",
+        "ImagePath": null,
+        "PrepTime": 1
+      }
+    ]
+  },
+  {
+    "Name": "Avokadosmörgås med ägg",
+    "Description": "Krämig avokadosmörgås med pocherat ägg och ruccola.",
+    "MealType": 0,
+    "MainIngredient": 4,
+    "CookingTime": 15,
+    "Servings": 2,
+    "ImagePath": "Images/Recipes/avokadosmorgas.jpg",
+    "IsFavorite": false,
+    "CreatedDate": "2023-10-08T00:00:00",
+    "Ingredients": [
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Avokado, mogen"
+      },
+      {
+        "Amount": 2,
+        "Unit": 0,
+        "Name": "Ägg"
+      },
+      {
+        "Amount": 4,
+        "Unit": 0,
+        "Name": "Skivor surdegsbröd"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Citronsaft"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Handfull ruccolasallad"
+      },
+      {
+        "Amount": 2,
+        "Unit": 3,
+        "Name": "Olivolja"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Chiliflakes"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Salt"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Svartpeppar"
+      }
+    ],
+    "Instructions": [
+      {
+        "StepNumber": 1,
+        "Description": "Sätt på en kastrull med vatten till äggen och låt det koka upp.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 2,
+        "Description": "Skala och mosa avokadon i en skål. Tillsätt citronsaft, salt och peppar.",
+        "ImagePath": null,
+        "PrepTime": 3
+      },
+      {
+        "StepNumber": 3,
+        "Description": "Rör om till en jämn massa och ställ åt sidan.",
+        "ImagePath": null,
+        "PrepTime": 1
+      },
+      {
+        "StepNumber": 4,
+        "Description": "Pochera äggen genom att sänka värmen när vattnet kokar. Rör runt vattnet med en sked och knäck försiktigt ner äggen i vattnet.",
+        "ImagePath": null,
+        "PrepTime": 4
+      },
+      {
+        "StepNumber": 5,
+        "Description": "Låt äggen sjuda i 3-4 minuter för lösa äggulor.",
+        "ImagePath": null,
+        "PrepTime": 4
+      },
+      {
+        "StepNumber": 6,
+        "Description": "Under tiden, rosta brödskivorna.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 7,
+        "Description": "Bred avokadosmeten på de rostade brödskivorna.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 8,
+        "Description": "Ta upp äggen med en hålslev och lägg dem på smörgåsarna.",
+        "ImagePath": null,
+        "PrepTime": 1
+      },
+      {
+        "StepNumber": 9,
+        "Description": "Toppa med ruccola, ringla över olivolja, strö över chiliflakes och servera direkt.",
+        "ImagePath": null,
+        "PrepTime": 1
+      }
+    ]
+  },
+  {
+    "Name": "Sallad med quinoa och fetaost",
+    "Description": "Fräsch sallad med quinoa, fetaost, granatäpple och mynta.",
+    "MealType": 1,
+    "MainIngredient": 4,
+    "CookingTime": 30,
+    "Servings": 4,
+    "ImagePath": "Images/Recipes/quinoa_sallad.jpg",
+    "IsFavorite": false,
+    "CreatedDate": "2023-10-09T00:00:00",
+    "Ingredients": [
+      {
+        "Amount": 200,
+        "Unit": 1,
+        "Name": "Quinoa"
+      },
+      {
+        "Amount": 400,
+        "Unit": 2,
+        "Name": "Vatten eller grönsaksbuljong"
+      },
+      {
+        "Amount": 200,
+        "Unit": 1,
+        "Name": "Fetaost"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Gurka"
+      },
+      {
+        "Amount": 250,
+        "Unit": 1,
+        "Name": "Körsbärstomater"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Röd lök"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Granatäpple, kärnorna"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Handfull färsk mynta"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Handfull färsk persilja"
+      },
+      {
+        "Amount": 3,
+        "Unit": 3,
+        "Name": "Olivolja"
+      },
+      {
+        "Amount": 2,
+        "Unit": 3,
+        "Name": "Citronsaft"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Salt"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Svartpeppar"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Honung"
+      }
+    ],
+    "Instructions": [
+      {
+        "StepNumber": 1,
+        "Description": "Skölj quinoan noggrant under kallt vatten.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 2,
+        "Description": "Koka upp vatten eller buljong i en kastrull. Tillsätt quinoan och låt sjuda under lock i ca 15 minuter.",
+        "ImagePath": null,
+        "PrepTime": 15
+      },
+      {
+        "StepNumber": 3,
+        "Description": "Ta kastrullen från värmen och låt quinoan vila under lock i 5 minuter.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 4,
+        "Description": "Fluffa upp quinoan med en gaffel och låt den svalna till rumstemperatur.",
+        "ImagePath": null,
+        "PrepTime": 10
+      },
+      {
+        "StepNumber": 5,
+        "Description": "Skär gurkan och tomaterna i mindre bitar. Skiva löken tunt.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 6,
+        "Description": "Smula fetaosten och hacka myntan och persiljan grovt.",
+        "ImagePath": null,
+        "PrepTime": 3
+      },
+      {
+        "StepNumber": 7,
+        "Description": "Blanda en dressing av olivolja, citronsaft, honung, salt och peppar.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 8,
+        "Description": "Blanda den avsvalnade quinoan med grönsaker, örter och granatäpplekärnor i en stor skål.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 9,
+        "Description": "Häll över dressingen och blanda försiktigt. Toppa med fetaost och servera.",
+        "ImagePath": null,
+        "PrepTime": 2
+      }
+    ]
+  },
+  {
+    "Name": "Acai smoothie bowl",
+    "Description": "Näringsrik och färgglad acai bowl med granola och färska bär.",
+    "MealType": 0,
+    "MainIngredient": 5,
+    "CookingTime": 10,
+    "Servings": 1,
+    "ImagePath": "Images/Recipes/acai_bowl.jpg",
+    "IsFavorite": false,
+    "CreatedDate": "2023-10-15T00:00:00",
+    "Ingredients": [
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Fryst banan"
+      },
+      {
+        "Amount": 100,
+        "Unit": 1,
+        "Name": "Acaipulver eller frysta acaibär"
+      },
+      {
+        "Amount": 100,
+        "Unit": 2,
+        "Name": "Växtbaserad mjölk"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Honung eller lönnsirap"
+      },
+      {
+        "Amount": 50,
+        "Unit": 1,
+        "Name": "Frysta blåbär"
+      },
+      {
+        "Amount": 50,
+        "Unit": 1,
+        "Name": "Granola"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Jordnötssmör"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Handfull blandade färska bär"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Banan"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Chiafrön"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Kokosflingor"
+      }
+    ],
+    "Instructions": [
+      {
+        "StepNumber": 1,
+        "Description": "Mixa fryst banan, acaipulver eller acaibär, växtmjölk, honung och frysta blåbär i en kraftfull blender.",
+        "ImagePath": null,
+        "PrepTime": 3
+      },
+      {
+        "StepNumber": 2,
+        "Description": "Fortsätt mixa tills konsistensen är tjock och slät. Tillsätt mer mjölk om det behövs.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 3,
+        "Description": "Häll smoothien i en skål.",
+        "ImagePath": null,
+        "PrepTime": 1
+      },
+      {
+        "StepNumber": 4,
+        "Description": "Skiva den färska bananen.",
+        "ImagePath": null,
+        "PrepTime": 1
+      },
+      {
+        "StepNumber": 5,
+        "Description": "Dekorera skålen med granola, färska bär, bananskivor, jordnötssmör, chiafrön och kokosflingor.",
+        "ImagePath": null,
+        "PrepTime": 3
+      },
+      {
+        "StepNumber": 6,
+        "Description": "Servera direkt innan granolan blir mjuk.",
+        "ImagePath": null,
+        "PrepTime": 0
+      }
+    ]
+  },
+  {
+    "Name": "Krämig rotfruktssoppa",
+    "Description": "Värmande rotfruktssoppa med ingefära och kokosmjölk.",
+    "MealType": 1,
+    "MainIngredient": 5,
+    "CookingTime": 45,
+    "Servings": 6,
+    "ImagePath": "Images/Recipes/rotfruktssoppa.jpg",
+    "IsFavorite": false,
+    "CreatedDate": "2023-10-16T00:00:00",
+    "Ingredients": [
+      {
+        "Amount": 3,
+        "Unit": 0,
+        "Name": "Morötter"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Stor sötpotatis"
+      },
+      {
+        "Amount": 200,
+        "Unit": 1,
+        "Name": "Butternutpumpa"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Gul lök"
+      },
+      {
+        "Amount": 2,
+        "Unit": 0,
+        "Name": "Vitlöksklyftor"
+      },
+      {
+        "Amount": 3,
+        "Unit": 3,
+        "Name": "Färsk ingefära, riven"
+      },
+      {
+        "Amount": 1,
+        "Unit": 3,
+        "Name": "Curry"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Spiskummin"
+      },
+      {
+        "Amount": 400,
+        "Unit": 2,
+        "Name": "Kokosmjölk"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Lime, saft"
+      },
+      {
+        "Amount": 800,
+        "Unit": 2,
+        "Name": "Grönsaksbuljong"
+      },
+      {
+        "Amount": 2,
+        "Unit": 3,
+        "Name": "Olivolja"
+      },
+      {
+        "Amount": 1,
+        "Unit": 0,
+        "Name": "Färsk koriander"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Salt"
+      },
+      {
+        "Amount": 1,
+        "Unit": 4,
+        "Name": "Svartpeppar"
+      }
+    ],
+    "Instructions": [
+      {
+        "StepNumber": 1,
+        "Description": "Skala och hacka lök, vitlök, och riv ingefäran.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 2,
+        "Description": "Skala och tärna morötter, sötpotatis och pumpa i mindre bitar.",
+        "ImagePath": null,
+        "PrepTime": 10
+      },
+      {
+        "StepNumber": 3,
+        "Description": "Hetta upp olivolja i en stor gryta och fräs lök och vitlök tills de blir mjuka.",
+        "ImagePath": null,
+        "PrepTime": 5
+      },
+      {
+        "StepNumber": 4,
+        "Description": "Tillsätt ingefära, curry och spiskummin. Fräs ytterligare 1-2 minuter tills det doftar.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 5,
+        "Description": "Lägg i rotfrukterna och rör om så att de täcks av kryddorna.",
+        "ImagePath": null,
+        "PrepTime": 2
+      },
+      {
+        "StepNumber": 6,
+        "Description": "Häll i grönsaksbuljongen och låt koka upp. Sänk värmen och låt sjuda under lock tills rotfrukterna är mjuka, cirka 20-25 minuter.",
+        "ImagePath": null,
+        "PrepTime": 25
+      },
+      {
+        "StepNumber": 7,
+        "Description": "Ta kastrullen från värmen och mixa soppan slät med en stavmixer.",
+        "ImagePath": null,
+        "PrepTime": 3
+      },
+      {
+        "StepNumber": 8,
+        "Description": "Tillsätt kokosmjölk och limesaft. Rör om och värm försiktigt utan att koka.",
+        "ImagePath": null,
+        "PrepTime": 3
+      },
+      {
+        "StepNumber": 9,
+        "Description": "Smaka av med salt och peppar.",
+        "ImagePath": null,
+        "PrepTime": 1
+      },
+      {
+        "StepNumber": 10,
+        "Description": "Servera soppan garnerad med färsk koriander och eventuellt några droppar kokosmjölk.",
+        "ImagePath": null,
+        "PrepTime": 1
+      }
+    ]
+  }
+]
