@@ -77,7 +77,6 @@ namespace Projektledningsverktyg.Views.Auth
                                 }
 
                                 mainWindow.WindowStyle = WindowStyle.None;
-                                mainWindow.Height = 750;
                                 mainWindow.Width = 1150;
                             }
                         };

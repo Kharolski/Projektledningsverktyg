@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="Projektledningsverktyg" 
         Height="Auto"
-        Width="500" 
+        MinWidth="500" MinHeight="750"
         WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="Transparent">
 
     <Window.Resources>

@@ -12,12 +12,18 @@ namespace Projektledningsverktyg
 {
     public partial class MainWindow : Window
     {
+        private double _previousWidth = 800;
+        private double _previousHeight = 600;
+        private double _previousLeft = 0;
+        private double _previousTop = 0;
+        private WindowState _previousWindowState = WindowState.Normal;
+
         private Member _currentMember;
         public MainWindow()
         {
             InitializeComponent();
 
-            // Starta med Dashboard som default vy
+            // Starta med Calendar som default vy
             MainFrame.Navigate(new CalendarView());
         }
 
@@ -40,6 +46,9 @@ namespace Projektledningsverktyg
             ForgotPasswordScreen.Visibility = Visibility.Collapsed;
             ResetPasswordScreen.Visibility = Visibility.Collapsed;
             MainContent.Visibility = Visibility.Collapsed;
+
+            // Hantera AuthContainer synlighet 
+            AuthContainer.Visibility = (viewName == "MainWindow") ? Visibility.Collapsed : Visibility.Visible;
 
             // Show requested view
             switch (viewName)
@@ -96,9 +105,12 @@ namespace Projektledningsverktyg
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
-            // Reset window size and style
-            WindowStyle = WindowStyle.None;
-            Height = 700;  // Perfect height for login form
+            // Rensa currentUser
+            App.CurrentUser = null;
+            _currentMember = null;
+
+            // Reset window size
+            Height = 700;
             Width = 500;
 
             // Clear navigation buttons
@@ -107,13 +119,21 @@ namespace Projektledningsverktyg
             BtnMembers.IsChecked = false;
             BtnSettings.IsChecked = false;
 
-            // Create fresh login view
+            // Skapa alla autentiseringsvyer på nytt
             LoginScreen = new Views.Auth.LoginView();
+            RegisterScreen = new Views.Auth.RegisterView();
+            ForgotPasswordScreen = new Views.Auth.ForgotPasswordView();
+            ResetPasswordScreen = new Views.Auth.ResetPasswordView();
+
+            // Rensa och lägg till alla vyer i containern
             AuthContainer.Children.Clear();
             AuthContainer.Children.Add(LoginScreen);
-            AuthContainer.Visibility = Visibility.Visible;
-            MainContent.Visibility = Visibility.Collapsed;
-            TitleBar.Visibility = Visibility.Collapsed;
+            AuthContainer.Children.Add(RegisterScreen);
+            AuthContainer.Children.Add(ForgotPasswordScreen);
+            AuthContainer.Children.Add(ResetPasswordScreen);
+
+            // Använd SwitchToView för att visa login
+            SwitchToView("Login");
         }
 
         // titelraden
@@ -131,17 +151,31 @@ namespace Projektledningsverktyg
         }
         private async void ShowMaximizeOptions(object sender, MouseEventArgs e)
         {
-            await System.Threading.Tasks.Task.Delay(300); // Vänta 300 ms innan menyn visas (kan justeras)
+            await System.Threading.Tasks.Task.Delay(500); // Vänta 300 ms innan menyn visas (kan justeras)
             MaximizeMenu.IsOpen = true; // Öppna menyn automatiskt
+        }
+
+        private void SaveCurrentWindowState()
+        {
+            if (WindowState == WindowState.Normal)
+            {
+                _previousWidth = Width;
+                _previousHeight = Height;
+                _previousLeft = Left;
+                _previousTop = Top;
+                _previousWindowState = WindowState;
+            }
         }
 
         private void SetFullScreen(object sender, RoutedEventArgs e)
         {
+            SaveCurrentWindowState();
             this.WindowState = WindowState.Maximized;
         }
 
         private void SetLeftHalf(object sender, RoutedEventArgs e)
         {
+            SaveCurrentWindowState();
             this.WindowState = WindowState.Normal;
             this.Left = 0;
             this.Top = 0;
@@ -151,6 +185,7 @@ namespace Projektledningsverktyg
 
         private void SetRightHalf(object sender, RoutedEventArgs e)
         {
+            SaveCurrentWindowState();
             this.WindowState = WindowState.Normal;
             this.Left = SystemParameters.WorkArea.Width / 2;
             this.Top = 0;
@@ -160,9 +195,11 @@ namespace Projektledningsverktyg
 
         private void RestoreWindow(object sender, RoutedEventArgs e)
         {
-            this.WindowState = WindowState.Normal;
-            this.Width = 800;  // Standardbredd
-            this.Height = 600; // Standardhöjd
+            this.WindowState = _previousWindowState;
+            this.Width = _previousWidth;
+            this.Height = _previousHeight;
+            this.Left = _previousLeft;
+            this.Top = _previousTop;
         }
 
         private void CloseWindow(object sender, RoutedEventArgs e)

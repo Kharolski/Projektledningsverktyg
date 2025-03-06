@@ -751,9 +751,15 @@
     <Resource Include="Images\Recept\green_apple.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Data\SeedData\Images\Recipes\acai_bowl.jpg" />
-    <Resource Include="Data\SeedData\Images\Recipes\avokadosmorgas.jpg" />
-    <Resource Include="Data\SeedData\Images\Recipes\avokadotoast.jpg" />
+    <Content Include="Data\SeedData\Images\Recipes\acai_bowl.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\SeedData\Images\Recipes\avokadosmorgas.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\SeedData\Images\Recipes\avokadotoast.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\SeedData\Images\Recipes\carbonara.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -766,12 +772,18 @@
     <Content Include="Data\SeedData\Images\Recipes\laxfile.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Data\SeedData\Images\Recipes\nicoise_sallad.jpg" />
+    <Content Include="Data\SeedData\Images\Recipes\nicoise_sallad.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\SeedData\Images\Recipes\overnight_oats.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Data\SeedData\Images\Recipes\quinoa_sallad.jpg" />
-    <Resource Include="Data\SeedData\Images\Recipes\rotfruktssoppa.jpg" />
+    <Content Include="Data\SeedData\Images\Recipes\quinoa_sallad.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\SeedData\Images\Recipes\rotfruktssoppa.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\SeedData\Images\Recipes\tikka_masala.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
